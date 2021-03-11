@@ -20,9 +20,9 @@ public class UseCase1Applicatie
 	{	
 		// de gebruikersnaam waarnaar gezocht wordt in de databank
 		// IceBergUser58, IkBenBen, mns58, TUF
-		String gebruikersnaam = "mns58";
+		String gebruikersnaam = "IkBenBen";
 		// nl = Nederlands of en = Engels
-		String taal = "en";
+		String taal = "nl";
 		
 		Locale locale = new Locale(taal);
 		ResourceBundle resourceBundle = ResourceBundle.getBundle("cui.ResourceBundle", locale);
