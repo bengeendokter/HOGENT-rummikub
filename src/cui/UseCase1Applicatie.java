@@ -25,7 +25,7 @@ public class UseCase1Applicatie
 		String taal = "nl";
 		
 		Locale locale = new Locale(taal);
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("cui.ResourceBundle", locale);
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("cui.ResourceBundleCui", locale);
 		
 		Speler speler = controller.geefSpeler(gebruikersnaam);
 		System.out.printf(resourceBundle.getString("geefSpeler")
