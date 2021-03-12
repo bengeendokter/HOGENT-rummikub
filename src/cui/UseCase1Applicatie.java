@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import domein.DomeinController;
-import domein.Speler;
 
 public class UseCase1Applicatie
 {
@@ -21,16 +20,28 @@ public class UseCase1Applicatie
 		// de gebruikersnaam waarnaar gezocht wordt in de databank
 		// IceBergUser58, IkBenBen, mns58, TUF
 		String gebruikersnaam = "IkBenBen";
+		String wachtwoord = "IkBenDokter";
 		// nl = Nederlands of en = Engels
 		String taal = "nl";
 		
 		Locale locale = new Locale(taal);
 		ResourceBundle resourceBundle = ResourceBundle.getBundle("cui.ResourceBundleCui", locale);
 		
-		Speler speler = controller.geefSpeler(gebruikersnaam);
-		System.out.printf(resourceBundle.getString("geefSpeler")
-				,speler.getGebruikersnaam()
-				,speler.getWachtwoord());
+		
+    	try
+    	{	
+            controller.meldAan(gebruikersnaam, wachtwoord);
+        	System.out.print(String.format(resourceBundle.getString("msgSignIn")));
+    	}
+    	catch(IllegalArgumentException e)
+    	{
+    		System.out.print(resourceBundle.getString("msgPassWordIncorrect"));
+    	}
+    	catch(RuntimeException e)
+    	{
+    		System.out.print(resourceBundle.getString("msgUserNotFound"));
+    	}
+
 	}
 
 }

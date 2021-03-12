@@ -4,13 +4,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import domein.DomeinController;
-import domein.Speler;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -22,8 +22,10 @@ public class UseCase1LoginScherm extends GridPane
 	private Label lblTitle;
 	private Button btnTaal;
 	private Label lblUserName;
-    private Label lblMessage;
     private TextField txfUser;
+    private Label lblPassWord;
+    private PasswordField pwfPassWord;
+    private Label lblMessage;
     private Button btnSignIn;
     private Button btnCancel;
     
@@ -80,21 +82,27 @@ public class UseCase1LoginScherm extends GridPane
         txfUser = new TextField();
         this.add(txfUser, 1, 1);
         
+        lblPassWord = new Label();
+        this.add(lblPassWord, 0, 2);
+        
+        pwfPassWord = new PasswordField();
+        this.add(pwfPassWord, 1, 2);
+        
         btnSignIn = new Button();
 // We aligneren btnSignIn links
         setHalignment(btnSignIn, HPos.LEFT);
-        this.add(btnSignIn, 0, 2);
+        this.add(btnSignIn, 0, 3);
 
         btnCancel = new Button();
 // We aligneren btnCancel rechts
         setHalignment(btnCancel, HPos.RIGHT);
-        this.add(btnCancel, 1, 2);
+        this.add(btnCancel, 1, 3);
         
         lblMessage = new Label();
         setHalignment(lblMessage, HPos.CENTER);
 // Een component kan over meerdere rijen en/of kolommen geplaatst worden 
 // De label wordt hier over 2 kolommen en 1 rij geplaatst  
-        this.add(lblMessage, 0, 3, 2, 1);
+        this.add(lblMessage, 0, 4, 2, 1);
       
         btnSignIn.setOnAction(this::SignInPushed);
 
@@ -104,6 +112,7 @@ public class UseCase1LoginScherm extends GridPane
         {
         	lblMessage.setText(resourceBundle.getString("msgCancel"));
         	txfUser.clear();
+        	pwfPassWord.clear();
         }
         );
     }
@@ -113,6 +122,7 @@ public class UseCase1LoginScherm extends GridPane
      	lblTitle.setText(resourceBundle.getString("lblTitle"));
     	btnTaal.setText(resourceBundle.getString("btnTaal"));
     	lblUserName.setText(resourceBundle.getString("lblUserName"));
+    	lblPassWord.setText(resourceBundle.getString("lblPassWord"));
         btnSignIn.setText(resourceBundle.getString("btnSignIn"));
         btnCancel.setText(resourceBundle.getString("btnCancel"));
         lblMessage.setText("");
@@ -129,25 +139,21 @@ public class UseCase1LoginScherm extends GridPane
     private void SignInPushed(ActionEvent event)
     {
         String gebruikersnaam = txfUser.getText();
-        geefSpeler(gebruikersnaam);
-    }
-    
-    
-    // tijdelijke test methode
-    private void geefSpeler(String gebruikersnaam)
-    {
-    	Speler speler = controller.geefSpeler(gebruikersnaam);
-    	
+        String wachtwoord = pwfPassWord.getText();
+        
     	try
+    	{	
+            controller.meldAan(gebruikersnaam, wachtwoord);
+        	lblMessage.setText(String.format(resourceBundle.getString("msgSignIn")));
+    	}
+    	catch(IllegalArgumentException e)
     	{
-        	String wachtwoord = speler.getWachtwoord();
-        	lblMessage.setText(String.format(resourceBundle.getString("msgPassword"), wachtwoord));
+    		lblMessage.setText(resourceBundle.getString("msgPassWordIncorrect"));
     	}
     	catch(RuntimeException e)
     	{
     		lblMessage.setText(resourceBundle.getString("msgUserNotFound"));
     	}
     }
-
 }
 

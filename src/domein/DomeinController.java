@@ -1,5 +1,7 @@
 package domein;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class DomeinController{
 	
@@ -10,9 +12,36 @@ public class DomeinController{
 		spelerrepo = new SpelerRepository();
 	}
 	
-	// tijdelijke test methode
-	public Speler geefSpeler(String gebruikersnaam)
+	
+	public void registreerAantal(int aantal)
 	{
-		return spelerrepo.geefSpeler(gebruikersnaam);
+		if(aantal < 2 || aantal > 4)
+		{
+			throw new IllegalArgumentException("Aantal spelers is kleiner dan 2 of groter dan 4");
+		}
+	}
+	
+	public void meldAan(String gebruikersnaam, String wachtwoord)
+	{
+		Speler gevondenSpeler = spelerrepo.geefSpeler(gebruikersnaam, wachtwoord);
+		if(gevondenSpeler != null)
+		{
+			spelerrepo.voegSpelerToe(gevondenSpeler);
+		}
+		else
+		{
+			throw new IllegalArgumentException("Wachtwoord is incorrect");
+		}
+	}
+	
+	public List<String> geefLijstGebruikersnaam()
+	{
+		List<Speler> spelers = spelerrepo.getSpelers();
+		List<String> gebruikersnamen = new ArrayList<>();
+		for(Speler speler : spelers)
+		{
+			gebruikersnamen.add(speler.getGebruikersnaam());
+		}
+		return gebruikersnamen;		
 	}
 }

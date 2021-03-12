@@ -22,8 +22,6 @@ public class StartUpGui extends Application
         primaryStage.setTitle("Rummikub Login");
         primaryStage.setResizable(false);
         primaryStage.show();
-
-
     }
 
     public static void main(String[] args)
