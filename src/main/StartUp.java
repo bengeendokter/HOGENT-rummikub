@@ -9,9 +9,6 @@ public class StartUp
 	public static void main(String[] args)
 	{
 		DomeinController controller = new DomeinController();
-		UseCase1Applicatie app = new UseCase1Applicatie(controller);
-		
-		//tijdelijke test methode
-		app.geefSpeler();
+		new UseCase1Applicatie(controller).aanmeldenSpelers();;
 	}
 }

@@ -3,6 +3,8 @@ package domein;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.ReedsAangemeldException;
+
 public class DomeinController{
 	
 	private final SpelerRepository spelerrepo;
@@ -24,6 +26,12 @@ public class DomeinController{
 	public void meldAan(String gebruikersnaam, String wachtwoord)
 	{
 		Speler gevondenSpeler = spelerrepo.geefSpeler(gebruikersnaam, wachtwoord);
+		
+		if(geefLijstGebruikersnaam().contains(gebruikersnaam))
+		{
+			throw new ReedsAangemeldException();
+		}
+		
 		if(gevondenSpeler != null)
 		{
 			spelerrepo.voegSpelerToe(gevondenSpeler);

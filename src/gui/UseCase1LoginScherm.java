@@ -156,4 +156,3 @@ public class UseCase1LoginScherm extends GridPane
     	}
     }
 }
-
