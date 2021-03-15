@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import domein.DomeinController;
+import exceptions.ReedsAangemeldException;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -49,7 +50,7 @@ public class UseCase1LoginScherm extends GridPane
 	private void buildGui()
     {
 // breedte is 300, hoogte is 275
-    	this.setMaxSize(300,  275);
+    	this.setMinSize(300,  200);
 // Aligneert grid in het midden        
         this.setAlignment(Pos.CENTER);
 // Vrije ruimte tussen kolommen        
@@ -131,7 +132,7 @@ public class UseCase1LoginScherm extends GridPane
 // Event-afhandeling: wat er moet gebeuren als we op de knop Taal in klikken   
     private void TaalPushed(ActionEvent event)
     {
-    	resourceBundle = resourceBundle == NEDERLANDS ? ENGELS : NEDERLANDS;
+    	resourceBundle = resourceBundle.equals(NEDERLANDS) ? ENGELS : NEDERLANDS;
     	buildText();
     }
     
@@ -144,7 +145,11 @@ public class UseCase1LoginScherm extends GridPane
     	try
     	{	
             controller.meldAan(gebruikersnaam, wachtwoord);
-        	lblMessage.setText(String.format(resourceBundle.getString("msgSignIn")));
+        	lblMessage.setText(resourceBundle.getString("msgSignIn"));
+    	}
+    	catch(ReedsAangemeldException e)
+    	{
+    		lblMessage.setText(resourceBundle.getString("reedsAangemeld"));
     	}
     	catch(IllegalArgumentException e)
     	{

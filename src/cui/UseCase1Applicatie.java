@@ -67,7 +67,7 @@ public class UseCase1Applicatie
 		{
 			try
 			{
-				System.out.print(resourceBundle.getString("askNrUsers") + " ");
+				System.out.print(resourceBundle.getString("askNrUsers"));
 				aantalGebruikers = Integer.parseInt(input.nextLine());
 				
 				controller.registreerAantal(aantalGebruikers);
@@ -92,10 +92,10 @@ public class UseCase1Applicatie
 			{
 		    	try
 		    	{	
-		    		System.out.print(resourceBundle.getString("userName") + " ");
+		    		System.out.print(resourceBundle.getString("userName"));
 		    		gebruikersnaam = input.nextLine();
 		    		
-		    		System.out.print(resourceBundle.getString("PassWord") + " ");
+		    		System.out.print(resourceBundle.getString("PassWord"));
 		    		wachtwoord = input.nextLine();
 		    		
 		            controller.meldAan(gebruikersnaam, wachtwoord);
@@ -119,7 +119,7 @@ public class UseCase1Applicatie
 			System.out.println();
 		}
 		
-		
+		// geef lijst gebruikersnamen		
 		System.out.println(resourceBundle.getString("lijstNamen"));
 		
 		List<String> gebruikersnamen = controller.geefLijstGebruikersnaam();
