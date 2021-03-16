@@ -23,7 +23,10 @@ public class UseCase1Applicatie
 	public UseCase1Applicatie(DomeinController controller)
 	{
 		this.controller = controller;
-		
+		aanmeldenSpelers();
+		selecteerAantalGebruikers();
+		aanmeldenGebruikers();
+		lijstGebruikersnamen();
 	}
 	
 	// tijdelijke test methode, dit zoekt een gebruiker via gebruikersnaam en geeft het bijhorend wachtwoord terug
@@ -139,7 +142,8 @@ public class UseCase1Applicatie
 				System.out.println();
 			}
 		}
-		public List<String> lijstGebruikersnamen()
+		
+		public void lijstGebruikersnamen()
 		{
 			// geef lijst gebruikersnamen		
 			System.out.println(resourceBundle.getString("lijstNamen"));
@@ -149,6 +153,5 @@ public class UseCase1Applicatie
 			{
 				System.out.println(naam);
 			}
-			return gebruikersnamen;
 		}
 }

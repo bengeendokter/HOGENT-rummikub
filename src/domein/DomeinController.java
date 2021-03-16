@@ -54,6 +54,7 @@ public class DomeinController{
 		return gebruikersnamen;		
 	}
 	
+	@SuppressWarnings("exports")
 	public Taal getTaal(String taal)
 	{
 		return new Taal(taal);
