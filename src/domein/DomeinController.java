@@ -63,7 +63,7 @@ import utility.Taal;
 public class DomeinController{
     
     private final SpelerRepository spelerrepo;
-    //spelers worden bijgehouden door controller, niet door de repo
+    //spelers worden bijgehouden door controller, niet door de repository
     private List<Speler> spelers;
     
     public DomeinController()

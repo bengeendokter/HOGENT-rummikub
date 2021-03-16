@@ -44,7 +44,7 @@ public class SpelerRepository
 {
 
     private final SpelerMapper mapper;
-    //attribuut spelerslijst verwijderd
+    //attribuut spelerslijst verwijderd (van repo)
 
     public SpelerRepository()
     {
