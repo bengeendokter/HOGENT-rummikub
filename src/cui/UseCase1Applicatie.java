@@ -1,6 +1,7 @@
 package cui;
 
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -86,7 +87,7 @@ public class UseCase1Applicatie
 				controller.registreerAantal(aantalGebruikers);
 				fouteInput = false;
 			}
-			catch(NumberFormatException e) {
+			catch(InputMismatchException e) {
 				System.out.println(resourceBundle.getString("askNrUsersError"));
 			}
 			catch(IllegalArgumentException e)
