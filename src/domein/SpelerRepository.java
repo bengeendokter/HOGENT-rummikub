@@ -5,7 +5,7 @@ import java.util.List;
 
 import persistentie.SpelerMapper;
 
-public class SpelerRepository
+/*public class SpelerRepository
 {
 
 	private final SpelerMapper mapper;
@@ -38,4 +38,30 @@ public class SpelerRepository
 	{
 		return spelers;
 	}
+}*/
+
+public class SpelerRepository
+{
+
+    private final SpelerMapper mapper;
+    //attribuut spelerslijst verwijderd
+
+    public SpelerRepository()
+    {
+        mapper = new SpelerMapper();
+        //lijst van Spelers verwijderd
+    }
+
+    public Speler geefSpeler(String gebruikersnaam, String wachtwoord)
+    {
+        Speler speler = mapper.geefSpeler(gebruikersnaam);
+        
+        if (speler.getWachtwoord().equals(wachtwoord))
+        {
+            return speler;
+        }
+        return null;
+    }
+    
+    //getSpeler en voegSpelerToe methodes verwijderd
 }
