@@ -9,6 +9,6 @@ public class StartUp
 	public static void main(String[] args)
 	{
 		DomeinController controller = new DomeinController();
-		new UseCase1Applicatie(controller).aanmeldenSpelers();;
+		new UseCase1Applicatie(controller).aanmeldenSpelers();
 	}
 }

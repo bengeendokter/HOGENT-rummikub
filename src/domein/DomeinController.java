@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.ReedsAangemeldException;
+import utility.Taal;
 
 public class DomeinController{
 	
@@ -51,5 +52,10 @@ public class DomeinController{
 			gebruikersnamen.add(speler.getGebruikersnaam());
 		}
 		return gebruikersnamen;		
+	}
+	
+	public Taal getTaal(String taal)
+	{
+		return new Taal(taal);
 	}
 }
