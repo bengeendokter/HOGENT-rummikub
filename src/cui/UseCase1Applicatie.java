@@ -70,11 +70,10 @@ public class UseCase1Applicatie
 	}
 		// vraag aantal gebruikers
 		
-		public int selecteerAantalGebruikers()
+		public void selecteerAantalGebruikers()
 		{
 			
-			boolean fouteInput = true;
-			Scanner input = new Scanner(System.in);
+			fouteInput = true;
 			
 			do
 			{
@@ -97,8 +96,6 @@ public class UseCase1Applicatie
 			while(fouteInput);
 			
 			System.out.println();
-			
-			return aantalGebruikers;
 		}
 		public void aanmeldenGebruikers()
 		{
