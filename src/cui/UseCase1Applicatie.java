@@ -68,87 +68,90 @@ public class UseCase1Applicatie
 		
 		System.out.println();
 	}
-		// vraag aantal gebruikers
+
 		
-		public void selecteerAantalGebruikers()
+	public void selecteerAantalGebruikers()
+	{
+		
+		fouteInput = true;
+		
+		do
 		{
-			
-			fouteInput = true;
+			try
+			{
+				System.out.print(resourceBundle.getString("askNrUsers"));
+				aantalGebruikers = input.nextInt();
+				input.nextLine();
+				
+				controller.registreerAantal(aantalGebruikers);
+				fouteInput = false;
+			}
+			catch(NumberFormatException e) {
+				System.out.println(resourceBundle.getString("askNrUsersError"));
+			}
+			catch(IllegalArgumentException e)
+			{
+				System.out.println(resourceBundle.getString("askNrUsersError"));
+			}
+		}
+		while(fouteInput);
+		
+		System.out.println();
+	}
+	
+	
+	public void aanmeldenGebruikers()
+	{
+		boolean fouteInput = true;
+		String gebruikersnaam;
+		String wachtwoord;
+
+		// meld alle gebruikers aan
+		for(int index = 1; index <= aantalGebruikers; index++)
+		{
+			System.out.println(String.format(resourceBundle.getString("userIndex"), index));
 			
 			do
 			{
-				try
-				{
-					System.out.print(resourceBundle.getString("askNrUsers"));
-					aantalGebruikers = input.nextInt();
-					
-					controller.registreerAantal(aantalGebruikers);
-					fouteInput = false;
-				}
-				catch(NumberFormatException e) {
-					System.out.println(resourceBundle.getString("askNrUsersError"));
-				}
-				catch(IllegalArgumentException e)
-				{
-					System.out.println(resourceBundle.getString("askNrUsersError"));
-				}
+		    	try
+		    	{	
+		    		System.out.print(resourceBundle.getString("userName"));
+		    		gebruikersnaam = input.nextLine();
+		    		
+		    		System.out.print(resourceBundle.getString("PassWord"));
+		    		wachtwoord = input.nextLine();
+		    		
+		            controller.meldAan(gebruikersnaam, wachtwoord);
+		        	fouteInput = false;
+		    	}
+		    	catch(ReedsAangemeldException e)
+		    	{
+		    		System.out.println(resourceBundle.getString("reedsAangemeld"));
+		    	}
+		    	catch(IllegalArgumentException e)
+		    	{
+		    		System.out.println(resourceBundle.getString("msgPassWordIncorrect"));
+		    	}
+		    	catch(RuntimeException e)
+		    	{
+		    		System.out.println(resourceBundle.getString("msgUserNotFound"));
+		    	}
 			}
 			while(fouteInput);
 			
 			System.out.println();
 		}
-		public void aanmeldenGebruikers()
-		{
-			boolean fouteInput = true;
-			String gebruikersnaam;
-			String wachtwoord;
-			Scanner input = new Scanner(System.in);
-			// meld alle gebruikers aan
-			for(int index = 1; index <= aantalGebruikers; index++)
-			{
-				System.out.println(String.format(resourceBundle.getString("userIndex"), index));
-				
-				do
-				{
-			    	try
-			    	{	
-			    		System.out.print(resourceBundle.getString("userName"));
-			    		gebruikersnaam = input.nextLine();
-			    		
-			    		System.out.print(resourceBundle.getString("PassWord"));
-			    		wachtwoord = input.nextLine();
-			    		
-			            controller.meldAan(gebruikersnaam, wachtwoord);
-			        	fouteInput = false;
-			    	}
-			    	catch(ReedsAangemeldException e)
-			    	{
-			    		System.out.println(resourceBundle.getString("reedsAangemeld"));
-			    	}
-			    	catch(IllegalArgumentException e)
-			    	{
-			    		System.out.println(resourceBundle.getString("msgPassWordIncorrect"));
-			    	}
-			    	catch(RuntimeException e)
-			    	{
-			    		System.out.println(resourceBundle.getString("msgUserNotFound"));
-			    	}
-				}
-				while(fouteInput);
-				
-				System.out.println();
-			}
-		}
+	}
 		
-		public void lijstGebruikersnamen()
+	public void lijstGebruikersnamen()
+	{
+		// geef lijst gebruikersnamen		
+		System.out.println(resourceBundle.getString("lijstNamen"));
+		
+		List<String> gebruikersnamen = controller.geefLijstGebruikersnaam();
+		for(String naam : gebruikersnamen)
 		{
-			// geef lijst gebruikersnamen		
-			System.out.println(resourceBundle.getString("lijstNamen"));
-			
-			List<String> gebruikersnamen = controller.geefLijstGebruikersnaam();
-			for(String naam : gebruikersnamen)
-			{
-				System.out.println(naam);
-			}
+			System.out.println(naam);
 		}
+	}
 }
