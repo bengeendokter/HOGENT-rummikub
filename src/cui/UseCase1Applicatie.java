@@ -89,6 +89,7 @@ public class UseCase1Applicatie
 			}
 			catch(InputMismatchException e) {
 				System.out.println(resourceBundle.getString("askNrUsersError"));
+				input.nextLine();
 			}
 			catch(IllegalArgumentException e)
 			{
