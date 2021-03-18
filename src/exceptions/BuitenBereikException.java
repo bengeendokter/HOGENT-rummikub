@@ -1,15 +1,17 @@
 package exceptions;
 
 @SuppressWarnings("serial")
-public class BuitenBereikException extends IllegalArgumentException {
+public class BuitenBereikException extends IllegalArgumentException
+{
 
-	public BuitenBereikException() {
+	public BuitenBereikException()
+	{
 		super("Het aantal gebruikers ligt buiten het bereik");
 	}
 
-	public BuitenBereikException(String s) {
+	public BuitenBereikException(String s)
+	{
 		super(s);
 	}
-	
 
 }

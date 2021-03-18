@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 public class UseCase1LoginScherm extends GridPane
 {
@@ -27,13 +29,16 @@ public class UseCase1LoginScherm extends GridPane
     private Label lblMessage;
     private Button btnSignIn;
     private Button btnCancel;
-      
+     
+    private int currentUserIndex = 1;
+    private int numberOfUsers;
     private final DomeinController controller;
     
     
-    public UseCase1LoginScherm(DomeinController controller)
+    public UseCase1LoginScherm(DomeinController controller, int numberOfUsers)
     {
 		this.controller = controller;
+		this.numberOfUsers = numberOfUsers;
     	buildGui();
     	buildText();
     }
@@ -42,7 +47,7 @@ public class UseCase1LoginScherm extends GridPane
 	private void buildGui()
     {
 // breedte is 300, hoogte is 275
-    	this.setMinSize(300,  200);
+    	this.setMinSize(300, 200);
 // Aligneert grid in het midden        
         this.setAlignment(Pos.CENTER);
 // Vrije ruimte tussen kolommen        
@@ -112,7 +117,7 @@ public class UseCase1LoginScherm extends GridPane
 	
     private void buildText()
 	{
-     	lblTitle.setText(controller.getMessages("lblTitle"));
+     	lblTitle.setText(String.format(controller.getMessages("userIndex"), currentUserIndex));
     	btnTaal.setText(controller.getMessages("btnTaal"));
     	lblUserName.setText(controller.getMessages("lblUserName"));
     	lblPassWord.setText(controller.getMessages("lblPassWord"));
@@ -137,6 +142,16 @@ public class UseCase1LoginScherm extends GridPane
     	try
     	{	
             controller.meldAan(gebruikersnaam, wachtwoord);
+        	txfUser.clear();
+        	pwfPassWord.clear();
+        	
+        	if(currentUserIndex == numberOfUsers)
+    		{
+    		volgendScherm();
+    		}
+        	
+        	currentUserIndex++;
+        	buildText();
         	lblMessage.setText(controller.getMessages("msgSignIn"));
     	}
     	catch(ReedsAangemeldException e)
@@ -148,4 +163,14 @@ public class UseCase1LoginScherm extends GridPane
     		lblMessage.setText(controller.getMessages("msgSignInFailed"));
     	}
     }
+
+
+	private void volgendScherm()
+	{
+		UseCase1GebruikersLijstScherm gl = new UseCase1GebruikersLijstScherm(controller);
+        Scene scene = new Scene(gl);
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+	}
 }

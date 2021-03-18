@@ -73,7 +73,8 @@ public class DomeinController
 	{
 		return taal.getMessages(message);
 	}
-
+	
+	// methode voor de taal knop in de GUI
 	public void veranderTaal()
 	{
 		taal.veranderTaal();
