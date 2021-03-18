@@ -14,13 +14,7 @@ public class SpelerRepository
 
 	public Speler geefSpeler(String gebruikersnaam, String wachtwoord)
 	{
-		Speler speler = mapper.geefSpeler(gebruikersnaam);
-
-		if (speler.getWachtwoord().equals(wachtwoord))
-		{
-
-			return speler;
-		}
-		return null;
+		Speler speler = mapper.geefSpeler(gebruikersnaam, wachtwoord);
+		return speler;
 	}
 }

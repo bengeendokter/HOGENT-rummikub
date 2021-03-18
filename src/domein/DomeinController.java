@@ -42,16 +42,9 @@ public class DomeinController
 			throw new ReedsAangemeldException();
 		}
 
-		if (gevondenSpeler != null)
-		{
-
-			spelers.add(gevondenSpeler);
-		} else
-		{
-
-			throw new IllegalArgumentException("Wachtwoord is incorrect");
-		}
+		spelers.add(gevondenSpeler);
 	}
+
 
 	public List<String> geefLijstGebruikersnaam()
 	{

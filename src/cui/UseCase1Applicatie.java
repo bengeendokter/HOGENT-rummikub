@@ -25,18 +25,15 @@ public class UseCase1Applicatie
 		aanmeldenGebruikers();
 		lijstGebruikersnamen();
 	}
-
+	
+	// vraag taal
+	// nl = Nederlands of en = Engels
 	public void aanmeldenSpelers()
 	{
-
-		// vraag taal
-		// nl = Nederlands of en = Engels
 		do
 		{
-
 			try
 			{
-
 				System.out.print("Taal/Language [nl, en]: ");
 				String taal = input.nextLine();
 
@@ -84,15 +81,15 @@ public class UseCase1Applicatie
 
 		System.out.println();
 	}
-
+	
+	// meld alle gebruikers aan
+	// data in de databank
+	// ('IceBergUser58','hogenthogent123'),('IkBenBen','IkBenDokter'),('mns58','myDiscordPassword'),('TUF','Thangz')
 	public void aanmeldenGebruikers()
 	{
 		String gebruikersnaam;
 		String wachtwoord;
 
-		// meld alle gebruikers aan
-		// data in de databank
-		// ('IceBergUser58','hogenthogent123'),('IkBenBen','IkBenDokter'),('mns58','myDiscordPassword'),('TUF','Thangz')
 		for (int index = 1; index <= aantalGebruikers; index++)
 		{
 
@@ -117,24 +114,20 @@ public class UseCase1Applicatie
 				{
 
 					System.out.println(controller.getMessages("reedsAangemeld"));
-				} catch (IllegalArgumentException e)
-				{
-
-					System.out.println(controller.getMessages("msgPassWordIncorrect"));
 				} catch (RuntimeException e)
 				{
 
-					System.out.println(controller.getMessages("msgUserNotFound"));
+					System.out.println(controller.getMessages("msgSignInFailed"));
 				}
 			} while (fouteInput);
 
 			System.out.println();
 		}
 	}
-
+	
+	// geef lijst gebruikersnamen
 	public void lijstGebruikersnamen()
 	{
-		// geef lijst gebruikersnamen
 		System.out.println(controller.getMessages("lijstNamen"));
 
 		List<String> gebruikersnamen = controller.geefLijstGebruikersnaam();
