@@ -20,7 +20,6 @@ public class SpelerMapper
 						.prepareStatement(String.format("SELECT * FROM %s.Speler WHERE gebruikersnaam = ?"
 														,Connectie.USER)))
 		{
-
 			query.setString(1, gebruikersnaam);
 
 			try (ResultSet rs = query.executeQuery())

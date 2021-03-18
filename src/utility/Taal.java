@@ -31,7 +31,7 @@ public class Taal
 	}
 	
 	// stelt de juiste taal in
-	private void setResourceBundle(String taal)
+	public void setResourceBundle(String taal)
 	{
 		String taalLower = taal.toLowerCase();
 		
@@ -42,11 +42,11 @@ public class Taal
 					+ "Language must be \"nl\" or \"en\"");
 		}
 		
-		if(taalLower == "nl")
+		if(taalLower.equals("nl"))
 		{
 			resourceBundle = NEDERLANDS;
 		}
-		else // taalLower == "en"
+		else // taalLower.equals("en")
 		{
 			resourceBundle = ENGELS;
 		}

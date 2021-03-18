@@ -1,26 +1,22 @@
 package cui;
 
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import domein.DomeinController;
+import exceptions.BuitenBereikException;
+import exceptions.FoutieveTaalInvoerException;
 import exceptions.ReedsAangemeldException;
 
 public class UseCase1Applicatie
 {
-    private final DomeinController controller;
-    String taal = "";
-	Locale locale = new Locale(taal);
-	ResourceBundle resourceBundle = ResourceBundle.getBundle("cui.ResourceBundleCui", locale);
+
+	private final DomeinController controller;
 	boolean fouteInput = true;
 	Scanner input = new Scanner(System.in);
 	int aantalGebruikers = 0;
-	final List<String> TALEN = Arrays.asList("nl", "en");
-    
+
 	public UseCase1Applicatie(DomeinController controller)
 	{
 		this.controller = controller;
@@ -29,130 +25,123 @@ public class UseCase1Applicatie
 		aanmeldenGebruikers();
 		lijstGebruikersnamen();
 	}
-	
-	// tijdelijke test methode, dit zoekt een gebruiker via gebruikersnaam en geeft het bijhorend wachtwoord terug
-	public void aanmeldenSpelers()
-	{	
-		
-		// data in de databank
-		// ('IceBergUser58','hogenthogent123'),('IkBenBen','IkBenDokter'),('mns58','myDiscordPassword'),('TUF','Thangz')
 
-		// nl = Nederlands of en = Engels
-		
-		
-		
-		
+	public void aanmeldenSpelers()
+	{
+
 		// vraag taal
-		
+		// nl = Nederlands of en = Engels
 		do
 		{
+
 			try
 			{
+
 				System.out.print("Taal/Language [nl, en]: ");
-				taal = input.nextLine();
-				
-				// indien opgegeven taal niet "nl" of "en"
-				if(!TALEN.contains(taal.toLowerCase()))
-				{
-					throw new IllegalArgumentException(
-							"Taal moet \"nl\" of \"en\" zijn\n"
-							+ "Language must be \"nl\" or \"en\"");
-				}
-				
+				String taal = input.nextLine();
+
+				controller.setResourceBundle(taal);
+
 				fouteInput = false;
-			}
-			catch(IllegalArgumentException e)
+			} catch (FoutieveTaalInvoerException e)
 			{
+
 				System.out.println(e.getMessage());
 			}
-		}while(fouteInput);
-		
+		} while (fouteInput);
+
 		System.out.println();
 	}
 
-		
 	public void selecteerAantalGebruikers()
 	{
-		
+
 		fouteInput = true;
-		
+
 		do
 		{
+
 			try
 			{
-				System.out.print(resourceBundle.getString("askNrUsers"));
+
+				System.out.print(controller.getMessages("askNrUsers"));
 				aantalGebruikers = input.nextInt();
 				input.nextLine();
-				
+
 				controller.registreerAantal(aantalGebruikers);
 				fouteInput = false;
-			}
-			catch(InputMismatchException e) {
-				System.out.println(resourceBundle.getString("askNrUsersError"));
-				input.nextLine();
-			}
-			catch(IllegalArgumentException e)
+			} catch (InputMismatchException e) // invoer is geen int
 			{
-				System.out.println(resourceBundle.getString("askNrUsersError"));
+
+				System.out.println(controller.getMessages("askNrUsersError"));
+				input.nextLine();
+			} catch (BuitenBereikException e) // invoer < 2 || invoer > 4
+			{
+
+				System.out.println(controller.getMessages("askNrUsersError"));
 			}
-		}
-		while(fouteInput);
-		
+		} while (fouteInput);
+
 		System.out.println();
 	}
-	
-	
+
 	public void aanmeldenGebruikers()
 	{
-		boolean fouteInput = true;
 		String gebruikersnaam;
 		String wachtwoord;
 
 		// meld alle gebruikers aan
-		for(int index = 1; index <= aantalGebruikers; index++)
+		// data in de databank
+		// ('IceBergUser58','hogenthogent123'),('IkBenBen','IkBenDokter'),('mns58','myDiscordPassword'),('TUF','Thangz')
+		for (int index = 1; index <= aantalGebruikers; index++)
 		{
-			System.out.println(String.format(resourceBundle.getString("userIndex"), index));
-			
+
+			fouteInput = true;
+			System.out.println(String.format(controller.getMessages("userIndex"), index));
+
 			do
 			{
-		    	try
-		    	{	
-		    		System.out.print(resourceBundle.getString("userName"));
-		    		gebruikersnaam = input.nextLine();
-		    		
-		    		System.out.print(resourceBundle.getString("PassWord"));
-		    		wachtwoord = input.nextLine();
-		    		
-		            controller.meldAan(gebruikersnaam, wachtwoord);
-		        	fouteInput = false;
-		    	}
-		    	catch(ReedsAangemeldException e)
-		    	{
-		    		System.out.println(resourceBundle.getString("reedsAangemeld"));
-		    	}
-		    	catch(IllegalArgumentException e)
-		    	{
-		    		System.out.println(resourceBundle.getString("msgPassWordIncorrect"));
-		    	}
-		    	catch(RuntimeException e)
-		    	{
-		    		System.out.println(resourceBundle.getString("msgUserNotFound"));
-		    	}
-			}
-			while(fouteInput);
-			
+
+				try
+				{
+
+					System.out.print(controller.getMessages("userName"));
+					gebruikersnaam = input.nextLine();
+
+					System.out.print(controller.getMessages("PassWord"));
+					wachtwoord = input.nextLine();
+
+					controller.meldAan(gebruikersnaam, wachtwoord);
+					fouteInput = false;
+				} catch (ReedsAangemeldException e)
+				{
+
+					System.out.println(controller.getMessages("reedsAangemeld"));
+				} catch (IllegalArgumentException e)
+				{
+
+					System.out.println(controller.getMessages("msgPassWordIncorrect"));
+				} catch (RuntimeException e)
+				{
+
+					System.out.println(controller.getMessages("msgUserNotFound"));
+				}
+			} while (fouteInput);
+
 			System.out.println();
 		}
 	}
-		
+
 	public void lijstGebruikersnamen()
 	{
-		// geef lijst gebruikersnamen		
-		System.out.println(resourceBundle.getString("lijstNamen"));
-		
+		// geef lijst gebruikersnamen
+		System.out.println(controller.getMessages("lijstNamen"));
+
 		List<String> gebruikersnamen = controller.geefLijstGebruikersnaam();
-		for(String naam : gebruikersnamen)
+
+		for (String naam : gebruikersnamen)
 		{
+
 			System.out.println(naam);
 		}
 	}
