@@ -37,7 +37,7 @@ public class UseCase1Applicatie
 				System.out.print("Taal/Language [nl, en]: ");
 				String taal = input.nextLine();
 
-				controller.setResourceBundle(taal);
+				controller.setTaal(taal);
 
 				fouteInput = false;
 			} catch (FoutieveTaalInvoerException e)

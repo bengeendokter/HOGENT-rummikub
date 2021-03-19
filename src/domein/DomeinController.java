@@ -64,7 +64,7 @@ public class DomeinController
 	}
 
 // Taal functies
-	public void setResourceBundle(String taalcode)
+	public void setTaal(String taalcode)
 	{
 		taal.setResourceBundle(taalcode);
 	}
