@@ -12,10 +12,7 @@ import javafx.scene.layout.VBox;
 public class UseCase1GebruikersLijstScherm extends VBox
 {
 	private Label lblUserList;
-	private Label lblUser1;
-	private Label lblUser2;
-	private Label lblUser3;
-	private Label lblUser4;
+	private Label lblUsers;
 	
 	private DomeinController controller;
 	
@@ -34,32 +31,17 @@ public class UseCase1GebruikersLijstScherm extends VBox
         this.setPadding(new Insets(25));
 		
 		lblUserList = new Label();
-        lblUser1 = new Label();
-        lblUser2 = new Label();
-        lblUser3 = new Label();
-        lblUser4 = new Label();
-		this.getChildren().addAll(lblUserList, lblUser1, lblUser2, lblUser3, lblUser4);
+        lblUsers = new Label();
+		this.getChildren().addAll(lblUserList, lblUsers);
 	}
 	
 	private void buildText()
 	{
 		lblUserList.setText(controller.getMessages("lijstNamen"));
 
+		List<String> gebruikersnamen = controller.geefLijstGebruikersnaam();
+		String lijst = String.join("\n", gebruikersnamen);
 		
-		List<String> namen = controller.geefLijstGebruikersnaam();
-		
-		if(namen.size() < 3)
-		{
-			namen.add("");
-		}
-		if(namen.size() < 4)
-		{
-			namen.add("");
-		}
-		
-		lblUser1.setText(namen.get(0));
-		lblUser2.setText(namen.get(1));
-		lblUser3.setText(namen.get(2));
-		lblUser4.setText(namen.get(3));
+		lblUsers.setText(lijst);
 	}
 }
