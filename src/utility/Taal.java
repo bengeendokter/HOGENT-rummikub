@@ -51,13 +51,11 @@ public class Taal
 			resourceBundle = ENGELS;
 		}
 	}
-	
 
 	public String getMessages(String message)
 	{
 		return resourceBundle.getString(message);
 	}
-
 	
 	public void veranderTaal()
 	{

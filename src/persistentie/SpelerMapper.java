@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import domein.Speler;
+import exceptions.SpelerNietGevondenException;
 
 public class SpelerMapper
 {
@@ -17,8 +20,16 @@ public class SpelerMapper
 
 		try (Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
 				PreparedStatement query = conn
-						.prepareStatement(String.format("SELECT * FROM %s.Speler WHERE gebruikersnaam = ? AND wachtwoord = ?"
-														,Connectie.USER)))
+						.prepareStatement
+						(
+								String.format
+								(
+										"SELECT * FROM %s.Speler"
+										+ " WHERE gebruikersnaam = ? AND wachtwoord = ?"
+										,Connectie.USER
+								)
+						)
+			)
 		{
 			query.setString(1, gebruikersnaam);
 			query.setString(2, wachtwoord);
@@ -33,14 +44,20 @@ public class SpelerMapper
 				}
 				else // Speler niet gevonden
 				{
-					throw new SQLException();
+					throw new SpelerNietGevondenException();
 				}
 			}
-		} catch (SQLException ex)
-		{
-			throw new RuntimeException(ex);
 		}
-
+		catch (CommunicationsException e) // waarschijnlijk geen internetverbinding
+		{
+			throw new RuntimeException("Kan geen verbinding maken met de online databank"
+										+ ", contoleer uw internet verbinding");
+		}
+		catch(SQLException e) // er is een probleem opgetreden
+		{
+			throw new RuntimeException("Er is een probleem opgetreden"
+										+ ", er zit waarschijnlijk een fout in de SQL syntax of de Connectie klasse");
+		}
 		return speler;
 	}
 }

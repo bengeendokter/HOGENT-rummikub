@@ -100,12 +100,7 @@ public class UseCase1AantalGebruikersScherm extends GridPane
             stage.setScene(scene);
             stage.show();
         }
-        catch (NumberFormatException e)
-        {
-            txfAmount.clear();
-            lblMessage.setText(controller.getMessages("askNrUsersError"));
-        }
-        catch (BuitenBereikException e)
+        catch (NumberFormatException | BuitenBereikException e)
         {
             txfAmount.clear();
             lblMessage.setText(controller.getMessages("askNrUsersError"));

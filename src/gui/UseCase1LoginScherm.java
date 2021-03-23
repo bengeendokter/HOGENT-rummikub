@@ -3,6 +3,7 @@ package gui;
 
 import domein.DomeinController;
 import exceptions.ReedsAangemeldException;
+import exceptions.SpelerNietGevondenException;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -158,9 +159,13 @@ public class UseCase1LoginScherm extends GridPane
     	{
     		lblMessage.setText(controller.getMessages("reedsAangemeld"));
     	}
+		catch(SpelerNietGevondenException e)
+		{
+			lblMessage.setText(controller.getMessages("msgSignInFailed"));				
+		}
     	catch(RuntimeException e)
     	{
-    		lblMessage.setText(controller.getMessages("msgSignInFailed"));
+    		lblMessage.setText(controller.getMessages("msgConnectionFailed"));
     	}
     }
 

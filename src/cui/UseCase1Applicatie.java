@@ -8,6 +8,7 @@ import domein.DomeinController;
 import exceptions.BuitenBereikException;
 import exceptions.FoutieveTaalInvoerException;
 import exceptions.ReedsAangemeldException;
+import exceptions.SpelerNietGevondenException;
 
 public class UseCase1Applicatie
 {
@@ -20,15 +21,15 @@ public class UseCase1Applicatie
 	public UseCase1Applicatie(DomeinController controller)
 	{
 		this.controller = controller;
-		aanmeldenSpelers();
+		stelTaalIn();
 		selecteerAantalGebruikers();
 		aanmeldenGebruikers();
 		lijstGebruikersnamen();
 	}
-	
+
 	// vraag taal
 	// nl = Nederlands of en = Engels
-	public void aanmeldenSpelers()
+	public void stelTaalIn()
 	{
 		do
 		{
@@ -40,48 +41,47 @@ public class UseCase1Applicatie
 				controller.setTaal(taal);
 
 				fouteInput = false;
-			} catch (FoutieveTaalInvoerException e)
+			}
+			catch (FoutieveTaalInvoerException e)
 			{
-
 				System.out.println(e.getMessage());
 			}
-		} while (fouteInput);
+		}
+		while (fouteInput);
 
 		System.out.println();
 	}
 
 	public void selecteerAantalGebruikers()
 	{
-
 		fouteInput = true;
-
+		
 		do
 		{
-
 			try
 			{
-
 				System.out.print(controller.getMessages("askNrUsers"));
 				aantalGebruikers = input.nextInt();
 				input.nextLine();
 
 				controller.registreerAantal(aantalGebruikers);
 				fouteInput = false;
-			} catch (InputMismatchException e) // invoer is geen int
+			}
+			catch (InputMismatchException e) // invoer is geen int
 			{
-
 				System.out.println(controller.getMessages("askNrUsersError"));
 				input.nextLine();
-			} catch (BuitenBereikException e) // invoer < 2 || invoer > 4
+			}
+			catch (BuitenBereikException e) // invoer < 2 || invoer > 4
 			{
-
 				System.out.println(controller.getMessages("askNrUsersError"));
 			}
-		} while (fouteInput);
+		}
+		while (fouteInput);
 
 		System.out.println();
 	}
-	
+
 	// meld alle gebruikers aan
 	// data in de databank
 	// ('IceBergUser58','hogenthogent123'),('IkBenBen','IkBenDokter'),('mns58','myDiscordPassword'),('TUF','Thangz')
@@ -92,16 +92,13 @@ public class UseCase1Applicatie
 
 		for (int index = 1; index <= aantalGebruikers; index++)
 		{
-
 			fouteInput = true;
 			System.out.println(String.format(controller.getMessages("userIndex"), index));
 
 			do
 			{
-
 				try
 				{
-
 					System.out.print(controller.getMessages("userName"));
 					gebruikersnaam = input.nextLine();
 
@@ -110,21 +107,26 @@ public class UseCase1Applicatie
 
 					controller.meldAan(gebruikersnaam, wachtwoord);
 					fouteInput = false;
-				} catch (ReedsAangemeldException e)
-				{
-
-					System.out.println(controller.getMessages("reedsAangemeld"));
-				} catch (RuntimeException e)
-				{
-
-					System.out.println(controller.getMessages("msgSignInFailed"));
 				}
-			} while (fouteInput);
+				catch (ReedsAangemeldException e)
+				{
+					System.out.println(controller.getMessages("reedsAangemeld"));
+				}
+				catch(SpelerNietGevondenException e)
+				{
+					System.out.println(controller.getMessages("msgSignInFailed"));				
+				}
+				catch (RuntimeException e)
+				{
+					System.out.println(controller.getMessages("msgConnectionFailed"));
+				}
+			}
+			while (fouteInput);
 
 			System.out.println();
 		}
 	}
-	
+
 	// geef lijst gebruikersnamen
 	public void lijstGebruikersnamen()
 	{
@@ -134,7 +136,6 @@ public class UseCase1Applicatie
 
 		for (String naam : gebruikersnamen)
 		{
-
 			System.out.println(naam);
 		}
 	}

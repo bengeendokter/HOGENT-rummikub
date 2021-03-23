@@ -2,7 +2,6 @@ package domein;
 
 public class Speler
 {
-
 	private String gebruikersnaam;
 	private String wachtwoord;
 
@@ -31,5 +30,4 @@ public class Speler
 	{
 		this.wachtwoord = wachtwoord;
 	}
-
 }

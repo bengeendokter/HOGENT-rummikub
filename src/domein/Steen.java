@@ -1,7 +1,5 @@
 package domein;
 
-import java.security.SecureRandom;
-
 public class Steen {
     private int getal;
     private String kleur;

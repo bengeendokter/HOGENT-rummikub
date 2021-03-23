@@ -1,3 +1,4 @@
+@SuppressWarnings("module")
 module rummikubG16
 {
 
@@ -15,4 +16,5 @@ module rummikubG16
 	requires javafx.controls;
 	requires javafx.graphics;
 	requires org.junit.jupiter.api;
+	requires mysql.connector.java;
 }
