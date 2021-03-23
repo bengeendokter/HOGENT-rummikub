@@ -21,7 +21,7 @@ public class DomeinController
 	}
 	
 	/**
-	 * Use Case 1
+	 * Use Case 1:
 	 * Gooit een exception indien het aantal spelers buiten het bereik ligt
 	 * 
 	 * @param aantal	het aantal spelers die moeten geregistreerd worden
@@ -36,7 +36,7 @@ public class DomeinController
 	
 // Use Case 1 functies
 	/**
-	 * Use Case 1
+	 * Use Case 1:
 	 * Meld de gebruikers aan, gooit een exception indien het aanmelden mislukt
 	 * 
 	 * @param gebruikersnaam	de gebruikersnaam waarnaar gezocht wordt in de databank
@@ -55,7 +55,7 @@ public class DomeinController
 	}
 
 	/**
-	 * Use Case 1
+	 * Use Case 1:
 	 * Geeft een lijst van de aangemelde gebruikers
 	 * 
 	 * @return	een List van gebruikersnamen

@@ -12,7 +12,7 @@ public class SpelerRepository
 	}
 
 	/**
-	 * Use Case 1
+	 * Use Case 1:
 	 * Vraagt de spelers op in de databank, indien de speler niet gevonden wordt is er een exception gegooid
 	 * 
 	 * @param gebruikersnaam	de gebruikersnaam waarnaar gezocht wordt in de databank
