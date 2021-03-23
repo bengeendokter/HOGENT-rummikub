@@ -13,9 +13,9 @@ public class UseCase1Applicatie
 {
 
 	private final DomeinController controller;
-	boolean fouteInput = true;
-	Scanner input = new Scanner(System.in);
-	int aantalGebruikers = 0;
+	private boolean fouteInput = true;
+	private Scanner input = new Scanner(System.in);
+	private int aantalGebruikers = 0;
 
 	public UseCase1Applicatie(DomeinController controller)
 	{
