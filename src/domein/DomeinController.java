@@ -20,7 +20,13 @@ public class DomeinController
 		spelers = new ArrayList<>();
 		taal = new Taal();
 	}
-
+	
+	/**
+	 * uc1
+	 * 
+	 * @param aantal: het aantal spelers
+	 */
+	
 	public void registreerAantal(int aantal)
 	{
 
@@ -31,6 +37,12 @@ public class DomeinController
 		}
 	}
 
+	/**
+	 * 
+	 * @param gebruikersnaam
+	 * @param wachtwoord
+	 */
+	
 // SpelerRepository functies
 	public void meldAan(String gebruikersnaam, String wachtwoord)
 	{
@@ -45,6 +57,10 @@ public class DomeinController
 		spelers.add(gevondenSpeler);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 
 	public List<String> geefLijstGebruikersnaam()
 	{
