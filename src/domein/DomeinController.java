@@ -74,10 +74,10 @@ public class DomeinController
 		return gebruikersnamen;
 	}
 
-	public List<Speler> getSpelers()
-	{
-		return spelers;
-	}
+	/**
+	 * Niet in Use Cases
+	 * @param taalcode: taal vaststellen
+	 */
 
 // Taal functies
 	public void setTaal(String taalcode)
@@ -85,6 +85,12 @@ public class DomeinController
 		taal.setResourceBundle(taalcode);
 	}
 
+	/**
+	 * Niet in UC
+	 * @param message : parameter die bepaald welke string teruggeroept zal worden
+	 * @return
+	 */
+	
 	public String getMessages(String message)
 	{
 		return taal.getMessages(message);
