@@ -17,4 +17,7 @@ module rummikubG16
 	requires javafx.graphics;
 	requires org.junit.jupiter.api;
 	requires mysql.connector.java;
+	requires javafx.fxml;
+	
+	opens gui to javafx.fxml;
 }

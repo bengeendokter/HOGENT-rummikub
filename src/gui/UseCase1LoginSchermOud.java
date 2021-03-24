@@ -18,7 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class UseCase1LoginScherm extends GridPane
+public class UseCase1LoginSchermOud extends GridPane
 {
 // Dit attribuut hebben we in meerdere methoden nodig
 	private Label lblTitle;
@@ -36,7 +36,7 @@ public class UseCase1LoginScherm extends GridPane
     private final DomeinController controller;
     
     
-    public UseCase1LoginScherm(DomeinController controller, int numberOfUsers)
+    public UseCase1LoginSchermOud(DomeinController controller, int numberOfUsers)
     {
 		this.controller = controller;
 		this.numberOfUsers = numberOfUsers;
@@ -172,7 +172,7 @@ public class UseCase1LoginScherm extends GridPane
 
 	private void volgendScherm()
 	{
-		UseCase1GebruikersLijstScherm gl = new UseCase1GebruikersLijstScherm(controller);
+		UseCase1GebruikersLijstSchermOud gl = new UseCase1GebruikersLijstSchermOud(controller);
         Scene scene = new Scene(gl);
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);

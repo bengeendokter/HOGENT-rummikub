@@ -9,14 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 
-public class UseCase1GebruikersLijstScherm extends VBox
+public class UseCase1GebruikersLijstSchermOud extends VBox
 {
 	private Label lblUserList;
 	private Label lblUsers;
 	
 	private DomeinController controller;
 	
-	public UseCase1GebruikersLijstScherm(DomeinController controller)
+	public UseCase1GebruikersLijstSchermOud(DomeinController controller)
 	{
 		this.controller = controller;
 		buildGui();
