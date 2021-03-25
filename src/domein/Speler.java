@@ -4,6 +4,8 @@ public class Speler
 {
 	private String gebruikersnaam;
 	private String wachtwoord;
+	//private int score;
+	//private List<Steen> stenen;
 
 	public Speler(String gebruikersnaam, String wachtwoord)
 	{

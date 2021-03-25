@@ -7,6 +7,7 @@ public class Spel {
         // 2 x (4 kleuren x 13 getallen) + 2 jokers = 106 stenen
         // getal (1-13) kleur (zwart, rood, blauw en geel) en joker (true or false)
         private List<Steen> stenen;
+        //private List<Speler> volgordeSpelers;
         
         /**
          * Use Case 2

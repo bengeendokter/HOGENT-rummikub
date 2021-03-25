@@ -12,6 +12,7 @@ public class DomeinController
 	private final SpelerRepository spelerrepo;
 	private List<Speler> spelers;
 	private Taal taal;
+	//private Spel spel;
 
 	public DomeinController()
 	{
