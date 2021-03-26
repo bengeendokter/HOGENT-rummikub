@@ -103,6 +103,8 @@ public class DomeinController
 	 */
 	public List<String> geefScoreOverzicht()
 	{
+		spel.berekenScore();
+		
 		List<String> puntenlijst = new ArrayList<String>();
 		
 		for(Speler speler : spelers)

@@ -8,7 +8,7 @@ public class Spel
 {
 	// 2 x (4 kleuren x 13 getallen) + 2 jokers = 106 stenen
 	// getal (1-13) kleur (zwart, rood, blauw en geel) en joker (true or false)
-	private List<Steen> stenen;
+	private List<Steen> stenen = new ArrayList<>();
 	private List<Speler> spelers;
 	private Speler spelerAanDeBeurt;
 
@@ -21,7 +21,6 @@ public class Spel
 	 */
 	public Spel(List<Speler> spelers)
 	{
-		stenen = new ArrayList<>();
 		String[] kleuren =
 		{ "zwart", "rood", "blauw", "geel" };
 
@@ -45,7 +44,6 @@ public class Spel
 
 		// geeft de stenen een willekeurige volgorde
 		Collections.shuffle(stenen);
-		setStenen(stenen);
 
 		// bepaal de speler volgorde en de eerste speler aan de beurt
 		Collections.shuffle(spelers);
@@ -60,6 +58,16 @@ public class Spel
 				speler.neemSteen(stenen.remove(stenen.size() - 1));
 			}
 		}
+	}
+	
+	public void setSpelerAanDeBeurt(Speler speler)
+	{
+		this.spelerAanDeBeurt = speler;
+	}
+
+	public Speler getSpelerAanDeBeurt()
+	{
+		return spelerAanDeBeurt;
 	}
 
 	/**
@@ -80,19 +88,41 @@ public class Spel
 		// indien geen spelers gewonnen
 		return false;
 	}
-
-	private final void setStenen(List<Steen> stenen)
+	
+	/**
+	 * Use Case 2:
+	 * Berekend de scores van alle spelers,
+	 * de winnaar krijgt het totaal aantal strafpunten van de andere spelers als positieve score
+	 */
+	public void berekenScore()
 	{
-		this.stenen = stenen;
-	}
-
-	public void setSpelerAanDeBeurt(Speler speler)
-	{
-		this.spelerAanDeBeurt = speler;
-	}
-
-	public Speler getSpelerAanDeBeurt()
-	{
-		return spelerAanDeBeurt;
+		if(isEindeSpel())
+		{
+			Speler gewonnenSpeler = null;
+			
+			for(Speler speler : spelers)
+			{
+				if(speler.isGewonnen())
+				{
+					gewonnenSpeler = speler;
+				}
+				else
+				{
+					speler.berekenScore();
+				}
+			}
+			
+			spelers.remove(gewonnenSpeler);
+			int scoreWinnaar = 0;
+			
+			for(Speler speler : spelers)
+			{
+				scoreWinnaar += speler.getScore() * -1;
+			}
+			
+			gewonnenSpeler.setScore(scoreWinnaar);
+			
+			spelers.add(gewonnenSpeler);
+		}
 	}
 }

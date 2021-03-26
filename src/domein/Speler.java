@@ -43,7 +43,7 @@ public class Speler
 		return score;
 	}
 
-	private void setScore(int score)
+	public final void setScore(int score)
 	{
 		this.score = score;
 	}
@@ -56,7 +56,11 @@ public class Speler
 	 */
 	public void neemSteen(Steen steen)
 	{
-		stenen.add(steen);
+		// TODO tijdelijke if om altijd een winnaar te krijgen, verwijder later
+		if(gebruikersnaam != "IkBenBen")
+		{
+			stenen.add(steen);
+		}
 	}
 	
 	/**
@@ -73,5 +77,24 @@ public class Speler
 		}
 		// else(stenen.size() > 0)
 		return false;
+	}
+	
+	/**
+	 * Use Case 2:
+	 * Berekend de score van de speler aan de hand van de waarde van hun stenen 
+	 */
+	public void berekenScore()
+	{
+		for(Steen steen : stenen)
+		{
+			if(steen.isJoker())
+			{
+				score -= 25;
+			}
+			else
+			{
+				score -= steen.getGetal();
+			}
+		}
 	}
 }
