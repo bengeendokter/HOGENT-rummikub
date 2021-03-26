@@ -13,7 +13,6 @@ public class StartUpGui extends Application
     public void start(Stage primaryStage)
     {
 		DomeinController controller = new DomeinController();
-		//UseCase1AantalGebruikersSchermOud grid = new UseCase1AantalGebruikersSchermOud(controller);
 		UseCase1AantalGebruikersScherm grid = new UseCase1AantalGebruikersScherm(controller);
 
         Scene scene = new Scene(grid);
