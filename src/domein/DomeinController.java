@@ -12,7 +12,7 @@ public class DomeinController
 	private final SpelerRepository spelerrepo;
 	private List<Speler> spelers;
 	private Taal taal;
-	//private Spel spel;
+	private Spel spel;
 
 	public DomeinController()
 	{
@@ -21,6 +21,8 @@ public class DomeinController
 		taal = new Taal();
 	}
 	
+	
+// Use Case 1 functies
 	/**
 	 * Use Case 1:
 	 * Gooit een exception indien het aantal spelers buiten het bereik ligt
@@ -35,7 +37,6 @@ public class DomeinController
 		}
 	}
 	
-// Use Case 1 functies
 	/**
 	 * Use Case 1:
 	 * Meld de gebruikers aan, gooit een exception indien het aanmelden mislukt
@@ -72,7 +73,57 @@ public class DomeinController
 		return gebruikersnamen;
 	}
 
+	
 // Use Case 2 functies
+	/**
+	 * Use Case 2:
+	 * Start een nieuw spel door een Spel object aan te maken
+	 */
+	public void startSpel()
+	{
+		this.spel = new Spel(spelers);
+	}
+	
+	/**
+	 * Use Case 2:
+	 * Geeft de gebruikersnaam van de speler die momenteel aan de beurt is
+	 * 
+	 * @return	de gebruikersnaam van de speler aan de beurt
+	 */
+	public String geefNaamSpelerAanBeurt()
+	{
+		return spel.getSpelerAanDeBeurt().getGebruikersnaam();
+	}
+	
+	/**
+	 * Use Case 2:
+	 * Geeft een overzicht van de score per speler
+	 * 
+	 * @return	een lijst met de gebruikersnamen en scores van de spelers
+	 */
+	public List<String> geefScoreOverzicht()
+	{
+		List<String> puntenlijst = new ArrayList<String>();
+		
+		for(Speler speler : spelers)
+		{
+			puntenlijst.add(String.format("%s: %d", speler.getGebruikersnaam(), speler.getScore()));
+		}
+		
+		return puntenlijst;
+	}
+	
+	/**
+	 * Use Case 2:
+	 * Geeft terug of het spel ten einde is of niet
+	 * 
+	 * @return	true indien een speler geen stenen meer heeft, anders false
+	 */
+	public boolean isEindeSpel()
+	{
+		return spel.isEindeSpel();
+	}
+	
 	
 // Taal functies
 	/**

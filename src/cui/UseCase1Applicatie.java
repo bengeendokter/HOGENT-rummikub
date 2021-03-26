@@ -29,7 +29,7 @@ public class UseCase1Applicatie
 
 	// vraag taal
 	// nl = Nederlands of en = Engels
-	public void stelTaalIn()
+	private void stelTaalIn()
 	{
 		do
 		{
@@ -52,7 +52,7 @@ public class UseCase1Applicatie
 		System.out.println();
 	}
 
-	public void selecteerAantalGebruikers()
+	private void selecteerAantalGebruikers()
 	{
 		fouteInput = true;
 		
@@ -85,7 +85,7 @@ public class UseCase1Applicatie
 	// meld alle gebruikers aan
 	// data in de databank
 	// ('IceBergUser58','hogenthogent123'),('IkBenBen','IkBenDokter'),('mns58','myDiscordPassword'),('TUF','Thangz')
-	public void aanmeldenGebruikers()
+	private void aanmeldenGebruikers()
 	{
 		String gebruikersnaam;
 		String wachtwoord;
@@ -128,7 +128,7 @@ public class UseCase1Applicatie
 	}
 
 	// geef lijst gebruikersnamen
-	public void lijstGebruikersnamen()
+	private void lijstGebruikersnamen()
 	{
 		System.out.println(controller.getMessages("lijstNamen"));
 
@@ -138,5 +138,7 @@ public class UseCase1Applicatie
 		{
 			System.out.println(naam);
 		}
+		
+		System.out.println();
 	}
 }
