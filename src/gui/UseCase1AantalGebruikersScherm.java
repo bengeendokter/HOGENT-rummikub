@@ -45,10 +45,10 @@ public class UseCase1AantalGebruikersScherm extends GridPane
 		try
 		{
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("UseCase1AantalGebruikersScherm.fxml"));
-			loader.load();
+
 			loader.setController(this);
 			loader.setRoot(this);
-
+			loader.load();
 			
 	        btnTaal.setOnAction(this::TaalPushed);
 		    btnAmount.setOnAction(this::AmountPushed);
