@@ -1,5 +1,6 @@
 package utility;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -16,7 +17,7 @@ public class Taal
     		ResourceBundle.getBundle("resources.ResourceBundle", new Locale("nl"));
 	private ResourceBundle resourceBundle;
 	
-	private final static List<String> TALEN = Arrays.asList("nl", "en");
+	private final static List<String> TALEN = new ArrayList<>(Arrays.asList("nl", "en"));
 	
 	// default constructor
 	public Taal()

@@ -3,6 +3,7 @@ package domein;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Speler
 {
 	private String gebruikersnaam;
@@ -25,8 +26,15 @@ public class Speler
 
 	private void setGebruikersnaam(String gebruikersnaam)
 	{
-		this.gebruikersnaam = gebruikersnaam;
-	}
+        if (gebruikersnaam == null || gebruikersnaam.length() == 0)
+        {
+        	this.gebruikersnaam = "empty";
+        }
+        else
+        {
+        	this.gebruikersnaam = gebruikersnaam;
+        }
+    }
 
 	public String getWachtwoord()
 	{
@@ -35,7 +43,14 @@ public class Speler
 
 	private void setWachtwoord(String wachtwoord)
 	{
-		this.wachtwoord = wachtwoord;
+        if (wachtwoord == null || wachtwoord.length() == 0)
+        {
+        	this.wachtwoord = "empty";
+        }
+        else
+        {
+        	this.wachtwoord = wachtwoord;
+        }
 	}
 	
 	public int getScore()
