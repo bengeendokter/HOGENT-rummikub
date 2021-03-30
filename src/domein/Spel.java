@@ -13,17 +13,28 @@ public class Spel
 	private Speler spelerAanDeBeurt;
 
 	/**
-	 * Use Case 2: Constructor van Spel die alle 106 stenen aanmaakt een bijhoud in
-	 * een lijst, een volgorde van de spelers bepaald en de spelers elk 14 stenen
-	 * geeft
+	 * Use Case 2: Constructor van Spel
+	 * (die alle 106 stenen aanmaakt en bijhoudt in
+	 * een lijst, de volgorde van de spelers bepaalt en de spelers elk 14 stenen
+	 * geeft)
 	 * 
-	 * @param spelers een lijst met de aangemelde spelers
+	 * @param spelers: een lijst met de aangemelde spelers
 	 */
 	public Spel(List<Speler> spelers)
 	{
 		stenen = new ArrayList<>();
-		String[] kleuren =
-		{ "zwart", "rood", "blauw", "geel" };
+		
+		maakStenen();
+		verdeelStenen(spelers);
+
+		
+	}
+	
+	/**
+	 * Use Case 2: maakt de 106 stenen aan en stopt het in 'stenen'
+	 */
+	private void maakStenen() {
+		String[] kleuren = { "zwart", "rood", "blauw", "geel" };
 
 		// 2 keer overlopen, elke steen zit dubbel in de lijst
 		for (int a = 0; a < 2; a++)
@@ -42,10 +53,17 @@ public class Spel
 			// 1 joker
 			stenen.add(new Steen(0, "joker", true));
 		}
-
+			
 		// geeft de stenen een willekeurige volgorde
 		Collections.shuffle(stenen);
-
+	}
+	
+	
+	/**
+	 * Use Case 2: bepaalt de volgorde van de spelers en geeft elk 14 stenen
+	 * @param spelers: een lijst met de aangemelde spelers
+	 */
+	private void verdeelStenen(List<Speler> spelers) {
 		// bepaal de speler volgorde en de eerste speler aan de beurt
 		Collections.shuffle(spelers);
 		this.spelers = spelers;
@@ -92,7 +110,7 @@ public class Spel
 	
 	/**
 	 * Use Case 2:
-	 * Berekend de scores van alle spelers,
+	 * Berekent de scores van alle spelers,
 	 * de winnaar krijgt het totaal aantal strafpunten van de andere spelers als positieve score
 	 */
 	public void berekenScore()
