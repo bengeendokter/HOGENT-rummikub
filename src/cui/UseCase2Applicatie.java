@@ -20,6 +20,7 @@ public class UseCase2Applicatie
 		precondities();
 		stelTaalIn();
 		
+		
 		startSpel();
 		geefNaamSpelerAanBeurt();
 		geefScoreOverzicht();

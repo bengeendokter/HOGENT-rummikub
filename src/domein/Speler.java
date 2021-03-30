@@ -9,11 +9,12 @@ public class Speler
 	private String gebruikersnaam;
 	private String wachtwoord;
 	private int score;
-	private List<Steen> stenen = new ArrayList<Steen>();
+	private List<Steen> stenen;
 
 	
 	public Speler(String gebruikersnaam, String wachtwoord)
 	{
+		stenen = new ArrayList<>();
 		this.setGebruikersnaam(gebruikersnaam);
 		this.setWachtwoord(wachtwoord);
 		this.setScore(0);
@@ -28,12 +29,11 @@ public class Speler
 	{
         if (gebruikersnaam == null || gebruikersnaam.length() == 0)
         {
-        	this.gebruikersnaam = "empty";
+        	throw new IllegalArgumentException("De gebruikersnaam mag niet leeg zijn");
         }
-        else
-        {
-        	this.gebruikersnaam = gebruikersnaam;
-        }
+
+        this.gebruikersnaam = gebruikersnaam;
+
     }
 
 	public String getWachtwoord()
@@ -45,7 +45,7 @@ public class Speler
 	{
         if (wachtwoord == null || wachtwoord.length() == 0)
         {
-        	this.wachtwoord = "empty";
+        	throw new IllegalArgumentException("Het wachtwoord mag niet leeg zijn");
         }
         else
         {

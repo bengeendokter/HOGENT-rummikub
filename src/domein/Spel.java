@@ -8,7 +8,7 @@ public class Spel
 {
 	// 2 x (4 kleuren x 13 getallen) + 2 jokers = 106 stenen
 	// getal (1-13) kleur (zwart, rood, blauw en geel) en joker (true or false)
-	private List<Steen> stenen = new ArrayList<>();
+	private List<Steen> stenen;
 	private List<Speler> spelers;
 	private Speler spelerAanDeBeurt;
 
@@ -21,6 +21,7 @@ public class Spel
 	 */
 	public Spel(List<Speler> spelers)
 	{
+		stenen = new ArrayList<>();
 		String[] kleuren =
 		{ "zwart", "rood", "blauw", "geel" };
 
