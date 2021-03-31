@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import domein.DomeinController;
 import exceptions.BuitenBereikException;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +31,6 @@ public class UseCase1AantalGebruikersScherm extends GridPane
 	
 	private final DomeinController controller;
 	
-	// TODO fix tabs en enters
 	public UseCase1AantalGebruikersScherm(DomeinController controller)
 	{
 		this.controller = controller;
@@ -43,30 +41,20 @@ public class UseCase1AantalGebruikersScherm extends GridPane
 	private void buildGui()
 	{
 		try
-		{
+		{			
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("UseCase1AantalGebruikersScherm.fxml"));
-
+			
 			loader.setController(this);
 			loader.setRoot(this);
 			loader.load();
 			
 	        btnTaal.setOnAction(this::TaalPushed);
 		    btnAmount.setOnAction(this::AmountPushed);
+		    txfAmount.setOnAction(this::AmountPushed);
 		}
 		catch (IOException e)
 		{
-			// TODO vervang door alert?
-			System.out.println("Het scherm kan niet geladen worden");
-			Platform.exit();
-			
-			/*
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Fout!");
-			alert.setHeaderText("Het scherm kan niet geladen worden");
-			alert.setContentText("Contacteer de ontwikkelaars als dit probleem blijft optreden");
-			alert.show();
-			System.exit(0);
-			*/
+			throw new RuntimeException("Het scherm kan niet geladen worden");
 		}		
 	}
 	

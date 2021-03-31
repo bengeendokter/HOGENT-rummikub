@@ -5,7 +5,6 @@ import java.io.IOException;
 import domein.DomeinController;
 import exceptions.ReedsAangemeldException;
 import exceptions.SpelerNietGevondenException;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,12 +69,13 @@ public class UseCase1LoginScherm extends GridPane
 	        }
 	        );
 	        
+	        txfUser.setOnAction(this::userOnEnter);
+	        pwfPassWord.setOnAction(this:: SignInPushed);
+	        
 		}
 		catch (IOException e)
 		{
-			// TODO vervang door alert?
-			System.out.println("Het scherm kan niet geladen worden");
-			Platform.exit();
+			throw new RuntimeException("Het scherm kan niet geladen worden");
 		}		
 	}
     
@@ -131,7 +131,11 @@ public class UseCase1LoginScherm extends GridPane
     		lblMessage.setText(controller.getMessages("msgConnectionFailed"));
     	}
     }
-
+    
+    private void userOnEnter(ActionEvent event)
+    {
+    	pwfPassWord.requestFocus();
+    }
 
 	private void volgendScherm()
 	{

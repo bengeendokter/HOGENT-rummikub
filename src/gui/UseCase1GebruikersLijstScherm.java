@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import domein.DomeinController;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,9 +43,7 @@ public class UseCase1GebruikersLijstScherm extends VBox
 		}
 		catch (IOException e)
 		{
-			// TODO vervang door alert?
-			System.out.println("Het scherm kan niet geladen worden");
-			Platform.exit();
+			throw new RuntimeException("Het scherm kan niet geladen worden");
 		}		
 	}
 	

@@ -10,7 +10,7 @@
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="267.0">
          <children>
-            <Button fx:id="btnTaal" mnemonicParsing="false" text="en" />
+            <Button fx:id="btnTaal" minWidth="30.0" mnemonicParsing="false" text="en" />
          </children>
       </HBox>
       <Label fx:id="lblUserList" text="De aangemelde gebruikers zijn:" />

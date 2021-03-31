@@ -44,9 +44,9 @@ public class UseCase2Applicatie
 		System.out.println();
 	}
 	
-	// TODO tijdelijke methode voor UC2App, verwijder deze later
 	private void speelBeurt()
 	{
+		// TODO tijdelijke methode voor UC2App, verwijder deze later
 		controller.eindigSpel();
 	}
 
