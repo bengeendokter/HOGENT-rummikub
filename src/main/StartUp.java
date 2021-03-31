@@ -1,7 +1,7 @@
 package main;
 
 import domein.DomeinController;
-import cui.UseCase1Applicatie;
+//import cui.UseCase1Applicatie;
 import cui.UseCase2Applicatie;
 
 public class StartUp

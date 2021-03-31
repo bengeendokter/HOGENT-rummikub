@@ -11,68 +11,71 @@ public class Spel
 	private List<Steen> stenen;
 	private List<Speler> spelers;
 	private Speler spelerAanDeBeurt;
-
+	
 	/**
-	 * Use Case 2: Constructor van Spel
-	 * (die alle 106 stenen aanmaakt en bijhoudt in
-	 * een lijst, de volgorde van de spelers bepaalt en de spelers elk 14 stenen
-	 * geeft)
+	 * Use Case 2:
+	 * Constructor van Spel die alle 106 stenen aanmaakt en bijhoudt in een lijst,
+	 * de volgorde van de spelers bepaalt en de spelers elk 14 stenen geeft
 	 * 
-	 * @param spelers: een lijst met de aangemelde spelers
+	 * @param spelers	een lijst met de aangemelde spelers
 	 */
 	public Spel(List<Speler> spelers)
 	{
-		stenen = new ArrayList<>();
-		
 		maakStenen();
-		verdeelStenen(spelers);
-
 		
-	}
-	
-	/**
-	 * Use Case 2: maakt de 106 stenen aan en stopt het in 'stenen'
-	 */
-	private void maakStenen() {
-		String[] kleuren = { "zwart", "rood", "blauw", "geel" };
-
-		// 2 keer overlopen, elke steen zit dubbel in de lijst
-		for (int a = 0; a < 2; a++)
-		{
-			// 4 kleuren * 13 getallen
-			// 4 kleuren
-			for (int indexKleur = 0; indexKleur < 4; indexKleur++)
-			{
-				// 13 getallen
-				for (int getalWaarde = 1; getalWaarde < 14; getalWaarde++)
-				{
-					stenen.add(new Steen(getalWaarde, kleuren[indexKleur], false));
-				}
-			}
-
-			// 1 joker
-			stenen.add(new Steen(0, "joker", true));
-		}
-			
-		// geeft de stenen een willekeurige volgorde
-		Collections.shuffle(stenen);
-	}
-	
-	
-	/**
-	 * Use Case 2: bepaalt de volgorde van de spelers en geeft elk 14 stenen
-	 * @param spelers: een lijst met de aangemelde spelers
-	 */
-	private void verdeelStenen(List<Speler> spelers) {
 		// bepaal de speler volgorde en de eerste speler aan de beurt
 		Collections.shuffle(spelers);
 		this.spelers = spelers;
 		setSpelerAanDeBeurt(spelers.get(0));
-
-		// geef elke speler 14 stenen
-		for (Speler speler : spelers)
+		
+		verdeelStenen(spelers);
+	}
+	
+	/**
+	 * Use Case 2:
+	 * Maakt de 106 stenen aan en stopt het in 'stenen'
+	 */
+	private void maakStenen()
+	{
+		stenen = new ArrayList<>();
+		
+		String[] kleuren =
+		{ "zwart", "rood", "blauw", "geel" };
+		
+		// 2 keer overlopen, elke steen zit dubbel in de lijst
+		for(int a = 0; a < 2; a++)
 		{
-			for (int index = 1; index <= 14; index++)
+			// 4 kleuren * 13 getallen
+			// 4 kleuren
+			for(int indexKleur = 0; indexKleur < 4; indexKleur++)
+			{
+				// 13 getallen
+				for(int getalWaarde = 1; getalWaarde < 14; getalWaarde++)
+				{
+					stenen.add(new Steen(getalWaarde, kleuren[indexKleur], false));
+				}
+			}
+			
+			// 1 joker
+			stenen.add(new Steen(0, "joker", true));
+		}
+		
+		// geeft de stenen een willekeurige volgorde
+		Collections.shuffle(stenen);
+	}
+	
+	/**
+	 * Use Case 2:
+	 * Bepaalt de volgorde van de spelers en geeft elke speler 14 stenen
+	 * 
+	 * @param spelers	een lijst met de aangemelde spelers
+	 */
+	private void verdeelStenen(List<Speler> spelers)
+	{
+		// geef elke speler 14 stenen
+		for(Speler speler : spelers)
+		{
+			for(int index = 1; index <= 14; index++)
 			{
 				speler.neemSteen(stenen.remove(stenen.size() - 1));
 			}
@@ -83,27 +86,28 @@ public class Spel
 	{
 		this.spelerAanDeBeurt = speler;
 	}
-
+	
 	public Speler getSpelerAanDeBeurt()
 	{
 		return spelerAanDeBeurt;
 	}
-
+	
 	/**
-	 * Use Case 2: Geeft terug of het spel ten einde is of niet
+	 * Use Case 2:
+	 * Geeft terug of het spel ten einde is of niet
 	 * 
-	 * @return geeft true terug indien er een winnaar is
+	 * @return geeft	true terug indien er een winnaar is
 	 */
 	public boolean isEindeSpel()
 	{
-		for (Speler speler : spelers)
+		for(Speler speler : spelers)
 		{
-			if (speler.isGewonnen())
+			if(speler.isGewonnen())
 			{
 				return true;
 			}
 		}
-
+		
 		// indien geen spelers gewonnen
 		return false;
 	}
