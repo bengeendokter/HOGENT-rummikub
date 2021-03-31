@@ -33,7 +33,7 @@ public class Spel
 	
 	/**
 	 * Use Case 2:
-	 * Maakt de 106 stenen aan en stopt het in 'stenen'
+	 * Maakt de 106 stenen aan en stopt deze in stenen
 	 */
 	private void maakStenen()
 	{
@@ -66,7 +66,7 @@ public class Spel
 	
 	/**
 	 * Use Case 2:
-	 * Bepaalt de volgorde van de spelers en geeft elke speler 14 stenen
+	 * Geeft elke speler 14 stenen
 	 * 
 	 * @param spelers	een lijst met de aangemelde spelers
 	 */

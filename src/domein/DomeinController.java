@@ -109,7 +109,7 @@ public class DomeinController
 		
 		for(Speler speler : spelers)
 		{
-			puntenlijst.add(String.format("%s: %d", speler.getGebruikersnaam(), speler.getScore()));
+			puntenlijst.add(String.format("%13s: %4d", speler.getGebruikersnaam(), speler.getScore()));
 		}
 		
 		return puntenlijst;

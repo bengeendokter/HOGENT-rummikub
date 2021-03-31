@@ -7,10 +7,12 @@ import domein.DomeinController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class UseCase1GebruikersLijstScherm extends VBox
 {
@@ -20,6 +22,8 @@ public class UseCase1GebruikersLijstScherm extends VBox
 	private Label lblUserList;
 	@FXML
 	private Label lblUsers;
+	@FXML
+	private Button btnStart;
 	
 	private DomeinController controller;
 	
@@ -39,7 +43,8 @@ public class UseCase1GebruikersLijstScherm extends VBox
 			loader.setRoot(this);
 			loader.load();
 			
-	        btnTaal.setOnAction(this::TaalPushed);	        
+	        btnTaal.setOnAction(this::TaalPushed);
+	        btnStart.setOnAction(this::StartPushed);
 		}
 		catch (IOException e)
 		{
@@ -56,11 +61,21 @@ public class UseCase1GebruikersLijstScherm extends VBox
 		String lijst = String.join("\n", gebruikersnamen);
 		
 		lblUsers.setText(lijst);
+		btnStart.setText(controller.getMessages("btnStart"));
 	}
 	
     private void TaalPushed(ActionEvent event)
     {
     	controller.veranderTaal();
     	buildText();
+    }
+    
+    private void StartPushed(ActionEvent event)
+    {
+		UseCase2ScoreScherm sc = new UseCase2ScoreScherm(controller);
+        Scene scene = new Scene(sc);
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }

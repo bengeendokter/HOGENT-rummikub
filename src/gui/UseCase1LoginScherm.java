@@ -115,6 +115,7 @@ public class UseCase1LoginScherm extends GridPane
     		}
         	
         	currentUserIndex++;
+        	txfUser.requestFocus();
         	buildText();
         	lblMessage.setText(controller.getMessages("msgSignIn"));
     	}
