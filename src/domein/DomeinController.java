@@ -126,6 +126,14 @@ public class DomeinController
 		return spel.isEindeSpel();
 	}
 	
+	// TODO tijdelijke methode voor UC2App, verwijder deze later
+	// Verwijdert alle stenen van een speler door een nieuwe speler aan te maken, dit is nu de winnaar
+	public void eindigSpel()
+	{
+		Speler winnaar = spelers.get(1);
+		winnaar = new Speler(winnaar.getGebruikersnaam(), winnaar.getWachtwoord());
+		spelers.set(1, winnaar);
+	}
 	
 // Taal functies
 	/**

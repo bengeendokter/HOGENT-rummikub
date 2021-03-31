@@ -21,6 +21,11 @@ public class UseCase1Applicatie
 	public UseCase1Applicatie(DomeinController controller)
 	{
 		this.controller = controller;
+		start();
+	}
+	
+	private void start()
+	{
 		stelTaalIn();
 		selecteerAantalGebruikers();
 		aanmeldenGebruikers();

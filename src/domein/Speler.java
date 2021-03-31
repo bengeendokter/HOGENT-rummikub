@@ -71,11 +71,7 @@ public class Speler
 	 */
 	public void neemSteen(Steen steen)
 	{
-		// TODO tijdelijke if om altijd een winnaar te krijgen, verwijder later
-		if(gebruikersnaam != "IkBenBen")
-		{
-			stenen.add(steen);
-		}
+		stenen.add(steen);
 	}
 	
 	/**
