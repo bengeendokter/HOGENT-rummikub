@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import gui.UseCase1AantalGebruikersScherm;
 import domein.DomeinController;
@@ -21,6 +22,9 @@ public class StartUpGui extends Application
 
         Scene scene = new Scene(grid);
         primaryStage.setScene(scene);
+        
+        Image icon = new Image(getClass().getResource("/gui/images/icon.png").toExternalForm());
+        primaryStage.getIcons().add(icon);
 
         primaryStage.setTitle("Rummikub");
         primaryStage.setResizable(false);
