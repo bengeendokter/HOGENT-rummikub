@@ -27,7 +27,7 @@ public class Speler
 
 	private void setGebruikersnaam(String gebruikersnaam)
 	{
-        if (gebruikersnaam == null || gebruikersnaam.length() == 0)
+        if (gebruikersnaam == null || gebruikersnaam.isBlank())
         {
         	throw new IllegalArgumentException("De gebruikersnaam mag niet leeg zijn");
         }
@@ -43,7 +43,7 @@ public class Speler
 
 	private void setWachtwoord(String wachtwoord)
 	{
-        if (wachtwoord == null || wachtwoord.length() == 0)
+        if (wachtwoord == null || wachtwoord.isBlank())
         {
         	throw new IllegalArgumentException("Het wachtwoord mag niet leeg zijn");
         }

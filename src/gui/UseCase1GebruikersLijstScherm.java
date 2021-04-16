@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import domein.DomeinController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +33,8 @@ public class UseCase1GebruikersLijstScherm extends VBox
 		this.controller = controller;
 		buildGui();
 		buildText();
+		// focust op de Start spel knop vanaf dat het scherm geladen is
+		Platform.runLater(() -> btnStart.requestFocus());
 	}
 	
 	private void buildGui()

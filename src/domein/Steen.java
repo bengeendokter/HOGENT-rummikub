@@ -5,7 +5,7 @@ public class Steen {
     private String kleur;
     private boolean isJoker;
     
-    
+    // TODO controle en throw exceptions in setters
     public Steen(int getal, String kleur, boolean isJoker) {
         setGetal(getal);
         setKleur(kleur);

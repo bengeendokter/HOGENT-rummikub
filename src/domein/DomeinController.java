@@ -29,7 +29,7 @@ public class DomeinController
 	 * 
 	 * @param aantal	het aantal spelers die moeten geregistreerd worden
 	 */
-	public void registreerAantal(int aantal)
+	public void registreerAantal(int aantal) throws BuitenBereikException
 	{
 		if (aantal < 2 || aantal > 4)
 		{
@@ -44,7 +44,7 @@ public class DomeinController
 	 * @param gebruikersnaam	de gebruikersnaam waarnaar gezocht wordt in de databank
 	 * @param wachtwoord		het wachtwoord waarnaar gezocht wordt in de databank
 	 */
-	public void meldAan(String gebruikersnaam, String wachtwoord)
+	public void meldAan(String gebruikersnaam, String wachtwoord) throws ReedsAangemeldException
 	{
 		Speler gevondenSpeler = spelerrepo.geefSpeler(gebruikersnaam, wachtwoord);
 

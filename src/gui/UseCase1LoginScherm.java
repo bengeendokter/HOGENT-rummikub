@@ -69,8 +69,13 @@ public class UseCase1LoginScherm extends GridPane
 	        }
 	        );
 	        
-	        txfUser.setOnAction(this::userOnEnter);
-	        pwfPassWord.setOnAction(this:: SignInPushed);
+	        // wat er gebeurt als er op ENTER wordt gedrukt in een veld
+	        txfUser.setOnAction(evt -> 
+	        {
+	        	pwfPassWord.requestFocus();
+	        }
+	        ); // ga naar volgend veld
+	        pwfPassWord.setOnAction(this:: SignInPushed); // probeer in te loggen
 	        
 		}
 		catch (IOException e)
@@ -131,11 +136,6 @@ public class UseCase1LoginScherm extends GridPane
     	{
     		lblMessage.setText(controller.getMessages("msgConnectionFailed"));
     	}
-    }
-    
-    private void userOnEnter(ActionEvent event)
-    {
-    	pwfPassWord.requestFocus();
     }
 
 	private void volgendScherm()

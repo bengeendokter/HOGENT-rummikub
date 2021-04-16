@@ -77,6 +77,7 @@ public class Spel
 		{
 			for(int index = 1; index <= 14; index++)
 			{
+				// TODO maak aparte neemSteen methode met "speler" en "steen" argumenten in deze klasse Spel
 				speler.neemSteen(stenen.remove(stenen.size() - 1));
 			}
 		}

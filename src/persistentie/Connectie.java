@@ -7,8 +7,9 @@ public class Connectie
 	private final static String WACHTWOORD = "rummikubg16";
 	
 	
-	public static final String JDBC_URL = String.format("jdbc:mysql://%s?serverTimezone=UTC&useLegacyDatetimeCode=false&user=%s&password=%s"
-														,HOSTNAME
-														,USER
-														,WACHTWOORD);
+	public static final String JDBC_URL =
+		String.format("jdbc:mysql://%s?serverTimezone=UTC&useLegacyDatetimeCode=false&user=%s&password=%s"
+						,HOSTNAME
+						,USER
+						,WACHTWOORD);
 }
