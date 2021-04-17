@@ -160,6 +160,7 @@ public class Spel
 	public void startBeurt() {
 		beurt = new Beurt (spelerAanDeBeurt, null);
 		//hoe ook met gemeen veld als parameter
+		//null kan later nog weg
 	}
 	
 	/**
