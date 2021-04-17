@@ -108,4 +108,22 @@ public class Speler
 			}
 		}
 	}
+
+	/**
+	 * Use Case 3:
+	 * @return geeft de stenen van de speler in een lijst
+	 */
+	public List<Steen> getStenen() {
+		return stenen;
+	}
+	
+	public void voegSteenToe(Steen steen) {
+		
+	}
+	
+	public void verwijderSteen(int indexSteen) {
+		
+	}
+	
+	
 }

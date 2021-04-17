@@ -11,6 +11,9 @@ public class Spel
 	private List<Steen> stenen;
 	private List<Speler> spelers;
 	private Speler spelerAanDeBeurt;
+	private Beurt beurt;
+	private Veld velden;
+	/*hoe gv en wv*/
 	
 	/**
 	 * Use Case 2:
@@ -147,5 +150,62 @@ public class Spel
 			
 			spelers.add(gewonnenSpeler);
 		}
+	}
+	
+
+	/**
+	 * Use Case 3:
+	 * Start een nieuw beurt door een Beurt object aan te maken
+	 */
+	public void startBeurt() {
+		beurt = new Beurt (spelerAanDeBeurt, null);
+		//hoe ook met gemeen veld als parameter
+		//null kan later nog weg
+	}
+	
+	/**
+	 * Use Case 3:
+	 * Beeindigd de beurt
+	 */
+	public void beeindigBeurt() {
+		
+	}
+	
+	/**
+	 * Use Case 3:
+	 * Reset de beurt
+	 */
+	public void resetBeurt() {
+		
+	}
+	
+	/**
+	 * Use Case 3:
+	 * vervangt een positie met een Joker
+	 * @param positieJoker is persoonlijk bezit van de speler of steen uit het werkveld
+	 * @param indexSteen is plaats waar Joker zal geplaatst worden
+	 */
+	public void vervangJoker(int[] positieJoker, int indexSteen) {
+		
+	}
+	
+	public void verwijderSteenSpeler(int indexSteen) {
+		spelerAanDeBeurt.verwijderSteen(indexSteen);
+	}
+	
+	public void voegSteenToeSpeler(Steen steen) {
+		spelerAanDeBeurt.voegSteenToe(steen);
+	}
+	
+	public void verwijderSteenVeld(int[] positieSteen) {
+		
+	}
+	
+	public void voegSteenToeVeld(int[] positieSteen, Steen steen) {
+		
+	}
+	
+	public void splitsRijOfSerie(int[] positieSplitsing) {
+		
 	}
 }

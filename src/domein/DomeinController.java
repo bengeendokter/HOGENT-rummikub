@@ -166,4 +166,66 @@ public class DomeinController
 	{
 		taal.veranderTaal();
 	}
+	
+	/**
+	 * Use Case 3:
+	 * Start een nieuw beurt door door methode startBeurt uit klasse spel aan te roepen
+	 */
+	public void startBeurt() {
+		spel.startBeurt();
+	}
+	
+	/**
+	 * Use Case 3:
+	 * Beeindigd de beurt door de methode beeindigBeurt() uit klasse spel aan te roepen
+	 */
+	public void beeindigBeurt() {
+		spel.beeindigBeurt();
+	}
+	
+	/**
+	 * Use Case 3:
+	 * Reset de beurt door de methode resetBeurt() uit klasse spel aan te roepen
+	 */
+	public void resetBeurt() {
+		spel.resetBeurt();
+	}
+	
+	/**
+	 * Use Case 3:
+	 * vervangt een positie met een Joker door methode vervangJoker() uit klasse spel aan te roepen
+	 * @param positieJoker is persoonlijk bezit van de speler of steen uit het werkveld
+	 * @param indexSteen is plaats waar Joker zal geplaatst worden
+	 */
+	public void vervangJoker(int[] positieJoker, int indexSteen) {
+		spel.vervangJoker(positieJoker, indexSteen);
+	}
+	
+	/**
+	 * Use Case 3:
+	 * verplaatst een steen naar het werkveld
+	 * @param indexSteen is plaats van steen op het gemeenschappelijk veld
+	 */
+	public void verplaatsNaarWerkveld(int indexSteen) {
+		
+	}
+	
+	/**
+	 * Use Case 3:
+	 * splitst een rij/serie
+	 * @param positieSplitsing is de positie in splitsing
+	 */
+	public void splitsRijOfSerie(int[] positieSplitsing) {
+		spel.splitsRijOfSerie(positieSplitsing);
+	}
+	
+	/**
+	 * Use Case 3:
+	 * legt een steen aan
+	 * @param positieStenenSet is de positie van indexSteen
+	 * @param indexSteen is de steen die aangelegd zal worden
+	 */
+	public void steenAanleggen(int positieStenenSet, int indexSteen) {
+		
+	}
 }
