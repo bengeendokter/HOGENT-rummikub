@@ -15,14 +15,13 @@ public class DomeinController
 	private List<Speler> spelers;
 	private Taal taal;
 	private Spel spel;
-
+	
 	public DomeinController()
 	{
 		spelerrepo = new SpelerRepository();
 		spelers = new ArrayList<>();
 		taal = new Taal();
 	}
-	
 	
 // Use Case 1 functies
 	/**
@@ -33,7 +32,7 @@ public class DomeinController
 	 */
 	public void registreerAantal(int aantal) throws BuitenBereikException
 	{
-		if (aantal < 2 || aantal > 4)
+		if(aantal < 2 || aantal > 4)
 		{
 			throw new BuitenBereikException("Aantal spelers is kleiner dan 2 of groter dan 4");
 		}
@@ -46,18 +45,19 @@ public class DomeinController
 	 * @param gebruikersnaam	de gebruikersnaam waarnaar gezocht wordt in de databank
 	 * @param wachtwoord		het wachtwoord waarnaar gezocht wordt in de databank
 	 */
-	public void meldAan(String gebruikersnaam, String wachtwoord) throws ReedsAangemeldException, SpelerNietGevondenException, RuntimeException
+	public void meldAan(String gebruikersnaam, String wachtwoord)
+			throws ReedsAangemeldException, SpelerNietGevondenException, RuntimeException
 	{
 		Speler gevondenSpeler = spelerrepo.geefSpeler(gebruikersnaam, wachtwoord);
-
-		if (geefLijstGebruikersnaam().contains(gebruikersnaam))
+		
+		if(geefLijstGebruikersnaam().contains(gebruikersnaam))
 		{
 			throw new ReedsAangemeldException();
 		}
-
+		
 		spelers.add(gevondenSpeler);
 	}
-
+	
 	/**
 	 * Use Case 1:
 	 * Geeft een lijst van de aangemelde gebruikers
@@ -67,14 +67,13 @@ public class DomeinController
 	public List<String> geefLijstGebruikersnaam()
 	{
 		List<String> gebruikersnamen = new ArrayList<>();
-
-		for (Speler speler : spelers)
+		
+		for(Speler speler : spelers)
 		{
 			gebruikersnamen.add(speler.getGebruikersnaam());
 		}
 		return gebruikersnamen;
 	}
-
 	
 // Use Case 2 functies
 	/**
@@ -137,6 +136,76 @@ public class DomeinController
 		spelers.set(1, winnaar);
 	}
 	
+// Use Case 3 functies
+	/**
+	 * Use Case 3:
+	 * Start een nieuw beurt door door methode startBeurt uit klasse spel aan te roepen
+	 */
+	public void startBeurt()
+	{
+		spel.startBeurt();
+	}
+	
+	/**
+	 * Use Case 3:
+	 * Beëindigt de beurt door de methode beeindigBeurt() uit klasse spel aan te roepen
+	 */
+	public void beeindigBeurt()
+	{
+		spel.beeindigBeurt();
+	}
+	
+	/**
+	 * Use Case 3:
+	 * Reset de beurt door de methode resetBeurt() uit klasse spel aan te roepen
+	 */
+	public void resetBeurt()
+	{
+		spel.resetBeurt();
+	}
+	
+	/**
+	 * Use Case 3:
+	 * vervangt een positie met een Joker door methode vervangJoker() uit klasse spel aan te roepen
+	 * @param positieJoker positie in veld
+	 * @param indexSteen plaats in hand
+	 */
+	public void vervangJoker(int[] positieJoker, int indexSteen)
+	{
+		spel.vervangJoker(positieJoker, indexSteen);
+	}
+	
+	/**
+	 * Use Case 3:
+	 * verplaatst een steen naar het werkveld
+	 * @param indexSteen is plaats van steen op het gemeenschappelijk veld
+	 */
+	public void verplaatsNaarWerkveld(int[] positieSteen)
+	{
+		spel.verplaatsNaarWerkveld(positieSteen);
+	}
+	
+	/**
+	 * Use Case 3:
+	 * splitst een rij/serie
+	 * @param positieSplitsing is de positie in splitsing
+	 */
+	public void splitsRijOfSerie(int[] positieSplitsing)
+	{
+		spel.splitsRijOfSerie(positieSplitsing);
+	}
+	
+	/**
+	 * Use Case 3:
+	 * legt een steen aan
+	 * @param positieStenenSet is de positie van indexSteen
+	 * @param indexSteen is de steen die aangelegd zal worden
+	 */
+	public void legSteenAan(int positieStenenSet, int indexSteen)
+	{
+		spel.legSteenAan(positieStenenSet, indexSteen);
+	}
+	
 // Taal functies
 	/**
 	 * Stelt de taal in, dit kan Nederlands of Engels zijn
@@ -147,7 +216,7 @@ public class DomeinController
 	{
 		taal.setResourceBundle(taalcode);
 	}
-
+	
 	/**
 	 * Geeft de gevraagde output terug in de huidig ingestelde taal
 	 * 
@@ -165,67 +234,5 @@ public class DomeinController
 	public void veranderTaal()
 	{
 		taal.veranderTaal();
-	}
-	
-	/**
-	 * Use Case 3:
-	 * Start een nieuw beurt door door methode startBeurt uit klasse spel aan te roepen
-	 */
-	public void startBeurt() {
-		spel.startBeurt();
-	}
-	
-	/**
-	 * Use Case 3:
-	 * Beeindigd de beurt door de methode beeindigBeurt() uit klasse spel aan te roepen
-	 */
-	public void beeindigBeurt() {
-		spel.beeindigBeurt();
-	}
-	
-	/**
-	 * Use Case 3:
-	 * Reset de beurt door de methode resetBeurt() uit klasse spel aan te roepen
-	 */
-	public void resetBeurt() {
-		spel.resetBeurt();
-	}
-	
-	/**
-	 * Use Case 3:
-	 * vervangt een positie met een Joker door methode vervangJoker() uit klasse spel aan te roepen
-	 * @param positieJoker is persoonlijk bezit van de speler of steen uit het werkveld
-	 * @param indexSteen is plaats waar Joker zal geplaatst worden
-	 */
-	public void vervangJoker(int[] positieJoker, int indexSteen) {
-		spel.vervangJoker(positieJoker, indexSteen);
-	}
-	
-	/**
-	 * Use Case 3:
-	 * verplaatst een steen naar het werkveld
-	 * @param indexSteen is plaats van steen op het gemeenschappelijk veld
-	 */
-	public void verplaatsNaarWerkveld(int indexSteen) {
-		
-	}
-	
-	/**
-	 * Use Case 3:
-	 * splitst een rij/serie
-	 * @param positieSplitsing is de positie in splitsing
-	 */
-	public void splitsRijOfSerie(int[] positieSplitsing) {
-		spel.splitsRijOfSerie(positieSplitsing);
-	}
-	
-	/**
-	 * Use Case 3:
-	 * legt een steen aan
-	 * @param positieStenenSet is de positie van indexSteen
-	 * @param indexSteen is de steen die aangelegd zal worden
-	 */
-	public void steenAanleggen(int positieStenenSet, int indexSteen) {
-		
 	}
 }

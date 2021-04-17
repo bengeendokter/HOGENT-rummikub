@@ -2,6 +2,7 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class Spel
@@ -12,8 +13,7 @@ public class Spel
 	private List<Speler> spelers;
 	private Speler spelerAanDeBeurt;
 	private Beurt beurt;
-	private Veld velden;
-	/*hoe gv en wv*/
+	private List<Veld> velden;
 	
 	/**
 	 * Use Case 2:
@@ -24,6 +24,7 @@ public class Spel
 	 */
 	public Spel(List<Speler> spelers)
 	{
+		maakVelden();
 		maakStenen();
 		
 		// bepaal de speler volgorde en de eerste speler aan de beurt
@@ -32,6 +33,12 @@ public class Spel
 		setSpelerAanDeBeurt(spelers.get(0));
 		
 		verdeelStenen(spelers);
+	}
+	
+	private void maakVelden()
+	{
+		velden.add(new GemeenschappelijkVeld());
+		velden.add(new WerkVeld());
 	}
 	
 	/**
@@ -152,60 +159,110 @@ public class Spel
 		}
 	}
 	
-
 	/**
 	 * Use Case 3:
 	 * Start een nieuw beurt door een Beurt object aan te maken
 	 */
-	public void startBeurt() {
-		beurt = new Beurt (spelerAanDeBeurt, null);
-		//hoe ook met gemeen veld als parameter
-		//null kan later nog weg
+	public void startBeurt()
+	{
+		beurt = new Beurt(spelerAanDeBeurt, (GemeenschappelijkVeld) velden.get(0));
+		
 	}
 	
 	/**
 	 * Use Case 3:
-	 * Beeindigd de beurt
+	 * Beëindigt de beurt
 	 */
-	public void beeindigBeurt() {
+	public void beeindigBeurt()
+	{
+		// bepaal volgende speler aan de beurt
+		boolean spelerNotFound = true;
+		Iterator<Speler> iterator = spelers.iterator();
+		int index = 0;
 		
+
+		while(iterator.hasNext() && spelerNotFound)
+		{
+			if(iterator.next().equals(spelerAanDeBeurt))
+			{
+				// index is de huidige index + 1, indien te groot, ga terug naar begin van de lijst
+				index = (index + 1)%spelers.size();
+				spelerNotFound = false;
+			}
+			else
+			{
+				index++;
+			}
+		}
+		
+		spelerAanDeBeurt = spelers.get(index);
+		
+		// maak het WerkVeld leeg
+		velden.set(1, new WerkVeld());
 	}
 	
 	/**
 	 * Use Case 3:
 	 * Reset de beurt
 	 */
-	public void resetBeurt() {
-		
+	public void resetBeurt()
+	{
+		spelerAanDeBeurt = beurt.getSpeler();
+		velden.set(0, beurt.getGv());
+		velden.set(1, new WerkVeld());
 	}
 	
 	/**
 	 * Use Case 3:
 	 * vervangt een positie met een Joker
-	 * @param positieJoker is persoonlijk bezit van de speler of steen uit het werkveld
-	 * @param indexSteen is plaats waar Joker zal geplaatst worden
+	 * @param positieJoker de plaats van de Joker in veld
+	 * @param indexSteen is plaats van de Steen in hand
 	 */
-	public void vervangJoker(int[] positieJoker, int indexSteen) {
-		
+	public void vervangJoker(int[] positieJoker, int indexSteen)
+	{
+		// TODO denk na of dit via deze methodes kan of er een nieuwe methode in Veld nodig is
+		verwijderSteenVeld(positieJoker);
+		Steen steen = spelerAanDeBeurt.getStenen().get(indexSteen);
+		verwijderSteenSpeler(indexSteen);
+		voegSteenToeVeld(positieJoker, steen);
 	}
 	
-	public void verwijderSteenSpeler(int indexSteen) {
+	public void verplaatsNaarWerkveld(int[] positieSteen)
+	{
+		// TODO implementeer
+		// verander verwijder methode in Veld en Speler zodat ze een String terug geven?
+	}
+	
+	public void verwijderSteenSpeler(int indexSteen)
+	{
 		spelerAanDeBeurt.verwijderSteen(indexSteen);
 	}
 	
-	public void voegSteenToeSpeler(Steen steen) {
+	public void voegSteenToeSpeler(Steen steen)
+	{
 		spelerAanDeBeurt.voegSteenToe(steen);
 	}
 	
-	public void verwijderSteenVeld(int[] positieSteen) {
-		
+	public void verwijderSteenVeld(int[] positieSteen)
+	{
+		Veld gv = velden.get(0);
+		gv.verwijderSteen(positieSteen);
 	}
 	
-	public void voegSteenToeVeld(int[] positieSteen, Steen steen) {
-		
+	public void voegSteenToeVeld(int[] positieSteen, Steen steen)
+	{
+		Veld gv = velden.get(0);
+		gv.voegSteenToe(positieSteen, steen);
 	}
 	
-	public void splitsRijOfSerie(int[] positieSplitsing) {
-		
+	public void splitsRijOfSerie(int[] positieSplitsing)
+	{
+		Veld gv = velden.get(0);
+		gv.splitsRijOfSerie(positieSplitsing);
+	}
+	
+	public void legSteenAan(int positieStenenSet, int indexSteen)
+	{
+		// TODO implementeer
 	}
 }

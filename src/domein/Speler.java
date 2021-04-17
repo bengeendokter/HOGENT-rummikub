@@ -2,7 +2,7 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 public class Speler
 {
@@ -10,7 +10,6 @@ public class Speler
 	private String wachtwoord;
 	private int score;
 	private List<Steen> stenen;
-
 	
 	public Speler(String gebruikersnaam, String wachtwoord)
 	{
@@ -19,45 +18,45 @@ public class Speler
 		this.setWachtwoord(wachtwoord);
 		this.setScore(0);
 	}
-
+	
 	public String getGebruikersnaam()
 	{
 		return gebruikersnaam;
 	}
-
+	
 	private void setGebruikersnaam(String gebruikersnaam)
 	{
-        if (gebruikersnaam == null || gebruikersnaam.isBlank())
-        {
-        	throw new IllegalArgumentException("De gebruikersnaam mag niet leeg zijn");
-        }
-
-        this.gebruikersnaam = gebruikersnaam;
-
-    }
-
+		if(gebruikersnaam == null || gebruikersnaam.isBlank())
+		{
+			throw new IllegalArgumentException("De gebruikersnaam mag niet leeg zijn");
+		}
+		
+		this.gebruikersnaam = gebruikersnaam;
+		
+	}
+	
 	public String getWachtwoord()
 	{
 		return wachtwoord;
 	}
-
+	
 	private void setWachtwoord(String wachtwoord)
 	{
-        if (wachtwoord == null || wachtwoord.isBlank())
-        {
-        	throw new IllegalArgumentException("Het wachtwoord mag niet leeg zijn");
-        }
-        else
-        {
-        	this.wachtwoord = wachtwoord;
-        }
+		if(wachtwoord == null || wachtwoord.isBlank())
+		{
+			throw new IllegalArgumentException("Het wachtwoord mag niet leeg zijn");
+		}
+		else
+		{
+			this.wachtwoord = wachtwoord;
+		}
 	}
 	
 	public int getScore()
 	{
 		return score;
 	}
-
+	
 	public final void setScore(int score)
 	{
 		this.score = score;
@@ -108,22 +107,40 @@ public class Speler
 			}
 		}
 	}
-
+	
 	/**
 	 * Use Case 3:
 	 * @return geeft de stenen van de speler in een lijst
 	 */
-	public List<Steen> getStenen() {
+	public List<Steen> getStenen()
+	{
 		return stenen;
 	}
 	
-	public void voegSteenToe(Steen steen) {
-		
+	public void verwijderSteen(int indexSteen)
+	{
+		stenen.remove(indexSteen);
 	}
 	
-	public void verwijderSteen(int indexSteen) {
-		
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(gebruikersnaam);
 	}
 	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+		{
+			return true;
+		}
+		if(!(obj instanceof Speler))
+		{
+			return false;
+		}
+		Speler other = (Speler) obj;
+		return Objects.equals(gebruikersnaam, other.gebruikersnaam);
+	}
 	
 }

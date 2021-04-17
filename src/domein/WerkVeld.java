@@ -5,6 +5,4 @@ public class WerkVeld extends Veld {
 	public WerkVeld() {
 		super();
 	}
-
-		
 }

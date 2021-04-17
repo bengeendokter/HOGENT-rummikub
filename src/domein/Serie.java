@@ -1,10 +1,10 @@
 package domein;
 
-import java.util.LinkedList;
+import java.util.List;
 
 public class Serie extends StenenSet {
 
-	public Serie(LinkedList<Steen> stenen) {
+	public Serie(List<Steen> stenen) {
 		super(stenen);
 	}
 }
