@@ -69,7 +69,7 @@ public class Speler
 	 * 
 	 * @param steen	de steen die toegevoegd moet worden bij de speler
 	 */
-	public void neemSteen(Steen steen)
+	public void voegSteenToe(Steen steen)
 	{
 		stenen.add(steen);
 	}
