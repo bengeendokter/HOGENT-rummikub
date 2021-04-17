@@ -42,7 +42,7 @@ public class UseCase1LoginScherm extends GridPane
     private final DomeinController controller;
     
     
-    public UseCase1LoginScherm(DomeinController controller, int numberOfUsers)
+    public UseCase1LoginScherm(DomeinController controller, int numberOfUsers) throws RuntimeException
     {
 		this.controller = controller;
 		this.numberOfUsers = numberOfUsers;
@@ -50,7 +50,7 @@ public class UseCase1LoginScherm extends GridPane
     	buildText();
     }
     
-	private void buildGui()
+	private void buildGui() throws RuntimeException
 	{
 		try
 		{

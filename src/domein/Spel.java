@@ -39,8 +39,7 @@ public class Spel
 	{
 		stenen = new ArrayList<>();
 		
-		String[] kleuren =
-		{ "zwart", "rood", "blauw", "geel" };
+		String[] kleuren = {"zwart", "rood", "blauw", "geel"};
 		
 		// 2 keer overlopen, elke steen zit dubbel in de lijst
 		for(int a = 0; a < 2; a++)
@@ -52,12 +51,12 @@ public class Spel
 				// 13 getallen
 				for(int getalWaarde = 1; getalWaarde < 14; getalWaarde++)
 				{
-					stenen.add(new Steen(getalWaarde, kleuren[indexKleur], false));
+					stenen.add(new Steen(getalWaarde, kleuren[indexKleur]));
 				}
 			}
 			
 			// 1 joker
-			stenen.add(new Steen(0, "joker", true));
+			stenen.add(new Steen(true));
 		}
 		
 		// geeft de stenen een willekeurige volgorde

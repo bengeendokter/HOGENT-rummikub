@@ -32,7 +32,7 @@ public class Taal
 	}
 	
 	// stelt de juiste taal in
-	public void setResourceBundle(String taal)
+	public void setResourceBundle(String taal) throws FoutieveTaalInvoerException
 	{
 		String taalLower = taal.toLowerCase();
 		

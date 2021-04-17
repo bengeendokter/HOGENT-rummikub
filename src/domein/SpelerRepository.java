@@ -1,5 +1,6 @@
 package domein;
 
+import exceptions.SpelerNietGevondenException;
 import persistentie.SpelerMapper;
 
 public class SpelerRepository
@@ -19,7 +20,7 @@ public class SpelerRepository
 	 * @param wachtwoord		het wachtwoord waarnaar gezocht wordt in de databank
 	 * @return					een Speler object met de meegegeven gebruikersnaam en wachtwoord 
 	 */
-	public Speler geefSpeler(String gebruikersnaam, String wachtwoord)
+	public Speler geefSpeler(String gebruikersnaam, String wachtwoord) throws SpelerNietGevondenException, RuntimeException
 	{
 		Speler speler = mapper.geefSpeler(gebruikersnaam, wachtwoord);
 		return speler;

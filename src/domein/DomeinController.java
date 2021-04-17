@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.BuitenBereikException;
+import exceptions.FoutieveTaalInvoerException;
 import exceptions.ReedsAangemeldException;
+import exceptions.SpelerNietGevondenException;
 import utility.Taal;
 
 public class DomeinController
@@ -44,7 +46,7 @@ public class DomeinController
 	 * @param gebruikersnaam	de gebruikersnaam waarnaar gezocht wordt in de databank
 	 * @param wachtwoord		het wachtwoord waarnaar gezocht wordt in de databank
 	 */
-	public void meldAan(String gebruikersnaam, String wachtwoord) throws ReedsAangemeldException
+	public void meldAan(String gebruikersnaam, String wachtwoord) throws ReedsAangemeldException, SpelerNietGevondenException, RuntimeException
 	{
 		Speler gevondenSpeler = spelerrepo.geefSpeler(gebruikersnaam, wachtwoord);
 
@@ -141,7 +143,7 @@ public class DomeinController
 	 * 
 	 * @param taalcode	de afkorting van de taal die moet ingesteld worden (nl of en)
 	 */
-	public void setTaal(String taalcode)
+	public void setTaal(String taalcode) throws FoutieveTaalInvoerException
 	{
 		taal.setResourceBundle(taalcode);
 	}

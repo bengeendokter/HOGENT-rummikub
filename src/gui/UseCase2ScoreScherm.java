@@ -23,7 +23,7 @@ public class UseCase2ScoreScherm extends VBox
 	
 	private DomeinController controller;
 	
-	public UseCase2ScoreScherm(DomeinController controller)
+	public UseCase2ScoreScherm(DomeinController controller) throws RuntimeException
 	{
 		this.controller = controller;
 		buildGui();
@@ -47,7 +47,7 @@ public class UseCase2ScoreScherm extends VBox
 		lblScores.setText(lijst);
 	}
 	
-	private void buildGui()
+	private void buildGui() throws RuntimeException
 	{
 		try
 		{

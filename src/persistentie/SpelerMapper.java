@@ -14,7 +14,7 @@ import exceptions.SpelerNietGevondenException;
 public class SpelerMapper
 {
 
-	public Speler geefSpeler(String gebruikersnaam, String wachtwoord)
+	public Speler geefSpeler(String gebruikersnaam, String wachtwoord) throws SpelerNietGevondenException, RuntimeException
 	{
 		Speler speler = null;
 

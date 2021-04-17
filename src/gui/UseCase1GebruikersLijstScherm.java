@@ -28,7 +28,7 @@ public class UseCase1GebruikersLijstScherm extends VBox
 	
 	private DomeinController controller;
 	
-	public UseCase1GebruikersLijstScherm(DomeinController controller)
+	public UseCase1GebruikersLijstScherm(DomeinController controller) throws RuntimeException
 	{
 		this.controller = controller;
 		buildGui();
@@ -37,7 +37,7 @@ public class UseCase1GebruikersLijstScherm extends VBox
 		Platform.runLater(() -> btnStart.requestFocus());
 	}
 	
-	private void buildGui()
+	private void buildGui() throws RuntimeException
 	{
 		try
 		{

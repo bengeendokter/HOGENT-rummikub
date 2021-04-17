@@ -31,14 +31,14 @@ public class UseCase1AantalGebruikersScherm extends GridPane
 	
 	private final DomeinController controller;
 	
-	public UseCase1AantalGebruikersScherm(DomeinController controller)
+	public UseCase1AantalGebruikersScherm(DomeinController controller) throws RuntimeException
 	{
 		this.controller = controller;
 		buildGui();
     	buildText();
 	}
 
-	private void buildGui()
+	private void buildGui() throws RuntimeException
 	{
 		try
 		{			
