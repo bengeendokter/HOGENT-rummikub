@@ -11,7 +11,7 @@ public class Steen
 	
 	public Steen(boolean isJoker)
 	{
-		this(isJoker ? 0 : 1, isJoker ? "joker" : "zwart", isJoker);
+		this(0, "joker", true);
 		
 		if(!isJoker)
 		{
