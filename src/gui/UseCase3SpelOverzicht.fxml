@@ -24,6 +24,7 @@
             <Button fx:id="btnTaal" minWidth="30.0" mnemonicParsing="false" text="en" />
          </children>
       </HBox>
+      <Label fx:id="lblLegende" text="Z: Zwart, R: Rood, B: Blauw, G: Geel, JOK: Joker" />
       <Label fx:id="lblGv" text="Gemeenschappelijkveld" />
       <ScrollPane prefHeight="292.0" prefWidth="580.0">
         <content>
