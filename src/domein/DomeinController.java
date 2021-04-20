@@ -166,44 +166,53 @@ public class DomeinController
 	
 	/**
 	 * Use Case 3:
-	 * vervangt een positie met een Joker door methode vervangJoker() uit klasse spel aan te roepen
-	 * @param positieJoker positie in veld
-	 * @param indexSteen plaats in hand
+	 * Legt een steen aan
+	 * 
+	 * @param positieStenenSet	is de positie van indexSteen
+	 * @param indexSteen		is de steen die aangelegd zal worden
 	 */
-	public void vervangJoker(int[] positieJoker, int indexSteen)
+	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
-		spel.vervangJoker(positieJoker, indexSteen);
+		spel.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
 	}
 	
 	/**
 	 * Use Case 3:
-	 * verplaatst een steen naar het werkveld
-	 * @param indexSteen is plaats van steen op het gemeenschappelijk veld
+	 * Splitst een rij/serie
+	 * 
+	 * @param positieSplitsing	is de positie in splitsing
 	 */
-	public void verplaatsNaarWerkveld(int[] positieSteen)
+	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	{
-		spel.verplaatsNaarWerkveld(positieSteen);
+		spel.splitsRijOfSerie(positieDoel, doelIsWv);
 	}
 	
 	/**
 	 * Use Case 3:
-	 * splitst een rij/serie
-	 * @param positieSplitsing is de positie in splitsing
+	 * Vervangt een positie met een Joker door methode vervangJoker() uit klasse spel aan te roepen
+	 * 
+	 * @param positieJoker	positie in veld
+	 * @param indexSteen	plaats in hand
 	 */
-	public void splitsRijOfSerie(int[] positieSplitsing)
+	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
-		spel.splitsRijOfSerie(positieSplitsing);
+		spel.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
 	}
 	
 	/**
 	 * Use Case 3:
-	 * legt een steen aan
-	 * @param positieStenenSet is de positie van indexSteen
-	 * @param indexSteen is de steen die aangelegd zal worden
+	 * Verplaatst een steen naar het werkveld
+	 * 
+	 * @param indexSteen	is plaats van steen op het gemeenschappelijk veld
 	 */
-	public void legSteenAan(int positieStenenSet, int indexSteen)
+	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	{
-		spel.legSteenAan(positieStenenSet, indexSteen);
+		spel.verplaatsNaarWerkveld(positieDoel, positieBron);
+	}
+	
+	public String[] geefSpelOverzicht()
+	{
+		return spel.geefSpelOverzicht();
 	}
 	
 // Taal functies

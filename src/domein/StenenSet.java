@@ -2,7 +2,7 @@ package domein;
 
 import java.util.List;
 
-public abstract class StenenSet
+public class StenenSet
 {
 	private List<Steen> stenen;
 	
@@ -11,18 +11,25 @@ public abstract class StenenSet
 		this.stenen = stenen;
 	}
 	
-	public void verwijderSteen(int indexSteen)
-	{
-		stenen.remove(indexSteen);
-	}
-	
 	public void voegSteenToe(int indexSteen, Steen steen)
 	{
 		stenen.add(indexSteen, steen);
 	}
 	
-	public List<Steen> getStenen()
+	public Steen removeSteen(int indexSteen)
 	{
-		return stenen;
+		return stenen.remove(indexSteen);
+	}
+	
+	public void controleerSet()
+	{
+		
+	}
+
+	@Override
+	public String toString()
+	{
+		// sorteer de stenen eerst
+		return null;
 	}
 }

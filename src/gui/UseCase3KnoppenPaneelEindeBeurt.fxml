@@ -4,14 +4,20 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="580.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="258.0" prefWidth="580.0" spacing="5.0" type="VBox" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="lblMelding" text="U legde geen steen af dus u krijgt een extra steen. Klaar met uw beurt?" />
+      <Label fx:id="lblMelding" text="Indien u geen steen aflegde krijgt u een extra steen. Uw beurt is nu beëindigd.">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="78.0" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
          <children>
-            <Button fx:id="btnYes" layoutX="401.0" layoutY="33.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="75.0" text="Ja" textAlignment="CENTER" wrapText="true" />
-            <Button fx:id="btnNo" mnemonicParsing="false" prefHeight="53.0" prefWidth="75.0" text="Nee" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="btnOk" mnemonicParsing="false" prefHeight="53.0" prefWidth="75.0" text="OK" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
          </children>
       </HBox>
    </children>

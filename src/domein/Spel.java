@@ -2,7 +2,6 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class Spel
@@ -13,7 +12,7 @@ public class Spel
 	private List<Speler> spelers;
 	private Speler spelerAanDeBeurt;
 	private Beurt beurt;
-	private List<Veld> velden;
+	private List<Veld> velden; // [gemeenschappelijkveld, werkveld]
 	
 	/**
 	 * Use Case 2:
@@ -35,10 +34,20 @@ public class Spel
 		verdeelStenen(spelers);
 	}
 	
+	public void setSpelerAanDeBeurt(Speler speler)
+	{
+		this.spelerAanDeBeurt = speler;
+	}
+	
+	public Speler getSpelerAanDeBeurt()
+	{
+		return spelerAanDeBeurt;
+	}
+	
 	private void maakVelden()
 	{
-		velden.add(new GemeenschappelijkVeld());
-		velden.add(new WerkVeld());
+		velden.add(new Veld()); // gemeenschappelijkveld
+		velden.add(new Veld()); // werkveld
 	}
 	
 	/**
@@ -86,20 +95,9 @@ public class Spel
 		{
 			for(int index = 1; index <= 14; index++)
 			{
-				// TODO maak aparte neemSteen methode met "speler" en "steen" argumenten in deze klasse Spel
 				speler.voegSteenToe(stenen.remove(stenen.size() - 1));
 			}
 		}
-	}
-	
-	public void setSpelerAanDeBeurt(Speler speler)
-	{
-		this.spelerAanDeBeurt = speler;
-	}
-	
-	public Speler getSpelerAanDeBeurt()
-	{
-		return spelerAanDeBeurt;
 	}
 	
 	/**
@@ -165,8 +163,7 @@ public class Spel
 	 */
 	public void startBeurt()
 	{
-		beurt = new Beurt(spelerAanDeBeurt, (GemeenschappelijkVeld) velden.get(0));
-		
+		beurt = new Beurt(spelerAanDeBeurt, velden.get(0));
 	}
 	
 	/**
@@ -175,30 +172,23 @@ public class Spel
 	 */
 	public void beeindigBeurt()
 	{
-		// bepaal volgende speler aan de beurt
-		boolean spelerNotFound = true;
-		Iterator<Speler> iterator = spelers.iterator();
-		int index = 0;
+		// TODO controleer geldige spelsituatie
 		
-
-		while(iterator.hasNext() && spelerNotFound)
+		// controleer of speler steen heeft afgelegd
+		if(!isSteenAfgelgelegd())
 		{
-			if(iterator.next().equals(spelerAanDeBeurt))
-			{
-				// index is de huidige index + 1, indien te groot, ga terug naar begin van de lijst
-				index = (index + 1)%spelers.size();
-				spelerNotFound = false;
-			}
-			else
-			{
-				index++;
-			}
+			neemSteenUitPot();
 		}
 		
+		// bepaal volgende speler aan de beurt		
+		int index = spelers.indexOf(spelerAanDeBeurt);
+		index++;
+
+		// stel de volgende speler aan de beurt in
 		spelerAanDeBeurt = spelers.get(index);
 		
 		// maak het WerkVeld leeg
-		velden.set(1, new WerkVeld());
+		velden.set(1, new Veld());
 	}
 	
 	/**
@@ -208,61 +198,145 @@ public class Spel
 	public void resetBeurt()
 	{
 		spelerAanDeBeurt = beurt.getSpeler();
-		velden.set(0, beurt.getGv());
-		velden.set(1, new WerkVeld());
+		velden.set(0, beurt.getGemeenschappelijkVeld());
+		velden.set(1, new Veld());
+	}
+
+	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	{
+		// zoek het doelVeld
+		int doelVeldIndex;
+		
+		if(doelIsWv) // doel == werkveld
+		{
+			doelVeldIndex = 1;
+		}
+		else // doel == gemeenschappelijkveld
+		{
+			doelVeldIndex = 0;
+		}
+		
+		Veld doelVeld = velden.get(doelVeldIndex);
+		
+		// zoek de bronSteen
+		Steen bronSteen;
+		if(bronIsWv) // bron == werkveld
+		{
+			Veld bronVeld = velden.get(1);
+			bronSteen = bronVeld.removeSteen(positieBron);
+		}
+		else // bron == spelerStenen
+		{
+			int bronSpelerSteenIndex = positieBron[0];
+			bronSteen = spelerAanDeBeurt.removeSteen(bronSpelerSteenIndex);
+		}
+		
+		// voeg de bronSteen aan het doelVeld
+		doelVeld.voegSteenToe(positieDoel, bronSteen);
+	}
+	
+	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
+	{
+		int doelVeldIndex;
+		
+		if(doelIsWv) // doel == werkveld
+		{
+			doelVeldIndex = 1;
+		}
+		else // doel == gemeenschappelijkveld
+		{
+			doelVeldIndex = 0;
+		}
+		
+		Veld doelVeld = velden.get(doelVeldIndex);
+		doelVeld.splitsRijOfSerie(positieDoel);
 	}
 	
 	/**
 	 * Use Case 3:
-	 * vervangt een positie met een Joker
-	 * @param positieJoker de plaats van de Joker in veld
-	 * @param indexSteen is plaats van de Steen in hand
+	 * Vervangt een positie met een Joker
+	 * 
+	 * @param positieJoker	de plaats van de Joker in veld
+	 * @param indexSteen	is plaats van de Steen in hand
 	 */
-	public void vervangJoker(int[] positieJoker, int indexSteen)
-	{
-		// TODO denk na of dit via deze methodes kan of er een nieuwe methode in Veld nodig is
-		verwijderSteenVeld(positieJoker);
-		Steen steen = spelerAanDeBeurt.getStenen().get(indexSteen);
-		verwijderSteenSpeler(indexSteen);
-		voegSteenToeVeld(positieJoker, steen);
+	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	{		
+		// zoek het doelVeld
+		int doelVeldIndex;
+		
+		if(doelIsWv) // doel == werkveld
+		{
+			doelVeldIndex = 1;
+		}
+		else // doel == gemeenschappelijkveld
+		{
+			doelVeldIndex = 0;
+		}
+		
+		Veld doelVeld = velden.get(doelVeldIndex);
+		Steen doelSteen = doelVeld.removeSteen(positieDoel);
+		
+		// zoek de bronSteen
+		Steen bronSteen;
+		Object bron;
+		if(bronIsWv) // bron == werkveld
+		{
+			bron = velden.get(1);
+			bronSteen = ((Veld) bron).removeSteen(positieBron);
+		}
+		else // bron == spelerStenen
+		{
+			bron = spelerAanDeBeurt;
+			bronSteen = ((Speler) bron).removeSteen(positieBron[0]);
+		}
+		
+		// voeg de bronSteen aan het doelVeld
+		doelVeld.voegSteenToe(positieDoel, bronSteen);
+		
+		// voeg de doelSteen toe aan bronVeld/Speler
+		if(bron instanceof Veld)
+		{
+			((Veld) bron).voegSteenToe(positieBron, doelSteen);
+		}
+		else
+		{
+			((Speler) bron).voegSteenToe(doelSteen);
+		}
 	}
 	
-	public void verplaatsNaarWerkveld(int[] positieSteen)
+	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	{
-		// TODO implementeer
-		// verander verwijder methode in Veld en Speler zodat ze een String terug geven?
+		// zoek het doelVeld (werkveld)
+		Veld doelVeld = velden.get(1);
+		
+		// zoek de bronSteen
+		Veld bronVeld = velden.get(0);
+		Steen bronSteen = bronVeld.removeSteen(positieBron);
+
+		// voeg de bronSteen aan het doelVeld
+		doelVeld.voegSteenToe(positieDoel, bronSteen);
 	}
 	
-	public void verwijderSteenSpeler(int indexSteen)
+	private boolean isSteenAfgelgelegd()
 	{
-		spelerAanDeBeurt.verwijderSteen(indexSteen);
+		int beginAantalStenen = beurt.getSpeler().getStenen().size();
+		int huidigAantalStenen = spelerAanDeBeurt.getStenen().size();
+		
+		return beginAantalStenen != huidigAantalStenen;
 	}
 	
-	public void voegSteenToeSpeler(Steen steen)
+	private void neemSteenUitPot()
 	{
-		spelerAanDeBeurt.voegSteenToe(steen);
+		spelerAanDeBeurt.voegSteenToe(stenen.remove(stenen.size() - 1));
 	}
 	
-	public void verwijderSteenVeld(int[] positieSteen)
-	{
-		Veld gv = velden.get(0);
-		gv.verwijderSteen(positieSteen);
-	}
+//	private void controleerSpel()
+//	{
+//		
+//	}
 	
-	public void voegSteenToeVeld(int[] positieSteen, Steen steen)
-	{
-		Veld gv = velden.get(0);
-		gv.voegSteenToe(positieSteen, steen);
-	}
-	
-	public void splitsRijOfSerie(int[] positieSplitsing)
-	{
-		Veld gv = velden.get(0);
-		gv.splitsRijOfSerie(positieSplitsing);
-	}
-	
-	public void legSteenAan(int positieStenenSet, int indexSteen)
-	{
-		// TODO implementeer
+	public String[] geefSpelOverzicht()
+	{ 
+		return null;
 	}
 }

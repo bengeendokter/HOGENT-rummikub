@@ -3,9 +3,9 @@ package domein;
 public class Beurt
 {
 	private Speler speler;
-	private GemeenschappelijkVeld gv;
+	private Veld gv;
 	
-	public Beurt(Speler speler, GemeenschappelijkVeld gv)
+	public Beurt(Speler speler, Veld gv)
 	{
 		this.speler = speler;
 		this.gv = gv;
@@ -16,7 +16,7 @@ public class Beurt
 		return speler;
 	}
 
-	public GemeenschappelijkVeld getGv()
+	public Veld getGemeenschappelijkVeld()
 	{
 		return gv;
 	}

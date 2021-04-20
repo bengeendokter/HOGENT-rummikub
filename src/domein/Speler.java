@@ -114,12 +114,13 @@ public class Speler
 	 */
 	public List<Steen> getStenen()
 	{
+		// sorteer de stenen eerst
 		return stenen;
 	}
 	
-	public void verwijderSteen(int indexSteen)
+	public Steen removeSteen(int indexSteen)
 	{
-		stenen.remove(indexSteen);
+		return stenen.remove(indexSteen);
 	}
 	
 	@Override

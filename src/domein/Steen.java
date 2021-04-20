@@ -3,7 +3,7 @@ package domein;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Steen
+public class Steen implements Comparable<Steen>
 {
 	private int getal;
 	private String kleur;
@@ -93,6 +93,17 @@ public class Steen
 	public boolean isJoker()
 	{
 		return isJoker;
+	}
+	
+	@SuppressWarnings("null")
+	@Override
+	public int compareTo(Steen steen)
+	{
+		// TODO implementer
+//		int vergelijk = Integer.compare(this.volume, c.volume);
+//		
+//		return vergelijk;
+		return (Integer) null;
 	}
 	
 	@Override

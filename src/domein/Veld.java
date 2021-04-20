@@ -3,22 +3,13 @@ package domein;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Veld
+public class Veld
 {
 	private List<StenenSet> stenenSets;
 	
 	public Veld()
 	{
 		stenenSets = new ArrayList<>();
-	}
-	
-	public void verwijderSteen(int[] positieSteen)
-	{
-		int setIndex = positieSteen[0];
-		int steenIndex = positieSteen[1];
-		
-		StenenSet set = stenenSets.get(setIndex);
-		set.verwijderSteen(steenIndex);
 	}
 	
 	public void voegSteenToe(int[] positieSteen, Steen steen)
@@ -30,9 +21,18 @@ public abstract class Veld
 		set.voegSteenToe(steenIndex, steen);
 	}
 	
+	public Steen removeSteen(int[] positieSteen)
+	{
+		int setIndex = positieSteen[0];
+		int steenIndex = positieSteen[1];
+		
+		StenenSet set = stenenSets.get(setIndex);
+		return set.removeSteen(steenIndex);
+	}
+
 	public void splitsRijOfSerie(int[] positieSplitsing)
 	{
-		int setIndex = positieSplitsing[0];
+/*		int setIndex = positieSplitsing[0];
 		int splitsIndex = positieSplitsing[1];
 		
 		StenenSet set = stenenSets.remove(setIndex);
@@ -54,21 +54,32 @@ public abstract class Veld
 		}
 		
 		stenenSets.add(setIndex, set2);
-		stenenSets.add(setIndex, set1);
+		stenenSets.add(setIndex, set1);*/
 	}
 	
-	public void maakStenenSet(List<Steen> stenen, boolean isSerie)
+	public void maakStenenSet(List<Steen> stenen)
 	{
-		StenenSet set;
-		if(isSerie)
-		{
-			set = new Serie(stenen);
-		}
-		else
-		{
-			set = new Rij(stenen);
-		}
+//		StenenSet set;
+//		if(isSerie)
+//		{
+//			set = new Serie(stenen);
+//		}
+//		else
+//		{
+//			set = new Rij(stenen);
+//		}
+//		
+//		stenenSets.add(set);
+	}
+	
+	public void controleerVeld()
+	{
 		
-		stenenSets.add(set);
+	}
+
+	@Override
+	public String toString()
+	{
+		return null;
 	}
 }
