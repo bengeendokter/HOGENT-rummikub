@@ -6,17 +6,21 @@ import domein.DomeinController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class UseCase3KnoppenPaneelStartBeurt extends VBox
+public class UseCase3KnoppenPaneelEindeBeurt extends VBox
 {
 	@FXML
-	private Button btnStart;
+	private Label lblMelding;
+	@FXML
+	private Button btnOk;
 	
 	private DomeinController controller;
 	private UseCase3SpelOverzicht parent;
 	
-	public UseCase3KnoppenPaneelStartBeurt(DomeinController controller, UseCase3SpelOverzicht parent)
+	public UseCase3KnoppenPaneelEindeBeurt(DomeinController controller, UseCase3SpelOverzicht parent)
 	{
 		this.controller = controller;
 		buildGui();
@@ -28,14 +32,14 @@ public class UseCase3KnoppenPaneelStartBeurt extends VBox
 	{
 		try
 		{
-			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("UseCase3KnoppenPaneelStartBeurt.fxml"));
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("UseCase3KnoppenPaneelEindeBeurt.fxml"));
 			loader.setController(this);
 			loader.setRoot(this);
 			loader.load();
 			
-	        btnStart.setOnAction(evt -> 
+			btnOk.setOnAction(evt -> 
 	        {
-	        	parent.keuzePaneel();      
+	        	parent.startPaneel();      
 	        }
 	        );
 		}

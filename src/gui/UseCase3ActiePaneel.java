@@ -81,12 +81,15 @@ public class UseCase3ActiePaneel extends GridPane
 			
 	        btnOk.setOnAction(evt -> 
 	        {
-	        	parent.knoppenPaneel();      
-	        	// of dit parent.getChildren().remove(this);
+	        	parent.keuzePaneel();      
 	        }
 	        );
 	        
-	        
+	        btnGaTerug.setOnAction(evt -> 
+	        {
+	        	parent.keuzePaneel();      
+	        }
+	        );
 		}
 		catch(IOException e)
 		{

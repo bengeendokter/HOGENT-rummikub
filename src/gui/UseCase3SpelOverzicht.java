@@ -35,37 +35,21 @@ public class UseCase3SpelOverzicht extends VBox
 	private TextArea txaSpelerStenen;
 	
 	private DomeinController controller;
-	private Object paneel;
+	private Node paneel;
 	
 	public UseCase3SpelOverzicht(DomeinController controller)
 	{
 		this.controller = controller;
 		
-		
-		
 		precondities();
+		
 		buildGui();
 		buildText();
 		
-		paneel = new UseCase3ActiePaneel(controller, this);
-		
-		this.getChildren().add((Node) paneel);
-	}
-	
-	public void knoppenPaneel()
-	{
-		this.getChildren().remove((Node) paneel);
 		paneel = new UseCase3KnoppenPaneelStartBeurt(controller, this);
-		this.getChildren().add((Node) paneel);
+		this.getChildren().add(paneel);
 	}
-	
-	public void actiePaneel()
-	{
-		this.getChildren().remove((Node) paneel);
-		paneel = new UseCase3ActiePaneel(controller, this);
-		this.getChildren().add((Node) paneel);
-	}
-	
+
 	private void precondities()
 	{
 		controller.meldAan("IkBenBen", "IkBenDokter");
@@ -93,11 +77,43 @@ public class UseCase3SpelOverzicht extends VBox
 	private void buildText()
 	{
 		lblUserName.setText(controller.geefNaamSpelerAanBeurt());
-		
+		buildVelden();
+	}
+	
+	private void buildVelden()
+	{
 		String[] spelOverzicht = controller.geefSpelOverzicht();
 		
 		txaGv.setText(spelOverzicht[0]);
 		txaWv.setText(spelOverzicht[1]);
-		txaSpelerStenen.setText(spelOverzicht[2]);	
+		txaSpelerStenen.setText(spelOverzicht[2]);
+	}
+	
+	public void startPaneel()
+	{
+		this.getChildren().remove(paneel);
+		paneel = new UseCase3KnoppenPaneelStartBeurt(controller, this);
+		this.getChildren().add(paneel);
+	}
+	
+	public void keuzePaneel()
+	{
+		this.getChildren().remove(paneel);
+		paneel = new UseCase3KnoppenPaneelKeuze(controller, this);
+		this.getChildren().add(paneel);
+	}
+	
+	public void actiePaneel()
+	{
+		this.getChildren().remove(paneel);
+		paneel = new UseCase3ActiePaneel(controller, this);
+		this.getChildren().add(paneel);
+	}
+	
+	public void eindePaneel()
+	{
+		this.getChildren().remove(paneel);
+		paneel = new UseCase3KnoppenPaneelEindeBeurt(controller, this);
+		this.getChildren().add(paneel);
 	}
 }
