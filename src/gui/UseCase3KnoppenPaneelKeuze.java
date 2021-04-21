@@ -49,33 +49,28 @@ public class UseCase3KnoppenPaneelKeuze extends VBox
 			
 			btnSplitsen.setOnAction(evt -> 
 	        {
-	        	parent.actiePaneel();      
-	        }
-	        );
+	        	parent.actiePaneel("splits");      
+	        });
 			
 			btnSteenAan.setOnAction(evt -> 
 	        {
-	        	parent.actiePaneel();      
-	        }
-	        );
+	        	parent.actiePaneel("legAan");      
+	        });
 			
 			btnWerkVeld.setOnAction(evt -> 
 	        {
-	        	parent.actiePaneel();      
-	        }
-	        );
+	        	parent.actiePaneel("werkVeld");      
+	        });
 			
 			btnJoker.setOnAction(evt -> 
 	        {
-	        	parent.actiePaneel();      
-	        }
-	        );
+	        	parent.actiePaneel("joker");      
+	        });
 			
 			btnEnd.setOnAction(evt -> 
 	        {
 	        	parent.eindePaneel();      
-	        }
-	        );
+	        });
 		}
 		catch(IOException e)
 		{

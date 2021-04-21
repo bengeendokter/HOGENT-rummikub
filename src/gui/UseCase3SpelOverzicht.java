@@ -103,17 +103,35 @@ public class UseCase3SpelOverzicht extends VBox
 		this.getChildren().add(paneel);
 	}
 	
-	public void actiePaneel()
+	public void actiePaneel(String actie)
 	{
 		this.getChildren().remove(paneel);
-		paneel = new UseCase3ActiePaneel(controller, this);
+		UseCase3ActiePaneel actiePaneel = new UseCase3ActiePaneel(controller, this);
+		
+		switch(actie)
+		{
+			case "legAan":
+				actiePaneel.legAan();
+				break;
+			case "splits":
+				actiePaneel.splits();
+				break;
+			case "joker":
+				actiePaneel.joker();
+				break;
+			case "werkVeld":
+				actiePaneel.werkVeld();
+				break;
+		}
+		
+		paneel = actiePaneel;
 		this.getChildren().add(paneel);
 	}
 	
 	public void eindePaneel()
 	{
 		this.getChildren().remove(paneel);
-		paneel = new UseCase3KnoppenPaneelEindeBeurt(controller, this);
+		paneel = new UseCase3KnoppenPaneelEindeBeurt(this);
 		this.getChildren().add(paneel);
 	}
 }

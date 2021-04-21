@@ -82,18 +82,99 @@ public class UseCase3ActiePaneel extends GridPane
 	        btnOk.setOnAction(evt -> 
 	        {
 	        	parent.keuzePaneel();      
-	        }
-	        );
+	        });
 	        
 	        btnGaTerug.setOnAction(evt -> 
 	        {
 	        	parent.keuzePaneel();      
-	        }
-	        );
+	        });
 		}
 		catch(IOException e)
 		{
 			throw new RuntimeException("Het scherm kan niet geladen worden");
 		}
+	}
+	
+	// TODO bepaal begin focus, momenteel is dit taal knop en dit is slecht
+	
+	public void legAan()
+	{
+		radioDoelGv.setDisable(false);
+		radioDoelWv.setDisable(false);
+		radioBronWv.setDisable(false);
+		radioBronSpeler.setDisable(false);
+		
+		radioDoelGv.setSelected(true);
+		
+		radioDoelGv.setOnAction(evt -> 
+	        {
+	        	disableDoel();
+	        	txfDoelRij.setDisable(false);
+	        	txfDoelKolom.setDisable(false);
+	        });
+		
+		radioDoelWv.setOnAction(evt -> 
+        {
+        	disableDoel();
+        	txfDoelRij.setDisable(false);
+        	txfDoelKolom.setDisable(false);
+        });
+		
+		radioBronWv.setOnAction(evt -> 
+        {
+        	disableBron();
+        	txfBronRij.setDisable(false);
+        	txfBronKolom.setDisable(false);
+        });
+		
+		radioBronSpeler.setOnAction(evt -> 
+        {
+        	disableBron();
+        	txfBronRij.setDisable(false);
+        });
+        btnOk.setOnAction(evt -> 
+        {
+//        	controleerVelden()
+//        	
+//        	controller.legSteenAan(...);    
+        	if(doel.getSelectedToggle().equals(radioDoelGv))
+    		{
+        		System.out.println("gv");
+    		}
+        	else
+        	{
+        		System.out.println("wv");
+        	}
+        });
+	}
+
+	public void splits()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void joker()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void werkVeld()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void disableDoel()
+	{
+		txfDoelRij.setDisable(true);
+		txfDoelKolom.setDisable(true);
+	}
+	
+	private void disableBron()
+	{
+		txfBronRij.setDisable(true);
+		txfBronKolom.setDisable(true);
 	}
 }

@@ -17,12 +17,10 @@ public class UseCase3KnoppenPaneelEindeBeurt extends VBox
 	@FXML
 	private Button btnOk;
 	
-	private DomeinController controller;
 	private UseCase3SpelOverzicht parent;
 	
-	public UseCase3KnoppenPaneelEindeBeurt(DomeinController controller, UseCase3SpelOverzicht parent)
+	public UseCase3KnoppenPaneelEindeBeurt(UseCase3SpelOverzicht parent)
 	{
-		this.controller = controller;
 		buildGui();
 		this.parent = parent;
 	}
@@ -40,8 +38,7 @@ public class UseCase3KnoppenPaneelEindeBeurt extends VBox
 			btnOk.setOnAction(evt -> 
 	        {
 	        	parent.startPaneel();      
-	        }
-	        );
+	        });
 		}
 		catch(IOException e)
 		{
