@@ -70,14 +70,22 @@ public class Veld
 	@Override
 	public String toString()
 	{
-		// TODO implementeer
-//		String output = "";
-//		
-//		for(StenenSet set : stenenSets)
-//		{
-//			String setString = set.toString();
-//		}
+		String output = "";
+		String kolomNrs = String.format("%3s", "");
+		for(int i = 1; i < 14; i++)
+		{
+			kolomNrs += String.format("%02d%2s", i, "");
+		}
 		
-		return null;
+		output = kolomNrs;
+		
+		for(int i = 0; i < stenenSets.size(); i++)
+		{
+			String rijNr = String.format("%02d%1s", i + 1, "");
+			String setString = stenenSets.get(i).toString();
+			output += rijNr + setString + "\n";
+		}
+		
+		return output;
 	}
 }

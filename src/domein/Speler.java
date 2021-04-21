@@ -1,6 +1,7 @@
 package domein;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -143,5 +144,44 @@ public class Speler
 		Speler other = (Speler) obj;
 		return Objects.equals(gebruikersnaam, other.gebruikersnaam);
 	}
-	
+
+	@Override
+	public String toString()
+	{
+		// we sorteren eerst de stenen
+		Collections.sort(stenen);;
+		
+		String output = "";
+		String steenString;
+		
+		int huidigNr = 1;
+		String steenNrs;
+		
+		for(int steenIndex = 0; steenIndex < stenen.size(); steenIndex++)
+		{
+			// indien we een nieuwe rij moeten beginnen
+			if((steenIndex % 13) == 0)
+			{
+				// indien dit niet de eerste lijn is, laat een regel open
+				if(steenIndex != 0)
+				{
+					output += "\n\n";
+				}
+				
+				// plaats nieuwe nummer rij
+				steenNrs = "";
+				for(int i = 1; i < 14; i++)
+				{
+					steenNrs += String.format("%02d%2s", huidigNr++, "");
+				}
+				output += steenNrs + "\n";
+			}
+			
+			// voeg steen toe aan output
+			steenString = stenen.get(steenIndex).toString();	
+			output += String.format("%-4s", steenString);
+		}
+		
+		return output;
+	}
 }

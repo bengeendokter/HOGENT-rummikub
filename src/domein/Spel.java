@@ -46,6 +46,7 @@ public class Spel
 	
 	private void maakVelden()
 	{
+		velden = new ArrayList<>();
 		velden.add(new Veld()); // gemeenschappelijkveld
 		velden.add(new Veld()); // werkveld
 	}
@@ -182,7 +183,7 @@ public class Spel
 		
 		// bepaal volgende speler aan de beurt		
 		int index = spelers.indexOf(spelerAanDeBeurt);
-		index++;
+		index %= spelers.size();
 
 		// stel de volgende speler aan de beurt in
 		spelerAanDeBeurt = spelers.get(index);

@@ -95,15 +95,29 @@ public class Steen implements Comparable<Steen>
 		return isJoker;
 	}
 	
-	@SuppressWarnings("null")
 	@Override
 	public int compareTo(Steen steen)
 	{
-		// TODO implementer
-//		int vergelijk = Integer.compare(this.volume, c.volume);
-//		
-//		return vergelijk;
-		return (Integer) null;
+		// vergelijk eerst de kleuren
+		int vergelijk = kleur.compareTo(steen.getKleur());
+		
+		// controleer of 1 van de 2 een joker is
+		if(steen.getKleur().equals("joker"))
+		{
+			vergelijk = -1;
+		}
+		else if(kleur.equals("joker"))
+		{
+			vergelijk = 1;
+		}
+		
+		// indien kleuren gelijk, vergelijk de getallen 
+		if(vergelijk == 0)
+		{
+			vergelijk = Integer.compare(getal, steen.getGetal());
+		}
+
+		return vergelijk;
 	}
 	
 	@Override
