@@ -330,13 +330,27 @@ public class Spel
 		spelerAanDeBeurt.voegSteenToe(stenen.remove(stenen.size() - 1));
 	}
 	
+//	private void controleerGemeenschappelijkVeld()
+//	{
+//		velden.get(0).controleerVeld();
+//	}
+//
+//	private void controleerWerkVeld()
+//	{
+//		velden.get(1).controleerVeld();
+//	}
+	
 //	private void controleerSpel()
 //	{
-//		
+//		// is deze methode nodig?
 //	}
 	
 	public String[] geefSpelOverzicht()
 	{ 
-		return null;
+		String[] spelOverzichtArray = new String[3];
+		spelOverzichtArray[0] = velden.get(0).toString();
+		spelOverzichtArray[1] = velden.get(1).toString();
+		spelOverzichtArray[2] = spelerAanDeBeurt.toString();
+		return spelOverzichtArray;
 	}
 }

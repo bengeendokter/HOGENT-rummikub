@@ -11,6 +11,11 @@ public class StenenSet
 		this.stenen = stenen;
 	}
 	
+	public List<Steen> getStenen()
+	{
+		return stenen;
+	}
+	
 	public void voegSteenToe(int indexSteen, Steen steen)
 	{
 		stenen.add(indexSteen, steen);
