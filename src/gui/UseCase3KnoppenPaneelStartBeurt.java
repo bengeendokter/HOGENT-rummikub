@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 
 import domein.DomeinController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -21,6 +22,7 @@ public class UseCase3KnoppenPaneelStartBeurt extends VBox
 		this.controller = controller;
 		buildGui();
 		this.parent = parent;
+		Platform.runLater(() -> btnStart.requestFocus());
 	}
 	
 	

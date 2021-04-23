@@ -50,9 +50,9 @@
       <RadioButton fx:id="radioBronSpeler" disable="true" mnemonicParsing="false" text="Speler" toggleGroup="$bron" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
       <RadioButton fx:id="radioBronGv" disable="true" mnemonicParsing="false" text="Gemeenschappelijkveld" toggleGroup="$bron" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4" />
       <Label fx:id="lblDoelRij" text="Doel rij:" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-      <TextField fx:id="txfDoelRij" alignment="CENTER" disable="true" maxWidth="100.0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+      <TextField fx:id="txfDoelRij" alignment="CENTER" maxWidth="100.0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
       <Label fx:id="lblDoelKolom" text="Doel kolom:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-      <TextField fx:id="txfDoelKolom" alignment="CENTER" disable="true" maxWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+      <TextField fx:id="txfDoelKolom" alignment="CENTER" maxWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
       <Label fx:id="lblBronRij" text="Bron rij/nr:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <TextField fx:id="txfBronRij" alignment="CENTER" disable="true" layoutX="214.0" layoutY="69.0" maxWidth="100.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
       <Label fx:id="lblBronKolom" text="Bron kolom:" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" />

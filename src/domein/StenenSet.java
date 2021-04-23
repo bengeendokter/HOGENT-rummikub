@@ -38,7 +38,7 @@ public class StenenSet
 	@Override
 	public String toString()
 	{
-		Stream<String> stringList = stenen.stream().map(steen -> steen.toString());
+		Stream<String> stringList = stenen.stream().map(Steen::toString);
 		String output = stringList.collect(Collectors.joining("-"));		
 		
 		return output;

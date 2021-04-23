@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 
 import domein.DomeinController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -68,6 +69,7 @@ public class UseCase3ActiePaneel extends GridPane
 		this.controller = controller;
 		buildGui();
 		this.parent = parent;
+		Platform.runLater(() -> txfDoelRij.requestFocus());
 	}
 	
 	private void buildGui() throws RuntimeException
@@ -79,15 +81,10 @@ public class UseCase3ActiePaneel extends GridPane
 			loader.setRoot(this);
 			loader.load();
 			
-	        btnOk.setOnAction(evt -> 
-	        {
-	        	parent.keuzePaneel();      
-	        });
-	        
-	        btnGaTerug.setOnAction(evt -> 
-	        {
-	        	parent.keuzePaneel();      
-	        });
+			btnGaTerug.setOnAction(evt -> {
+				parent.keuzePaneel();
+			});
+			
 		}
 		catch(IOException e)
 		{
@@ -99,82 +96,157 @@ public class UseCase3ActiePaneel extends GridPane
 	
 	public void legAan()
 	{
+		// activeer de juiste radio knoppen
 		radioDoelGv.setDisable(false);
 		radioDoelWv.setDisable(false);
 		radioBronWv.setDisable(false);
 		radioBronSpeler.setDisable(false);
 		
+		// selecteer alvast de meest logische keuzes
 		radioDoelGv.setSelected(true);
+		radioBronSpeler.setSelected(true);
+		// en activeer de bijhorende velden
+		enableDoelVelden();
+		txfBronRij.setDisable(false);
 		
-		radioDoelGv.setOnAction(evt -> 
-	        {
-	        	disableDoel();
-	        	txfDoelRij.setDisable(false);
-	        	txfDoelKolom.setDisable(false);
-	        });
+		// bepaal wat er met BronVelden gebeurt als er een BronRadio wordt aangeklikt
+		// niet nodig voor DoelVelden, die staan altijd beide aan
+		radioBronWv.setOnAction(evt -> {
+			enableBronVelden();
+		});
 		
-		radioDoelWv.setOnAction(evt -> 
-        {
-        	disableDoel();
-        	txfDoelRij.setDisable(false);
-        	txfDoelKolom.setDisable(false);
-        });
+		radioBronSpeler.setOnAction(evt -> {
+			disableBronVelden();
+			txfBronRij.setDisable(false);
+			txfBronKolom.clear();
+		});
 		
-		radioBronWv.setOnAction(evt -> 
-        {
-        	disableBron();
-        	txfBronRij.setDisable(false);
-        	txfBronKolom.setDisable(false);
-        });
-		
-		radioBronSpeler.setOnAction(evt -> 
-        {
-        	disableBron();
-        	txfBronRij.setDisable(false);
-        });
-        btnOk.setOnAction(evt -> 
-        {
+		// implementeer de OK knop
+		btnOk.setOnAction(evt -> {
 //        	controleerVelden()
 //        	
 //        	controller.legSteenAan(...);    
-        	if(doel.getSelectedToggle().equals(radioDoelGv))
-    		{
-        		System.out.println("gv");
-    		}
-        	else
-        	{
-        		System.out.println("wv");
-        	}
-        });
+			if(doel.getSelectedToggle().equals(radioDoelGv))
+			{
+				System.out.println("gv");
+			}
+			else
+			{
+				System.out.println("wv");
+			}
+		});
 	}
-
+	
 	public void splits()
 	{
-		// TODO Auto-generated method stub
+		// activeer de juiste radio knoppen
+		radioDoelGv.setDisable(false);
+		radioDoelWv.setDisable(false);
 		
+		// selecteer alvast de meest logische keuzes
+		radioDoelGv.setSelected(true);
+		// en activeer de bijhorende velden
+		enableDoelVelden();
+		
+		// implementeer de OK knop
+		btnOk.setOnAction(evt -> {
+//		        	controleerVelden()
+//		        	
+//		        	controller.legSteenAan(...);    
+			if(doel.getSelectedToggle().equals(radioDoelGv))
+			{
+				System.out.println("gv");
+			}
+			else
+			{
+				System.out.println("wv");
+			}
+		});
 	}
-
+	
 	public void joker()
 	{
-		// TODO Auto-generated method stub
+		// activeer de juiste radio knoppen
+		radioDoelGv.setDisable(false);
+		radioDoelWv.setDisable(false);
+		radioBronWv.setDisable(false);
+		radioBronSpeler.setDisable(false);
 		
+		// selecteer alvast de meest logische keuzes
+		radioDoelGv.setSelected(true);
+		radioBronSpeler.setSelected(true);
+		// en activeer de bijhorende velden
+		enableDoelVelden();
+		txfBronRij.setDisable(false);
+		
+		// bepaal wat er met BronVelden gebeurt als er een BronRadio wordt aangeklikt
+		// niet nodig voor DoelVelden, die staan altijd beide aan
+		radioBronWv.setOnAction(evt -> {
+			enableBronVelden();
+		});
+		
+		radioBronSpeler.setOnAction(evt -> {
+			disableBronVelden();
+			txfBronRij.setDisable(false);
+			txfBronKolom.clear();
+		});
+		
+		// implementeer de OK knop
+		btnOk.setOnAction(evt -> {
+//		        	controleerVelden()
+//		        	
+//		        	controller.legSteenAan(...);    
+			if(doel.getSelectedToggle().equals(radioDoelGv))
+			{
+				System.out.println("gv");
+			}
+			else
+			{
+				System.out.println("wv");
+			}
+		});
 	}
-
+	
 	public void werkVeld()
 	{
-		// TODO Auto-generated method stub
+		// activeer de juiste radio knoppen
+		radioDoelWv.setDisable(false);
+		radioBronGv.setDisable(false);
 		
+		// selecteer alvast de meest logische keuzes
+		radioDoelWv.setSelected(true);
+		radioBronGv.setSelected(true);
+		// en activeer de bijhorende velden
+		enableDoelVelden();
+		enableBronVelden();
+				
+		// implementeer de OK knop
+		btnOk.setOnAction(evt -> {
+//		        	controleerVelden()
+//		        	
+//		        	controller.legSteenAan(...);    
+			if(doel.getSelectedToggle().equals(radioDoelGv))
+			{
+				System.out.println("wv");
+			}
+		});
 	}
 	
-	private void disableDoel()
+	private void enableDoelVelden()
 	{
-		txfDoelRij.setDisable(true);
-		txfDoelKolom.setDisable(true);
+		txfDoelRij.setDisable(false);
+		txfDoelKolom.setDisable(false);
 	}
 	
-	private void disableBron()
+	private void disableBronVelden()
 	{
 		txfBronRij.setDisable(true);
 		txfBronKolom.setDisable(true);
+	}
+	
+	private void enableBronVelden()
+	{
+		txfBronRij.setDisable(false);
+		txfBronKolom.setDisable(false);
 	}
 }
