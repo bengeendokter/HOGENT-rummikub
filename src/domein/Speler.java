@@ -14,7 +14,12 @@ public class Speler
 	
 	public Speler(String gebruikersnaam, String wachtwoord)
 	{
-		stenen = new ArrayList<>();
+		this(gebruikersnaam, wachtwoord, new ArrayList<>());
+	}
+	
+	public Speler(String gebruikersnaam, String wachtwoord, List<Steen> stenen)
+	{
+		this.stenen = stenen;
 		this.setGebruikersnaam(gebruikersnaam);
 		this.setWachtwoord(wachtwoord);
 		this.setScore(0);

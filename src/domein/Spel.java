@@ -209,6 +209,7 @@ public class Spel
 		spelerAanDeBeurt = beurt.getSpeler();
 		velden.set(0, beurt.getGemeenschappelijkVeld());
 		velden.set(1, new Veld());
+		startBeurt();
 	}
 
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)

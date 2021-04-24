@@ -10,11 +10,21 @@ public class Veld
 	
 	public Veld()
 	{
-		stenenSets = new ArrayList<>();
+		this(new ArrayList<>());
+	}
+	
+	public Veld(List<StenenSet> stenenSets)
+	{
+		this.stenenSets = stenenSets;
 	}
 	
 	// TODO implementeer controles, hoe?
 	
+	public List<StenenSet> getStenenSets()
+	{
+		return stenenSets;
+	}
+
 	public void voegSteenToe(int[] positieSteen, Steen steen)
 	{
 		int setIndex = positieSteen[0];
@@ -83,7 +93,7 @@ public class Veld
 			kolomNrs += String.format("%02d%2s", i, "");
 		}
 		
-		output = kolomNrs;
+		output = kolomNrs + "\n";
 		
 		for(int i = 0; i < stenenSets.size(); i++)
 		{
