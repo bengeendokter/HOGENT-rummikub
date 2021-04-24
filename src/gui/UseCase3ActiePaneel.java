@@ -16,7 +16,7 @@ import javafx.scene.control.Label;
 
 import javafx.scene.control.RadioButton;
 
-public class UseCase3ActiePaneel extends GridPane
+public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 {
 	@FXML
 	private Label lblActieNaam;
@@ -63,12 +63,21 @@ public class UseCase3ActiePaneel extends GridPane
 	
 	private DomeinController controller;
 	private UseCase3SpelOverzicht parent;
+	private String actie;
+	
+	private int[] positieDoel;
+	private boolean doelIsWv;
+	private int[] positieBron;
+	private boolean bronIsWv;
 	
 	public UseCase3ActiePaneel(DomeinController controller, UseCase3SpelOverzicht parent)
 	{
 		this.controller = controller;
-		buildGui();
 		this.parent = parent;
+		this.actie = "actie";
+		
+		buildGui();
+		buildText();
 		Platform.runLater(() -> txfDoelRij.requestFocus());
 	}
 	
@@ -92,10 +101,12 @@ public class UseCase3ActiePaneel extends GridPane
 		}
 	}
 	
-	// TODO bepaal begin focus, momenteel is dit taal knop en dit is slecht
-	
 	public void legAan()
 	{
+		// bepaal welke actie dit is voor de buildText methode
+		actie = "legAan";
+		buildText();
+		
 		// activeer de juiste radio knoppen
 		radioDoelGv.setDisable(false);
 		radioDoelWv.setDisable(false);
@@ -123,22 +134,18 @@ public class UseCase3ActiePaneel extends GridPane
 		
 		// implementeer de OK knop
 		btnOk.setOnAction(evt -> {
-//        	controleerVelden()
-//        	
-//        	controller.legSteenAan(...);    
-			if(doel.getSelectedToggle().equals(radioDoelGv))
-			{
-				System.out.println("gv");
-			}
-			else
-			{
-				System.out.println("wv");
-			}
+		    leesVelden();
+		    controller.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
+		    parent.updateGui();
 		});
 	}
 	
 	public void splits()
 	{
+		// bepaal welke actie dit is voor de buildText methode
+		actie = "splits";
+		buildText();
+		
 		// activeer de juiste radio knoppen
 		radioDoelGv.setDisable(false);
 		radioDoelWv.setDisable(false);
@@ -150,22 +157,18 @@ public class UseCase3ActiePaneel extends GridPane
 		
 		// implementeer de OK knop
 		btnOk.setOnAction(evt -> {
-//		        	controleerVelden()
-//		        	
-//		        	controller.legSteenAan(...);    
-			if(doel.getSelectedToggle().equals(radioDoelGv))
-			{
-				System.out.println("gv");
-			}
-			else
-			{
-				System.out.println("wv");
-			}
+		    leesVelden();
+		    controller.splitsRijOfSerie(positieDoel, doelIsWv);
+		    parent.updateGui();
 		});
 	}
 	
 	public void joker()
-	{
+	{	
+		// bepaal welke actie dit is voor de buildText methode
+		actie = "joker";
+		buildText();
+		
 		// activeer de juiste radio knoppen
 		radioDoelGv.setDisable(false);
 		radioDoelWv.setDisable(false);
@@ -193,22 +196,18 @@ public class UseCase3ActiePaneel extends GridPane
 		
 		// implementeer de OK knop
 		btnOk.setOnAction(evt -> {
-//		        	controleerVelden()
-//		        	
-//		        	controller.legSteenAan(...);    
-			if(doel.getSelectedToggle().equals(radioDoelGv))
-			{
-				System.out.println("gv");
-			}
-			else
-			{
-				System.out.println("wv");
-			}
+		    leesVelden();
+		    controller.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
+		    parent.updateGui();
 		});
 	}
 	
 	public void werkVeld()
 	{
+		// bepaal welke actie dit is voor de buildText methode
+		actie = "werkVeld";
+		buildText();
+		
 		// activeer de juiste radio knoppen
 		radioDoelWv.setDisable(false);
 		radioBronGv.setDisable(false);
@@ -222,13 +221,9 @@ public class UseCase3ActiePaneel extends GridPane
 				
 		// implementeer de OK knop
 		btnOk.setOnAction(evt -> {
-//		        	controleerVelden()
-//		        	
-//		        	controller.legSteenAan(...);    
-			if(doel.getSelectedToggle().equals(radioDoelGv))
-			{
-				System.out.println("wv");
-			}
+		    leesVelden();
+		    controller.verplaatsNaarWerkveld(positieDoel, positieBron);
+		    parent.updateGui();
 		});
 	}
 	
@@ -248,5 +243,65 @@ public class UseCase3ActiePaneel extends GridPane
 	{
 		txfBronRij.setDisable(false);
 		txfBronKolom.setDisable(false);
+	}
+
+	@Override
+	public void buildText()
+	{
+		lblActieNaam.setText(controller.getMessages(actie));
+		lblDoel.setText(controller.getMessages("lblDoel"));
+		lblBron.setText(controller.getMessages("lblBron"));
+		radioDoelWv.setText(controller.getMessages("lblWv"));
+		radioDoelGv.setText(controller.getMessages("lblGv"));
+		radioBronWv.setText(controller.getMessages("lblWv"));
+		radioBronSpeler.setText(controller.getMessages("lblSpelerStenen"));
+		radioBronGv.setText(controller.getMessages("lblGv"));
+		lblDoelRij.setText(controller.getMessages("lblDoelRij"));
+		lblDoelKolom.setText(controller.getMessages("lblDoelKolom"));
+		lblBronRij.setText(controller.getMessages("lblBronRij"));
+		lblBronKolom.setText(controller.getMessages("lblBronKolom"));
+		btnOk.setText(controller.getMessages("btnOk"));
+		btnGaTerug.setText(controller.getMessages("btnGaTerug"));
+		lblMelding.setText("");
+	}
+	
+	private void leesVelden()
+	{
+        try
+        {
+        	// get doel velden
+        	int doelRij = Integer.parseInt(txfDoelRij.getText());
+        	int doelKolom = Integer.parseInt(txfDoelKolom.getText());
+        	
+        	// get bron velden
+        	String bronRijTekst = txfBronRij.getText();
+        	String bronKolomTekst = txfBronKolom.getText();
+        	
+        	if(bronRijTekst.isBlank())
+        	{
+        		bronRijTekst = "1";
+        	}
+        	if(bronKolomTekst.isBlank())
+        	{
+        		bronKolomTekst = "1";
+        	}
+        	
+        	int bronRij = Integer.parseInt(bronRijTekst);
+        	int bronKolom = Integer.parseInt(bronKolomTekst);
+        	
+        	// get radio doel knop
+        	doelIsWv = doel.getSelectedToggle().equals(radioDoelWv);
+        	
+        	// get radio bron knop
+        	bronIsWv = doel.getSelectedToggle().equals(radioBronWv);
+        	
+        	// stel posities in
+        	positieDoel = new int[]{--doelRij, --doelKolom};
+        	positieBron = new int[]{--bronRij, --bronKolom};
+        }
+        catch (NumberFormatException e)
+        {
+            lblMelding.setText("Enkel getallen!");
+        }
 	}
 }

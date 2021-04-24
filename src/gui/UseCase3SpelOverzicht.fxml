@@ -76,7 +76,7 @@
                <children>
                   <TextArea fx:id="txaSpelerStenen" editable="false" focusTraversable="false" maxWidth="1.7976931348623157E308" prefHeight="250.0" prefWidth="2000.0" text="01  02  03  04  05  06  07  08  09  10  11  12  13 G10 R05 B03 JOK R01 R02 R03 R04 R05 R06 R07 RO8 RO9 .                                                  14  15  16  17  18  19  20  21  22  23  24  25  26 R10 R11" wrapText="true">
                      <font>
-                        <Font name="Courier New" size="17.0" />
+                        <Font name="Courier New" size="16.0" />
                      </font>
                   </TextArea>
                </children>

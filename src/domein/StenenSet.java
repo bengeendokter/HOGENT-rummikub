@@ -20,8 +20,15 @@ public class StenenSet
 	
 	public void voegSteenToe(int indexSteen, Steen steen)
 	{
-		// TODO wat indien index te hoog? Fout of hoogst mogelijke index pakken?
-		stenen.add(indexSteen, steen);
+		// TODO is index wel nodig?
+		if(indexSteen >= stenen.size())
+		{
+			stenen.add(steen);
+		}
+		else
+		{
+			stenen.add(indexSteen, steen);
+		}
 	}
 	
 	public Steen removeSteen(int indexSteen)

@@ -150,9 +150,9 @@ public class DomeinController
 	 * Use Case 3:
 	 * Beëindigt de beurt door de methode beeindigBeurt() uit klasse spel aan te roepen
 	 */
-	public void beeindigBeurt()
+	public String beeindigBeurt()
 	{
-		spel.beeindigBeurt();
+		return spel.beeindigBeurt();
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package domein;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Veld
@@ -19,11 +20,15 @@ public class Veld
 		int setIndex = positieSteen[0];
 		int steenIndex = positieSteen[1];
 		
-		// TODO indien geen set is moet er 1 aangemaakt worden
-		// wat indien te hoog? automatisch verkleinen of fout?
-		
-		StenenSet set = stenenSets.get(setIndex);
-		set.voegSteenToe(steenIndex, steen);
+		if(setIndex >= stenenSets.size())
+		{
+			maakStenenSet(steen);
+		}
+		else
+		{
+			StenenSet set = stenenSets.get(setIndex);
+			set.voegSteenToe(steenIndex, steen);
+		}
 	}
 	
 	public Steen removeSteen(int[] positieSteen)
@@ -53,9 +58,10 @@ public class Veld
 		stenenSets.add(setIndex, set1);
 	}
 	
-	public void maakStenenSet(List<Steen> stenen)
+	public void maakStenenSet(Steen steen)
 	{
-		StenenSet set = new StenenSet(stenen);	
+		List<Steen> stenenList = new ArrayList<>(Arrays.asList(steen));
+		StenenSet set = new StenenSet(stenenList);	
 		stenenSets.add(set);
 	}
 	

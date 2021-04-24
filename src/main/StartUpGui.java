@@ -2,12 +2,11 @@ package main;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import gui.UseCase1AantalGebruikersScherm;
-import gui.UseCase3KnoppenPaneelStartBeurt;
+//import javafx.scene.control.Alert;
+//import javafx.scene.control.Alert.AlertType;
+//import gui.UseCase1AantalGebruikersScherm;
 import gui.UseCase3SpelOverzicht;
 import domein.DomeinController;
 
@@ -22,7 +21,6 @@ public class StartUpGui extends Application
 		DomeinController controller = new DomeinController();
 		// UseCase1AantalGebruikersScherm grid = new UseCase1AantalGebruikersScherm(controller);
 		UseCase3SpelOverzicht grid = new UseCase3SpelOverzicht(controller);
-		// UseCase3KnoppenPaneelStartBeurt grid = new UseCase3KnoppenPaneelStartBeurt(controller);
 
         Scene scene = new Scene(grid);
         primaryStage.setScene(scene);
@@ -31,7 +29,7 @@ public class StartUpGui extends Application
         primaryStage.getIcons().add(icon);
 
         primaryStage.setTitle("Rummikub");
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
 //		}
 //		catch(Exception e)

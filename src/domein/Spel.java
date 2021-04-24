@@ -171,9 +171,12 @@ public class Spel
 	 * Use Case 3:
 	 * Beëindigt de beurt
 	 */
-	public void beeindigBeurt()
+	public String beeindigBeurt()
 	{
 		// TODO controleer geldige spelsituatie
+		
+		// variabele om de speler stenen met de nieuw getrokken steen te kunnen terug geven
+		String stenenMetExtra;
 		
 		// controleer of speler steen heeft afgelegd
 		if(!isSteenAfgelgelegd())
@@ -181,8 +184,11 @@ public class Spel
 			neemSteenUitPot();
 		}
 		
+		// voor dat we de speler veranderen slagen we eerst zijn stenen op
+		stenenMetExtra = spelerAanDeBeurt.toString();
+		
 		// bepaal volgende speler aan de beurt		
-		int index = spelers.indexOf(spelerAanDeBeurt);
+		int index = spelers.indexOf(spelerAanDeBeurt) + 1;
 		index %= spelers.size();
 
 		// stel de volgende speler aan de beurt in
@@ -190,6 +196,8 @@ public class Spel
 		
 		// maak het WerkVeld leeg
 		velden.set(1, new Veld());
+		
+		return stenenMetExtra;
 	}
 	
 	/**

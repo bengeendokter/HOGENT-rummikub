@@ -63,7 +63,7 @@ public class UseCase1AantalGebruikersScherm extends GridPane
     	lblTitle.setText(controller.getMessages("lblTitle"));
 		btnTaal.setText(controller.getMessages("btnTaal"));
     	lblAmount.setText(controller.getMessages("lblAmount"));
-    	btnAmount.setText(controller.getMessages("btnAmount"));
+    	btnAmount.setText(controller.getMessages("btnOk"));
     	lblMessage.setText("");
 	}
 	

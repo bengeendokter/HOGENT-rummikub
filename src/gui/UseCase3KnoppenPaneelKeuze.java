@@ -6,12 +6,14 @@ import domein.DomeinController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class UseCase3KnoppenPaneelKeuze extends VBox
+public class UseCase3KnoppenPaneelKeuze extends VBox implements UseCase3HasText
 {
 	@FXML
 	private Button btnSteenAan;
@@ -34,8 +36,10 @@ public class UseCase3KnoppenPaneelKeuze extends VBox
 	public UseCase3KnoppenPaneelKeuze(DomeinController controller, UseCase3SpelOverzicht parent)
 	{
 		this.controller = controller;
-		buildGui();
 		this.parent = parent;
+		
+		buildGui();
+		buildText();
 		Platform.runLater(() -> btnSteenAan.requestFocus());
 	}
 	
@@ -69,8 +73,22 @@ public class UseCase3KnoppenPaneelKeuze extends VBox
 	        	parent.actiePaneel("joker");      
 	        });
 			
+			btnReset.setOnAction(evt -> 
+	        {
+	        	controller.resetBeurt();
+	        	parent.updateGui();
+	        	resetBeurtMessage();
+	        });
+			
 			btnEnd.setOnAction(evt -> 
 	        {
+	        	// indien de speler geen stenen meer heeft
+	        	if(controller.isEindeSpel())
+	        	{
+	        		toonScoreScherm();
+	        	}
+	        	
+	        	parent.toonEindeBeurt();
 	        	parent.eindePaneel();      
 	        });
 		}
@@ -78,6 +96,33 @@ public class UseCase3KnoppenPaneelKeuze extends VBox
 		{
 			throw new RuntimeException("Het scherm kan niet geladen worden");
 		}
+	}
+
+	private void resetBeurtMessage()
+	{
+		lblMelding.setText(controller.getMessages("msgResetBeurt"));
+	}
+
+
+	@Override
+	public void buildText()
+	{
+		btnSteenAan.setText(controller.getMessages("legAan"));
+		btnSplitsen.setText(controller.getMessages("splits"));
+		btnJoker.setText(controller.getMessages("joker"));
+		btnWerkVeld.setText(controller.getMessages("werkVeld"));
+		btnReset.setText(controller.getMessages("resetBeurt"));
+		btnEnd.setText(controller.getMessages("eindigBeurt"));
+		lblMelding.setText("");
+	}
+	
+	private void toonScoreScherm()
+	{
+		UseCase2ScoreScherm sc = new UseCase2ScoreScherm(controller);
+        Scene scene = new Scene(sc);
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
 	}
 }
 

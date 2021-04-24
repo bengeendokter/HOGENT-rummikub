@@ -75,7 +75,8 @@ public class UseCase1GebruikersLijstScherm extends VBox
     
     private void StartPushed(ActionEvent event)
     {
-		UseCase2ScoreScherm sc = new UseCase2ScoreScherm(controller);
+		controller.startSpel();
+		UseCase3SpelOverzicht sc = new UseCase3SpelOverzicht(controller);
         Scene scene = new Scene(sc);
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);

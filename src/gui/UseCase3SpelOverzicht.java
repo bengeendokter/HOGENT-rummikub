@@ -43,11 +43,15 @@ public class UseCase3SpelOverzicht extends VBox
 		
 		precondities();
 		
+		// bouw het spelOverzicht
 		buildGui();
-		buildText();
 		
+		// voeg het startBeurtPaneel onderaan toe
 		paneel = new UseCase3KnoppenPaneelStartBeurt(controller, this);
 		this.getChildren().add(paneel);
+		
+		// update alle tekst en velden
+		updateGui();
 	}
 
 	private void precondities()
@@ -56,7 +60,6 @@ public class UseCase3SpelOverzicht extends VBox
 		controller.meldAan("mns58", "myDiscordPassword");
 		
 		controller.startSpel();
-		controller.startBeurt();
 	}
 
 	private void buildGui() throws RuntimeException
@@ -67,6 +70,12 @@ public class UseCase3SpelOverzicht extends VBox
 			loader.setController(this);
 			loader.setRoot(this);
 			loader.load();
+			
+			btnTaal.setOnAction(evt -> 
+	        {
+	        	controller.veranderTaal();
+	        	buildText();;      
+	        });
 		}
 		catch(IOException e)
 		{
@@ -74,10 +83,25 @@ public class UseCase3SpelOverzicht extends VBox
 		}
 	}
 	
+	public void updateGui()
+	{
+		buildText();
+		buildVelden();
+	}
+	
 	private void buildText()
 	{
 		lblUserName.setText(controller.geefNaamSpelerAanBeurt());
-		buildVelden();
+		btnTaal.setText(controller.getMessages("btnTaal"));
+		lblLegende.setText(controller.getMessages("lblLegende"));
+		lblGv.setText(controller.getMessages("lblGv"));
+		lblWv.setText(controller.getMessages("lblWv"));
+		lblSpelerStenen.setText(controller.getMessages("lblSpelerStenen"));
+		
+		if(paneel instanceof UseCase3HasText)
+		{
+			((UseCase3HasText) paneel).buildText();
+		}
 	}
 	
 	private void buildVelden()
@@ -87,6 +111,11 @@ public class UseCase3SpelOverzicht extends VBox
 		txaGv.setText(spelOverzicht[0]);
 		txaWv.setText(spelOverzicht[1]);
 		txaSpelerStenen.setText(spelOverzicht[2]);
+	}
+	
+	public void toonEindeBeurt()
+	{
+		txaSpelerStenen.setText(controller.beeindigBeurt());
 	}
 	
 	public void startPaneel()
@@ -131,7 +160,7 @@ public class UseCase3SpelOverzicht extends VBox
 	public void eindePaneel()
 	{
 		this.getChildren().remove(paneel);
-		paneel = new UseCase3KnoppenPaneelEindeBeurt(this);
+		paneel = new UseCase3KnoppenPaneelEindeBeurt(controller, this);
 		this.getChildren().add(paneel);
 	}
 }

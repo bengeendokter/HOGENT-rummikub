@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
-public class UseCase3KnoppenPaneelStartBeurt extends VBox
+public class UseCase3KnoppenPaneelStartBeurt extends VBox implements UseCase3HasText
 {
 	@FXML
 	private Button btnStart;
@@ -20,11 +20,12 @@ public class UseCase3KnoppenPaneelStartBeurt extends VBox
 	public UseCase3KnoppenPaneelStartBeurt(DomeinController controller, UseCase3SpelOverzicht parent)
 	{
 		this.controller = controller;
-		buildGui();
 		this.parent = parent;
+		
+		buildGui();
+		buildText();
 		Platform.runLater(() -> btnStart.requestFocus());
 	}
-	
 	
 	private void buildGui() throws RuntimeException
 	{
@@ -37,6 +38,7 @@ public class UseCase3KnoppenPaneelStartBeurt extends VBox
 			
 	        btnStart.setOnAction(evt -> 
 	        {
+	        	startBeurt();
 	        	parent.keuzePaneel();      
 	        }
 	        );
@@ -45,5 +47,16 @@ public class UseCase3KnoppenPaneelStartBeurt extends VBox
 		{
 			throw new RuntimeException("Het scherm kan niet geladen worden");
 		}
+	}
+	
+	private void startBeurt()
+	{
+		controller.startBeurt();
+	}
+	
+	@Override
+	public void buildText()
+	{
+		btnStart.setText(controller.getMessages("btnStartBeurt"));
 	}
 }

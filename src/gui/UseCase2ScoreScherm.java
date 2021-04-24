@@ -28,19 +28,11 @@ public class UseCase2ScoreScherm extends VBox
 		this.controller = controller;
 		buildGui();
 		buildText();
-		speelSpel();
+		geefScore();
 	}
 	
-	private void speelSpel()
+	private void geefScore()
 	{
-		controller.startSpel();
-		
-		do
-		{
-			controller.eindigSpel();;
-		}
-		while(!controller.isEindeSpel());
-		
 		List<String> gebruikersnamen = controller.geefScoreOverzicht();
 		String lijst = String.join("\n", gebruikersnamen);
 		
