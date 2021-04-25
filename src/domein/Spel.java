@@ -44,6 +44,9 @@ public class Spel
 		return spelerAanDeBeurt;
 	}
 	
+	/** Use Case 3:
+	 * initialiseert attribuut 'velden' en maakt daarin twee velden aan, gemeenschappelijk en werkveld
+	 */
 	private void maakVelden()
 	{
 		velden = new ArrayList<>();
@@ -212,6 +215,15 @@ public class Spel
 		startBeurt();
 	}
 
+	/**
+	 * Verwijdert steen uit positieBron (door methode 'removeSteen' van Veld of Speler aan te roepen) en legt het aan in doelveld
+	 * (door methode 'voegSteenToe' van Veld aan te roepen)
+	 * (gemeenschappelijk (doelVeldIndex = 0) of werkveld (doelVeldIndex = 1))
+	 * @param positieDoel int van de nieuwe positie van de steen die aangelegd moet worden (op gemeenschappelijk of werkveld)
+	 * @param doelIsWv boolean geeft true als steen naar het werkveld moet (false voor gemeen. veld)
+	 * @param positieBron int van de oorspronkelijke positie van de steen die aangelegd moet worden
+	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke stenen)
+	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
 		// zoek het doelVeld
@@ -246,8 +258,9 @@ public class Spel
 	}
 	
 	/**
-	 * Use Case 3: rij of serie splitsen tijdens beurt
-	 * @param positieDoel	de plaats waar de splitsing zal gebeuren
+	 * Use Case 3:
+	 * Rij of serie splitsen tijdens beurt door methode 'splitsRijOfSerie' van Veld aan te roepen
+	 * @param positieDoel	de plaats waar de splitsing zal gebeuren (1ste element is rij (StenenSet), 2de element is kolom (Steen in StenenSet))
 	 * @param doelIsWv		boolean of het op de werkveld met geplitst worden of niet
 	 */
 	
@@ -270,13 +283,18 @@ public class Spel
 	
 	/**
 	 * Use Case 3:
-	 * Vervangt een positie met een Joker
-	 * 
-	 * @param positieJoker	de plaats van de Joker in veld
-	 * @param indexSteen	is plaats van de Steen in hand
+	 * Vervangt een steen met een joker
+	 * @param positieDoel array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
+	 * die helpt waar de steen vervangt moet worden
+	 * @param doelIsWv boolean geeft true als steen naar het werkveld moet (false voor gemeen. veld)
+	 * @param positieBron array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
+	 * die helpt vanwaar de steen afkomstig is
+	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke stenen)
 	 */
+	
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
-	{		
+	{	
+		////moet doelsteen niet gecontroleerd worden (is het joker of niet (bv met steen.toString() == "JOK") ?
 		// zoek het doelVeld
 		int doelVeldIndex;
 		
@@ -302,6 +320,7 @@ public class Spel
 		}
 		else // bron == spelerStenen
 		{
+			////moet dit niet bronSteen = ((Speler) bron).removeSteen(positieBron[1]); zijn omdat de kolom de steen aanduidt?
 			bron = spelerAanDeBeurt;
 			bronSteen = ((Speler) bron).removeSteen(positieBron[0]);
 		}
@@ -320,6 +339,14 @@ public class Spel
 		}
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Vervangt een steen naar het werkveld
+	 * @param positieDoel	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
+	 * die helpt waar de steen verplaatst moet worden
+	 * @param positieBron	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
+	 * die helpt vanwaar de steen afkomstig is
+	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	{
 		// zoek het doelVeld (werkveld)
@@ -333,6 +360,11 @@ public class Spel
 		doelVeld.voegSteenToe(positieDoel, bronSteen);
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Controleert of een speler een steen afgelegd heeft
+	 * @return	boolean true als steen afgelegd is
+	 */
 	private boolean isSteenAfgelgelegd()
 	{
 		int beginAantalStenen = beurt.getSpeler().getStenen().size();
@@ -342,7 +374,8 @@ public class Spel
 	}
 	
 	/**
-	 * (Use Case 3): speler voegt een willekeurig steen aan zijn bezit dmv de pot
+	 * Use Case 3: 
+	 * Speler voegt een willekeurig steen aan zijn bezit dmv de pot
 	 */
 	
 	private void neemSteenUitPot()

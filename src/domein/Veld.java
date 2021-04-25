@@ -25,6 +25,12 @@ public class Veld
 		return stenenSets;
 	}
 
+	/**
+	 * Use Case 3:
+	 * Voegt steen toe in een bestaande of tegelijkertijd aangemaakte StenenSet
+	 * @param positieSteen 	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
+	 * @param steen 	steen die zal toegevoegd worden
+	 */
 	public void voegSteenToe(int[] positieSteen, Steen steen)
 	{
 		int setIndex = positieSteen[0];
@@ -41,6 +47,12 @@ public class Veld
 		}
 	}
 	
+	/**
+	 * Use Case 3: 
+	 * Verwijdert een steen door gegeven array (rij en kolom) en geeft die terug
+	 * @param positieSteen 	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
+	 * @return 	verwijderde steen
+	 */
 	public Steen removeSteen(int[] positieSteen)
 	{
 		int setIndex = positieSteen[0];
@@ -50,6 +62,12 @@ public class Veld
 		return set.removeSteen(steenIndex);
 	}
 
+	/**
+	 * Use Case 3: 
+	 * Splitst een rij of serie in nieuwe StenenSets door gegeven array (rij en kolom), verwijdert oorspronkelijke (niet gesplitste StenenSet)
+	 * en voegt de nieuwe StenenSets toe aan attribuut stenenSets
+	 * @param positieSplitsing 	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom als positie van splitsing van de juiste stenenset)
+	 */
 	public void splitsRijOfSerie(int[] positieSplitsing)
 	{
 		int setIndex = positieSplitsing[0];
@@ -68,6 +86,11 @@ public class Veld
 		stenenSets.add(setIndex, set1);
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Maakt een StenenSet met een Steen en voegt die StenenSet toe aan attribuut stenenSets
+	 * @param steen		Steen die in een StenenSet moet
+	 */
 	public void maakStenenSet(Steen steen)
 	{
 		List<Steen> stenenList = new ArrayList<>(Arrays.asList(steen));
@@ -75,6 +98,11 @@ public class Veld
 		stenenSets.add(set);
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Controleert elke set op geldigheid (zijn de rijen en series juist aangemaakt volgens DR_GELDIGE_SPELSITUATIE)
+	 * door methode 'controleerSet()' van StenenSet aan te roepen
+	 */
 	public void controleerVeld()
 	{
 		for(StenenSet set : stenenSets)

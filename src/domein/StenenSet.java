@@ -18,6 +18,13 @@ public class StenenSet
 		return stenen;
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Voegt een steen toe aan de set (serie of rij)
+	 * @param indexSteen	int positie die aangeeft waar de steen toegevoegd moet worden
+	 * @param steen		steen die toegevoegd moet worden in een serie of rij
+	 */
+	
 	public void voegSteenToe(int indexSteen, Steen steen)
 	{
 		// TODO is index wel nodig?
@@ -31,12 +38,22 @@ public class StenenSet
 		}
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Verwijdert een steen uit de set (serie of rij)
+	 * @param indexSteen	int positie die aangeeft waar de steen verwijderd moet worden 
+	 * @return		geeft de verwijderde steen terug
+	 */
 	public Steen removeSteen(int indexSteen)
 	{
 		// TODO wat indien index te hoog? Fout of hoogst mogelijke index pakken?
 		return stenen.remove(indexSteen);
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Controleert de set op geldigheid volgends DR_GELDIGE_SPELSITUATIE (serie of rij)
+	 */
 	public void controleerSet()
 	{
 		
