@@ -245,6 +245,12 @@ public class Spel
 		doelVeld.voegSteenToe(positieDoel, bronSteen);
 	}
 	
+	/**
+	 * Use Case 3: rij of serie splitsen tijdens beurt
+	 * @param positieDoel	de plaats waar de splitsing zal gebeuren
+	 * @param doelIsWv		boolean of het op de werkveld met geplitst worden of niet
+	 */
+	
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	{
 		int doelVeldIndex;
@@ -334,6 +340,10 @@ public class Spel
 		
 		return beginAantalStenen != huidigAantalStenen;
 	}
+	
+	/**
+	 * (Use Case 3): speler voegt een willekeurig steen aan zijn bezit dmv de pot
+	 */
 	
 	private void neemSteenUitPot()
 	{
