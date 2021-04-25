@@ -139,7 +139,7 @@ public class DomeinController
 // Use Case 3 functies
 	/**
 	 * Use Case 3:
-	 * Start een nieuw beurt door door methode startBeurt() uit klasse spel aan te roepen
+	 * Start een nieuw beurt door door methode startBeurt() uit klasse Spel aan te roepen
 	 */
 	public void startBeurt()
 	{
@@ -148,7 +148,7 @@ public class DomeinController
 	
 	/**
 	 * Use Case 3:
-	 * Beëindigt de beurt door de methode beeindigBeurt() uit klasse spel aan te roepen
+	 * Beëindigt de beurt door de methode beeindigBeurt() uit klasse Spel aan te roepen
 	 */
 	public String beeindigBeurt()
 	{
@@ -165,12 +165,15 @@ public class DomeinController
 	}
 	
 	/**
-	 * Legt steen aan door methode 'legSteenAan()' van Spel aan te roepen
-	 * (gemeenschappelijk (doelVeldIndex = 0) of werkveld (doelVeldIndex = 1))
-	 * @param positieDoel int van de nieuwe positie van de steen die aangelegd moet worden (op gemeenschappelijk of werkveld)
+	 * Use Case 3:
+	 * Legt steen aan op een veld (gemeenschappelijk (doelVeldIndex = 0) of werkveld (doelVeldIndex = 1))
+	 * door methode legSteenAan() uit klasse Spel aan te roepen
+	 * @param positieDoel array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft waar de steen aangelegd moet worden
 	 * @param doelIsWv boolean geeft true als steen naar het werkveld moet (false voor gemeen. veld)
-	 * @param positieBron int van de oorspronkelijke positie van de steen die aangelegd moet worden
-	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke stenen)
+	 * @param positieBron array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft vanwaar de steen afkomstig is
+	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke bezit)
 	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
@@ -180,9 +183,10 @@ public class DomeinController
 
 	/**
 	 * Use Case 3: 
-	 * rij of serie splitsen door methode 'splitsRijOfSerie()' van Spel aan te roepen 
-	 * @param positieDoel	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * @param doelIsWv	boolean of het op de werkveld met geplitst worden of niet
+	 * Rij of serie splitsen door methode splitsRijOfSerie() uit klasse Spel aan te roepen 
+	 * @param positieDoel	array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft waar er gesplitst moet worden
+	 * @param doelIsWv	boolean geeft true als het op het werkveld moet geplitst worden (false voor gemeen. veld)
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	{
@@ -191,13 +195,13 @@ public class DomeinController
 	
 	/**
 	 * Use Case 3:
-	 * Vervangt een steen met een joker door methode 'vervangJoker()' van Spel aan te roepen
-	 * @param positieDoel array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * die helpt waar de steen vervangt moet worden
-	 * @param doelIsWv boolean geeft true als steen naar het werkveld moet (false voor gemeen. veld)
-	 * @param positieBron array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * die helpt vanwaar de steen afkomstig is
-	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke stenen)
+	 * Vervangt een steen met een joker door methode vervangJoker() uit klasse Spel aan te roepen
+	 * @param positieDoel array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft waar een steen vervangen moet worden
+	 * @param doelIsWv boolean geeft true als steen op het werkveld vervangen moet worden (false voor gemeen. veld)
+	 * @param positieBron array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft vanwaar een steen afkomstig is
+	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke bezit)
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
@@ -206,11 +210,11 @@ public class DomeinController
 	
 	/**
 	 * Use Case 3:
-	 * Vervangt een steen naar het werkveld door methode 'verplaatsNaarWerkveld()' aan te roepen
-	 * @param positieDoel array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * die helpt waar de steen verplaatst moet worden
-	 * @param positieBron	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * die helpt vanwaar de steen afkomstig is
+	 * Vervangt een steen naar het werkveld door methode verplaatsNaarWerkveld() uit klasse Spel aan te roepen
+	 * @param positieDoel array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft waar een steen verplaatst moet worden
+	 * @param positieBron	array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft vanwaar een steen afkomstig is
 	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	{

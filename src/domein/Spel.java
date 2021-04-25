@@ -45,7 +45,7 @@ public class Spel
 	}
 	
 	/** Use Case 3:
-	 * initialiseert attribuut 'velden' en maakt daarin twee velden aan, gemeenschappelijk en werkveld
+	 * Initialiseert attribuut velden en maakt daarin twee velden aan, gemeenschappelijk en werkveld
 	 */
 	private void maakVelden()
 	{
@@ -216,13 +216,15 @@ public class Spel
 	}
 
 	/**
-	 * Verwijdert steen uit positieBron (door methode 'removeSteen' van Veld of Speler aan te roepen) en legt het aan in doelveld
-	 * (door methode 'voegSteenToe' van Veld aan te roepen)
+	 * Use Case 3:
+	 * Legt steen aan op een veld
 	 * (gemeenschappelijk (doelVeldIndex = 0) of werkveld (doelVeldIndex = 1))
-	 * @param positieDoel int van de nieuwe positie van de steen die aangelegd moet worden (op gemeenschappelijk of werkveld)
+	 * @param positieDoel array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft waar de steen aangelegd moet worden
 	 * @param doelIsWv boolean geeft true als steen naar het werkveld moet (false voor gemeen. veld)
-	 * @param positieBron int van de oorspronkelijke positie van de steen die aangelegd moet worden
-	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke stenen)
+	 * @param positieBron array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft vanwaar de steen afkomstig is
+	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke bezit)
 	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
@@ -258,12 +260,12 @@ public class Spel
 	}
 	
 	/**
-	 * Use Case 3:
-	 * Rij of serie splitsen tijdens beurt door methode 'splitsRijOfSerie' van Veld aan te roepen
-	 * @param positieDoel	de plaats waar de splitsing zal gebeuren (1ste element is rij (StenenSet), 2de element is kolom (Steen in StenenSet))
-	 * @param doelIsWv		boolean of het op de werkveld met geplitst worden of niet
+	 * Use Case 3: 
+	 * Rij of serie splitsen
+	 * @param positieDoel	array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft waar er gesplitst moet worden
+	 * @param doelIsWv	boolean geeft true als het op het werkveld moet geplitst worden (false voor gemeen. veld)
 	 */
-	
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	{
 		int doelVeldIndex;
@@ -284,14 +286,13 @@ public class Spel
 	/**
 	 * Use Case 3:
 	 * Vervangt een steen met een joker
-	 * @param positieDoel array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * die helpt waar de steen vervangt moet worden
-	 * @param doelIsWv boolean geeft true als steen naar het werkveld moet (false voor gemeen. veld)
-	 * @param positieBron array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * die helpt vanwaar de steen afkomstig is
-	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke stenen)
+	 * @param positieDoel array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft waar een steen vervangen moet worden
+	 * @param doelIsWv boolean geeft true als steen op het werkveld vervangen moet worden (false voor gemeen. veld)
+	 * @param positieBron array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft vanwaar een steen afkomstig is
+	 * @param bronIsWv boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke bezit)
 	 */
-	
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{	
 		////moet doelsteen niet gecontroleerd worden (is het joker of niet (bv met steen.toString() == "JOK") ?
@@ -339,13 +340,14 @@ public class Spel
 		}
 	}
 	
+	
 	/**
 	 * Use Case 3:
 	 * Vervangt een steen naar het werkveld
-	 * @param positieDoel	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * die helpt waar de steen verplaatst moet worden
-	 * @param positieBron	array met 2 int elementen (rij van de juiste stenenset van attribuut stenenSets, kolom is de steen van de juiste stenenset)
-	 * die helpt vanwaar de steen afkomstig is
+	 * @param positieDoel array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft waar een steen verplaatst moet worden
+	 * @param positieBron	array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
+	 * die aangeeft vanwaar een steen afkomstig is
 	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	{
@@ -365,6 +367,7 @@ public class Spel
 	 * Controleert of een speler een steen afgelegd heeft
 	 * @return	boolean true als steen afgelegd is
 	 */
+	//veranderen in isSteenAfgelegd?
 	private boolean isSteenAfgelgelegd()
 	{
 		int beginAantalStenen = beurt.getSpeler().getStenen().size();
@@ -375,7 +378,7 @@ public class Spel
 	
 	/**
 	 * Use Case 3: 
-	 * Speler voegt een willekeurig steen aan zijn bezit dmv de pot
+	 * Speler voegt een willekeurig steen aan zijn bezit door middel van de pot
 	 */
 	
 	private void neemSteenUitPot()
