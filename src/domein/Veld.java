@@ -8,11 +8,23 @@ public class Veld
 {
 	private List<StenenSet> stenenSets;
 	
+	/**
+	 * Use Case 3:
+	 * Default constructor van Veld die een nieuw veld aanmaakt.
+	 * Wordt gebruikt in het begin van een spel of om het werkveld te resetten
+	 */
 	public Veld()
 	{
 		this(new ArrayList<>());
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Constructor van Veld die een nieuw veld aanmaakt aan de hand van een lijst van StenenSets.
+	 * Wordt gebruikt in de klasse Beurt om een copy van een bestaand gemeenschappelijk veld in op te slaan
+	 * 
+	 * @param stenenSets
+	 */
 	public Veld(List<StenenSet> stenenSets)
 	{
 		this.stenenSets = stenenSets;
@@ -28,9 +40,10 @@ public class Veld
 	/**
 	 * Use Case 3:
 	 * Voegt steen toe in een bestaande of tegelijkertijd aangemaakte StenenSet
-	 * @param positieSteen 	array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
-	 * die aangeeft vanwaar de steen afkomstig is
-	 * @param steen 	steen die zal toegevoegd worden
+	 * 
+	 * @param positieSteen	array met 2 int elementen (rij om de juiste StenenSet te vinden,
+	 * 						kolom om de juiste steen van de juiste StenenSet te vinden)	die aangeeft vanwaar de steen afkomstig is
+	 * @param steen			steen die zal toegevoegd worden
 	 */
 	public void voegSteenToe(int[] positieSteen, Steen steen)
 	{
@@ -51,9 +64,10 @@ public class Veld
 	/**
 	 * Use Case 3: 
 	 * Verwijdert een steen door gegeven array (rij en kolom) en geeft die terug
-	 * @param positieSteen 	array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
-	 * die aangeeft vanwaar de steen afkomstig is
-	 * @return 	verwijderde steen
+	 * 
+	 * @param positieSteen	array met 2 int elementen (rij om de juiste StenenSet te vinden,
+	 * 						kolom om de juiste steen van de juiste StenenSet te vinden)	die aangeeft vanwaar de steen afkomstig is
+	 * @return 				verwijderde steen
 	 */
 	public Steen removeSteen(int[] positieSteen)
 	{
@@ -66,10 +80,11 @@ public class Veld
 
 	/**
 	 * Use Case 3: 
-	 * Splitst een rij of serie in nieuwe StenenSets door gegeven array (rij en kolom), verwijdert oorspronkelijke (niet gesplitste StenenSet)
-	 * en voegt de nieuwe StenenSets toe aan attribuut stenenSets
-	 * @param positieSplitsing 	array met 2 int elementen (rij om de juiste StenenSet te vinden, kolom om de juiste steen van de juiste StenenSet te vinden)
-	 * die aangeeft waar er gesplitst moet worden
+	 * Splitst een rij of serie in nieuwe StenenSets door gegeven array (rij en kolom),
+	 * verwijdert oorspronkelijke (niet gesplitste StenenSet) en voegt de nieuwe StenenSets toe aan attribuut stenenSets
+	 * 
+	 * @param positieSplitsing	array met 2 int elementen (rij om de juiste StenenSet te vinden,
+	 * 							kolom om de juiste steen van de juiste StenenSet te vinden) die aangeeft waar er gesplitst moet worden
 	 */
 	public void splitsRijOfSerie(int[] positieSplitsing)
 	{
@@ -92,7 +107,8 @@ public class Veld
 	/**
 	 * Use Case 3:
 	 * Maakt een StenenSet met een Steen en voegt die StenenSet toe aan attribuut stenenSets
-	 * @param steen		Steen die in een StenenSet moet
+	 * 
+	 * @param steen	Steen die in een StenenSet moet
 	 */
 	public void maakStenenSet(Steen steen)
 	{
@@ -113,7 +129,12 @@ public class Veld
 			set.controleerSet();
 		}
 	}
-
+	
+	/**
+	 * Use Case 3:
+	 * ToString methode die een Veld weergeeft door elke StenenSet op een rij te plaatsen.
+	 * Wordt gebruikt in de geefSpelOverzicht() methode van de klasse Spel
+	 */
 	@Override
 	public String toString()
 	{

@@ -12,11 +12,27 @@ public class Speler
 	private int score;
 	private List<Steen> stenen;
 	
+	/**
+	 * Use Case 2:
+	 * Constructor die een Speler object aanmaakt aan de hand van de gebruikersnaam en wachtwoord
+	 * 
+	 * @param gebruikersnaam	de naam van de Speler
+	 * @param wachtwoord		het wachtwoord van de Speler
+	 */
 	public Speler(String gebruikersnaam, String wachtwoord)
 	{
 		this(gebruikersnaam, wachtwoord, new ArrayList<>());
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Constructor die een Speler object aanmaakt aan de hand van de gebruikersnaam, het wachtwoord en een lijst van Stenen.
+	 * Deze Constructor wordt vooral gebruikt de constructor van de klasse Beurt
+	 * 
+	 * @param gebruikersnaam	de naam van de Speler
+	 * @param wachtwoord		het wachtwoord van de Speler
+	 * @param stenen			een lijst van Stenen
+	 */
 	public Speler(String gebruikersnaam, String wachtwoord, List<Steen> stenen)
 	{
 		this.stenen = stenen;
@@ -116,10 +132,16 @@ public class Speler
 	
 	public List<Steen> getStenen()
 	{
-		// sorteer de stenen eerst
 		return stenen;
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Verwijdert een Steen op een bepaalde index van de spelerStenen en geeft deze Steen ook terug
+	 * 
+	 * @param indexSteen	index van de steen die moet verwijderd worden
+	 * @return				Steen object van de verwijderde Steen
+	 */
 	public Steen removeSteen(int indexSteen)
 	{
 		return stenen.remove(indexSteen);
@@ -131,6 +153,10 @@ public class Speler
 		return Objects.hash(gebruikersnaam);
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Equals methode die bepaalt dat twee spelers gelijk zijn indien hun gebruikersnamen dezelfde zijn
+	 */
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -145,7 +171,12 @@ public class Speler
 		Speler other = (Speler) obj;
 		return Objects.equals(gebruikersnaam, other.gebruikersnaam);
 	}
-
+	
+	/**
+	 * Use Case 3:
+	 * ToString methode die de Speler weergeeft als een lijst van zijn huidige stenen.
+	 * Deze methode wordt gebruikt in geefSpelOverzicht() van de klasse Spel
+	 */
 	@Override
 	public String toString()
 	{

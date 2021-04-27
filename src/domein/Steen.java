@@ -9,6 +9,14 @@ public class Steen implements Comparable<Steen>
 	private String kleur;
 	private boolean isJoker;
 	
+	/**
+	 * Use Case 2:
+	 * Constructor van Steen waaraan een boolean moet meegegeven worden.
+	 * Deze constructor kan enkel gebruikt worden voor het maken van jokers
+	 * 
+	 * @param isJoker	boolean die bepaalt of een steen een joker is,
+	 * 					deze mag enkel true zijn in deze constructor
+	 */
 	public Steen(boolean isJoker)
 	{
 		this(0, "joker", true);
@@ -19,11 +27,28 @@ public class Steen implements Comparable<Steen>
 		}
 	}
 	
+	/**
+	 * Use Case 2:
+	 * Constructor van Steen waaraan een getal en kleur moet meegegeven worden.
+	 * Deze constructor kan enkel gebruikt worden voor het maken van stenen die geen jokers zijn
+	 * 
+	 * @param getal		getal waarde van de steen
+	 * @param kleur		kleur van de steen
+	 */
 	public Steen(int getal, String kleur)
 	{
 		this(getal, kleur, false);
 	}
 	
+	/**
+	 * Use Case 2:
+	 * Constructor van Steen waaraan een getal, kleur en boolean moet meegegeven worden.
+	 * Deze constructor kan gebruikt worden voor het maken van alle Stenen
+	 * 
+	 * @param getal		getal waarde van de steen, 0 indien een joker
+	 * @param kleur		kleur van de steen, 'joker' indien een joker
+	 * @param isJoker	boolean die bepaalt of een steen een joker is, true indien een joker
+	 */
 	public Steen(int getal, String kleur, boolean isJoker)
 	{
 		// eerst moet joker ingesteld worden wegens controle in andere setters
@@ -33,7 +58,7 @@ public class Steen implements Comparable<Steen>
 		setKleur(kleur);
 	}
 	
-	private final void setGetal(int getal)
+	private void setGetal(int getal)
 	{
 		if(isJoker)
 		{
@@ -53,7 +78,7 @@ public class Steen implements Comparable<Steen>
 		this.getal = getal;
 	}
 	
-	private final void setKleur(String kleur)
+	private void setKleur(String kleur)
 	{
 		ArrayList<String> kleuren = new ArrayList<>(Arrays.asList("zwart", "rood", "blauw", "geel"));
 		
@@ -75,7 +100,7 @@ public class Steen implements Comparable<Steen>
 		this.kleur = kleur;
 	}
 	
-	private final void setJoker(boolean isJoker)
+	private void setJoker(boolean isJoker)
 	{
 		this.isJoker = isJoker;
 	}
@@ -95,6 +120,11 @@ public class Steen implements Comparable<Steen>
 		return isJoker;
 	}
 	
+	/**
+	 * Use Case 3:
+	 * CompareTo methode die de Stenen eerst sorteert op kleur en daarna op getal waarde,
+	 * jokers worden achteraan geplaatst
+	 */
 	@Override
 	public int compareTo(Steen steen)
 	{
@@ -120,6 +150,11 @@ public class Steen implements Comparable<Steen>
 		return vergelijk;
 	}
 	
+	/**
+	 * Use Case 2:
+	 * ToString methode die de steen weergeeft als een String van 3 karakters,
+	 * bv. JOK, G01, B11...
+	 */
 	@Override
 	public String toString()
 	{
