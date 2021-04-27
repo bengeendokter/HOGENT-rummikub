@@ -48,6 +48,17 @@ public class UseCase1LoginScherm extends GridPane
 		this.numberOfUsers = numberOfUsers;
     	buildGui();
     	buildText();
+    	
+    	throw new RuntimeException("iets fout");
+    	
+//    	try
+//    	{
+//    		throw new RuntimeException("iets fout");
+//    	}
+//    	catch(RuntimeException e)
+//    	{
+//    		showWarning();
+//    	}
     }
     
 	private void buildGui() throws RuntimeException
@@ -146,4 +157,15 @@ public class UseCase1LoginScherm extends GridPane
         stage.setScene(scene);
         stage.show();
 	}
+	
+//	private void showWarning()
+//	{
+//		Alert alert = new Alert(AlertType.WARNING);
+//		alert.setTitle("Fout!");
+//		alert.setHeaderText("Het scherm kan niet geladen worden\n"
+//							+ "The screen cannot be loaded");
+//		alert.setContentText("Contacteer de ontwikkelaars als dit probleem blijft optreden\n"
+//							+ "Contact the developers if this problem keeps occurring");
+//		alert.show();
+//	}
 }

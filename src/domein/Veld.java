@@ -8,6 +8,8 @@ public class Veld
 {
 	private List<StenenSet> stenenSets;
 	
+	//TODO boolean zitInWerkveld in constructor 
+	
 	/**
 	 * Use Case 3:
 	 * Default constructor van Veld die een nieuw veld aanmaakt.

@@ -36,6 +36,8 @@ public class UseCase1AantalGebruikersScherm extends GridPane
 		this.controller = controller;
 		buildGui();
     	buildText();
+    	
+//    	TODO voeg alert controle toe
 	}
 
 	private void buildGui() throws RuntimeException

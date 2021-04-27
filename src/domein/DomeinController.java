@@ -139,7 +139,7 @@ public class DomeinController
 // Use Case 3 functies
 	/**
 	 * Use Case 3:
-	 * Start een nieuw beurt door door methode startBeurt() uit klasse Spel aan te roepen
+	 * Start een nieuw beurt door methode startBeurt() uit klasse Spel aan te roepen
 	 */
 	public void startBeurt()
 	{

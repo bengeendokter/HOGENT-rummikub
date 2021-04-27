@@ -18,6 +18,8 @@ public class StenenSet
 		return stenen;
 	}
 	
+	//TODO boolean zitInWerkveld in constructor 
+	
 	/**
 	 * Use Case 3:
 	 * Voegt een steen toe aan de set (serie of rij)
@@ -47,7 +49,7 @@ public class StenenSet
 	 */
 	public Steen removeSteen(int indexSteen)
 	{
-		// TODO wat indien index te hoog? Fout of hoogst mogelijke index pakken?
+		// TODO wat indien index te hoog? Fout of hoogst mogelijke index pakken? We doen melding
 		return stenen.remove(indexSteen);
 	}
 	
@@ -59,6 +61,7 @@ public class StenenSet
 	{
 		
 	}
+	
 	/**
 	 * Use Case 3:
 	 * ToString methode die de StenenSets weergeeft door de Stenen te joinen met een '-'
