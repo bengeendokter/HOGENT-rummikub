@@ -298,7 +298,6 @@ public class Spel
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{	
-		// TODO moet doelsteen niet gecontroleerd worden (is het joker of niet (bv met steen.isJoker()) ?
 		// zoek het doelVeld
 		int doelVeldIndex;
 		
@@ -312,6 +311,15 @@ public class Spel
 		}
 		
 		Veld doelVeld = velden.get(doelVeldIndex);
+		Steen controleSteen = doelVeld.geefSteen(positieDoel);
+		
+		//controleert eerst de steen (moet een joker zijn)
+	
+		if (!controleSteen.isJoker()) {
+		//TODO exception gooien als steen geen joker is
+		}
+		
+		//als steen joker is, dan pas verwijderen
 		Steen doelSteen = doelVeld.removeSteen(positieDoel);
 		
 		// zoek de bronSteen
@@ -332,6 +340,7 @@ public class Spel
 		// voeg de bronSteen aan het doelVeld
 		doelVeld.voegSteenToe(positieDoel, bronSteen);
 		
+		//TODO  joker komt toch altijd in het werkveld? (5C4)
 		// voeg de doelSteen toe aan bronVeld/Speler
 		if(bron instanceof Veld)
 		{
@@ -342,7 +351,6 @@ public class Spel
 			((Speler) bron).voegSteenToe(doelSteen);
 		}
 	}
-	
 	
 	/**
 	 * Use Case 3:

@@ -158,4 +158,21 @@ public class Veld
 		
 		return output;
 	}
+	
+	/**
+	 * Use Case 3:
+	 * Geeft steen terug door middel van een positie (array) door methode geefSteen() uit klasse Set aan te roepen
+	 * @param 	positieSteen array met 2 int elementen (rij om de juiste StenenSet te vinden,
+	 * 							kolom om de juiste steen van de juiste StenenSet te vinden) die helpt de steen te vinden
+	 * @return					gevonden steen via positiearray
+	 */
+	public Steen geefSteen(int[] positieSteen) {
+		//TODO exception als steen niet bestaat (foute positie bv)
+		int setIndex = positieSteen[0];
+		int steenIndex = positieSteen[1];
+		
+		StenenSet set = stenenSets.get(setIndex);
+		return set.geefSteen(steenIndex);
+		
+	}
 }
