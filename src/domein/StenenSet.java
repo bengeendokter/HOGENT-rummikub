@@ -75,4 +75,14 @@ public class StenenSet
 		
 		return output;
 	}
+	
+	/**
+	 * Use Case 3:
+	 * Geeft de steen terug in een StenenSet via een index
+	 * @param 	indexSteen int positie om de steen te vinden
+	 * @return	gevonden steen
+	 */
+	public Steen geefSteen(int indexSteen) {
+		return getStenen().get(indexSteen);
+	}
 }
