@@ -42,7 +42,7 @@ public class UseCase3SpelOverzicht extends VBox
 		this.controller = controller;
 		
 		// TODO tijdelijke methode, verwijder later
-		// precondities();
+		 precondities();
 		
 		// bouw het spelOverzicht
 		buildGui();
@@ -55,13 +55,13 @@ public class UseCase3SpelOverzicht extends VBox
 		updateGui();
 	}
 
-//	private void precondities()
-//	{
-//		controller.meldAan("IkBenBen", "IkBenDokter");
-//		controller.meldAan("mns58", "myDiscordPassword");
-//		
-//		controller.startSpel();
-//	}
+	private void precondities()
+	{
+		controller.meldAan("IkBenBen", "IkBenDokter");
+		controller.meldAan("mns58", "myDiscordPassword");
+		
+		controller.startSpel();
+	}
 
 	private void buildGui() throws RuntimeException
 	{
