@@ -324,7 +324,6 @@ public class Spel
 		}
 		else // bron == spelerStenen
 		{
-			////moet dit niet bronSteen = ((Speler) bron).removeSteen(positieBron[1]); zijn omdat de kolom de steen aanduidt?
 			bron = spelerAanDeBeurt;
 			bronSteen = ((Speler) bron).removeSteen(positieBron[0]);
 		}
