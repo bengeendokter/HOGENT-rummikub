@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class UseCase3KnoppenPaneelKeuze extends VBox implements UseCase3HasText
@@ -35,12 +36,19 @@ public class UseCase3KnoppenPaneelKeuze extends VBox implements UseCase3HasText
 	
 	public UseCase3KnoppenPaneelKeuze(DomeinController controller, UseCase3SpelOverzicht parent)
 	{
-		this.controller = controller;
-		this.parent = parent;
-		
-		buildGui();
-		buildText();
-		Platform.runLater(() -> btnSteenAan.requestFocus());
+		try
+		{
+			this.controller = controller;
+			this.parent = parent;
+			
+			buildGui();
+			buildText();
+			Platform.runLater(() -> btnSteenAan.requestFocus());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 	
 	
@@ -122,6 +130,9 @@ public class UseCase3KnoppenPaneelKeuze extends VBox implements UseCase3HasText
         Scene scene = new Scene(sc);
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);
+        // centreer scherm
+        stage.setX((Screen.getPrimary().getVisualBounds().getWidth() - sc.getWidth()) / 2);
+        stage.setY((Screen.getPrimary().getVisualBounds().getHeight() - sc.getWidth()) / 2);
         stage.show();
 	}
 }

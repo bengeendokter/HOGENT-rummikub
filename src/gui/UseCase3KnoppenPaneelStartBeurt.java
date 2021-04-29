@@ -19,12 +19,19 @@ public class UseCase3KnoppenPaneelStartBeurt extends VBox implements UseCase3Has
 	
 	public UseCase3KnoppenPaneelStartBeurt(DomeinController controller, UseCase3SpelOverzicht parent)
 	{
-		this.controller = controller;
-		this.parent = parent;
-		
-		buildGui();
-		buildText();
-		Platform.runLater(() -> btnStart.requestFocus());
+		try
+		{
+			this.controller = controller;
+			this.parent = parent;
+			
+			buildGui();
+			buildText();
+			Platform.runLater(() -> btnStart.requestFocus());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 	
 	private void buildGui() throws RuntimeException

@@ -315,7 +315,8 @@ public class Spel
 		
 		//controleert eerst de steen (moet een joker zijn)
 	
-		if (!controleSteen.isJoker()) {
+		if (!controleSteen.isJoker())
+		{
 		//TODO exception gooien als steen geen joker is
 		}
 		

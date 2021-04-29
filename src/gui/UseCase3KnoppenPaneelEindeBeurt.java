@@ -23,12 +23,19 @@ public class UseCase3KnoppenPaneelEindeBeurt extends VBox implements UseCase3Has
 	
 	public UseCase3KnoppenPaneelEindeBeurt(DomeinController controller, UseCase3SpelOverzicht parent)
 	{
-		this.controller = controller;
-		this.parent = parent;
-		
-		buildGui();
-		buildText();
-		Platform.runLater(() -> btnOk.requestFocus());
+		try
+		{
+			this.controller = controller;
+			this.parent = parent;
+			
+			buildGui();
+			buildText();
+			Platform.runLater(() -> btnOk.requestFocus());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 	
 	

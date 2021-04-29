@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class UseCase1AantalGebruikersScherm extends GridPane
@@ -29,15 +30,20 @@ public class UseCase1AantalGebruikersScherm extends GridPane
 	@FXML
 	private Label lblMessage;
 	
-	private final DomeinController controller;
+	private DomeinController controller;
 	
 	public UseCase1AantalGebruikersScherm(DomeinController controller) throws RuntimeException
 	{
-		this.controller = controller;
-		buildGui();
-    	buildText();
-    	
-//    	TODO voeg alert controle toe
+		try
+		{
+			this.controller = controller;
+			buildGui();
+			buildText();
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 
 	private void buildGui() throws RuntimeException
@@ -82,10 +88,13 @@ public class UseCase1AantalGebruikersScherm extends GridPane
         	int amount = Integer.parseInt(txfAmount.getText());
         	controller.registreerAantal(amount);
         	
-        	UseCase1LoginScherm ls = new UseCase1LoginScherm(controller, amount);
-            Scene scene = new Scene(ls);
+        	UseCase1LoginScherm sc = new UseCase1LoginScherm(controller, amount);
+            Scene scene = new Scene(sc);
             Stage stage = (Stage) this.getScene().getWindow();
             stage.setScene(scene);
+            // centreer scherm
+            stage.setX((Screen.getPrimary().getVisualBounds().getWidth() - sc.getWidth()) / 2);
+            stage.setY((Screen.getPrimary().getVisualBounds().getHeight() - sc.getWidth()) / 2);
             stage.show();
         }
         catch (NumberFormatException | BuitenBereikException e)

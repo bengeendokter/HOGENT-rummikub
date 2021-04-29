@@ -39,26 +39,34 @@ public class UseCase3SpelOverzicht extends VBox
 	
 	public UseCase3SpelOverzicht(DomeinController controller)
 	{
-		this.controller = controller;
-		
-		// TODO tijdelijke methode, verwijder later
-		 precondities();
-		
-		// bouw het spelOverzicht
-		buildGui();
-		
-		// voeg het startBeurtPaneel onderaan toe
-		paneel = new UseCase3KnoppenPaneelStartBeurt(controller, this);
-		this.getChildren().add(paneel);
-		
-		// update alle tekst en velden
-		updateGui();
+		try
+		{
+			this.controller = controller;
+			
+			// TODO tijdelijke methode, verwijder later
+			 precondities();
+			
+			// bouw het spelOverzicht
+			buildGui();
+			
+			// voeg het startBeurtPaneel onderaan toe
+			paneel = new UseCase3KnoppenPaneelStartBeurt(controller, this);
+			this.getChildren().add(paneel);
+			
+			// update alle tekst en velden
+			updateGui();
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 
 	private void precondities()
 	{
-		controller.meldAan("IkBenBen", "IkBenDokter");
-		controller.meldAan("mns58", "myDiscordPassword");
+//		controller.meldAan("IkBenBen", "IkBenDokter");
+//		controller.meldAan("mns58", "myDiscordPassword");
+		controller.meldAanOffline();
 		
 		controller.startSpel();
 	}

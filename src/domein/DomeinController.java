@@ -58,6 +58,16 @@ public class DomeinController
 		spelers.add(gevondenSpeler);
 	}
 	
+	// TODO tijdelijke methode om zonder internet het programma te testen, verwijder later
+	public void meldAanOffline()
+	{
+		Speler speler1 = new Speler("IkBenBen", "IkBenDokter");
+		Speler speler2 = new Speler("IkBenBen", "IkBenDokter");
+		
+		spelers.add(speler1);
+		spelers.add(speler2);
+	}
+	
 	/**
 	 * Use Case 1:
 	 * Geeft een lijst van de aangemelde gebruikers

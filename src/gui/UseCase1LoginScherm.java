@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -39,26 +40,22 @@ public class UseCase1LoginScherm extends GridPane
 	
     private int currentUserIndex = 1;
 	private int numberOfUsers;
-    private final DomeinController controller;
+    private DomeinController controller;
     
     
     public UseCase1LoginScherm(DomeinController controller, int numberOfUsers) throws RuntimeException
     {
-		this.controller = controller;
-		this.numberOfUsers = numberOfUsers;
-    	buildGui();
-    	buildText();
-    	
-    	throw new RuntimeException("iets fout");
-    	
-//    	try
-//    	{
-//    		throw new RuntimeException("iets fout");
-//    	}
-//    	catch(RuntimeException e)
-//    	{
-//    		showWarning();
-//    	}
+    	try
+    	{
+			this.controller = controller;
+			this.numberOfUsers = numberOfUsers;
+	    	buildGui();
+	    	buildText();
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
     }
     
 	private void buildGui() throws RuntimeException
@@ -151,21 +148,13 @@ public class UseCase1LoginScherm extends GridPane
 
 	private void volgendScherm()
 	{
-		UseCase1GebruikersLijstScherm gl = new UseCase1GebruikersLijstScherm(controller);
-        Scene scene = new Scene(gl);
+		UseCase1GebruikersLijstScherm sc = new UseCase1GebruikersLijstScherm(controller);
+        Scene scene = new Scene(sc);
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);
+        // centreer scherm
+        stage.setX((Screen.getPrimary().getVisualBounds().getWidth() - sc.getWidth()) / 2);
+        stage.setY((Screen.getPrimary().getVisualBounds().getHeight() - sc.getWidth()) / 2);
         stage.show();
 	}
-	
-//	private void showWarning()
-//	{
-//		Alert alert = new Alert(AlertType.WARNING);
-//		alert.setTitle("Fout!");
-//		alert.setHeaderText("Het scherm kan niet geladen worden\n"
-//							+ "The screen cannot be loaded");
-//		alert.setContentText("Contacteer de ontwikkelaars als dit probleem blijft optreden\n"
-//							+ "Contact the developers if this problem keeps occurring");
-//		alert.show();
-//	}
 }

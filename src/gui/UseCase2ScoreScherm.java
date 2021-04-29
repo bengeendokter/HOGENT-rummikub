@@ -25,10 +25,17 @@ public class UseCase2ScoreScherm extends VBox
 	
 	public UseCase2ScoreScherm(DomeinController controller) throws RuntimeException
 	{
-		this.controller = controller;
-		buildGui();
-		buildText();
-		geefScore();
+		try
+		{
+			this.controller = controller;
+			buildGui();
+			buildText();
+			geefScore();
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 	
 	private void geefScore()

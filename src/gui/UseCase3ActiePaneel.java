@@ -72,13 +72,20 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 	
 	public UseCase3ActiePaneel(DomeinController controller, UseCase3SpelOverzicht parent)
 	{
-		this.controller = controller;
-		this.parent = parent;
-		this.actie = "actie";
-		
-		buildGui();
-		buildText();
-		Platform.runLater(() -> txfDoelRij.requestFocus());
+		try
+		{
+			this.controller = controller;
+			this.parent = parent;
+			this.actie = "actie";
+			
+			buildGui();
+			buildText();
+			Platform.runLater(() -> txfDoelRij.requestFocus());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 	
 	private void buildGui() throws RuntimeException

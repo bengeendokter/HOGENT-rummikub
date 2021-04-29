@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class UseCase1GebruikersLijstScherm extends VBox
@@ -30,11 +31,18 @@ public class UseCase1GebruikersLijstScherm extends VBox
 	
 	public UseCase1GebruikersLijstScherm(DomeinController controller) throws RuntimeException
 	{
-		this.controller = controller;
-		buildGui();
-		buildText();
-		// focust op de Start spel knop vanaf dat het scherm geladen is
-		Platform.runLater(() -> btnStart.requestFocus());
+		try
+		{
+			this.controller = controller;
+			buildGui();
+			buildText();
+			// focust op de Start spel knop vanaf dat het scherm geladen is
+			Platform.runLater(() -> btnStart.requestFocus());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 	
 	private void buildGui() throws RuntimeException
@@ -80,6 +88,9 @@ public class UseCase1GebruikersLijstScherm extends VBox
         Scene scene = new Scene(sc);
         Stage stage = (Stage) this.getScene().getWindow();
         stage.setScene(scene);
+        // centreer scherm
+        stage.setX((Screen.getPrimary().getVisualBounds().getWidth() - sc.getWidth()) / 2);
+        stage.setY((Screen.getPrimary().getVisualBounds().getHeight() - sc.getWidth()) / 2);
         stage.show();
     }
 }
