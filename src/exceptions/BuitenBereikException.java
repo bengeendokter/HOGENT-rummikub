@@ -13,5 +13,8 @@ public class BuitenBereikException extends IllegalArgumentException
 	{
 		super(s);
 	}
+	
+	
 
 }
+
