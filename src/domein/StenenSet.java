@@ -37,8 +37,69 @@ public class StenenSet
 			stenen.add(steen);
 		}
 		else
-		{
-			stenen.set(indexSteen, steen);
+		{	if (bevatSteenLinks(indexSteen) && !bevatSteenRechts(indexSteen)) {
+			String kleur1 = steen.getKleur();
+			String kleur2 = geefSteen(indexSteen - 1).getKleur();
+			
+			if (kleur1 == kleur2) {
+				int getalOrigineel = steen.getGetal();
+				int getalLinks = geefSteen(indexSteen - 1).getGetal();
+				if (getalLinks == getalOrigineel - 1) {
+					if (getalLinks - 1 == 0) {
+						throw new IllegalArgumentException("U mag de steen hier niet plaatsen!");
+					} else {
+						stenen.set(indexSteen, steen);
+					}
+				}else {
+					throw new IllegalArgumentException("Getal van steen is niet groter!");
+				}
+			} else {
+				int getalOrigineel = steen.getGetal();
+				int getalLinks = geefSteen(indexSteen - 1).getGetal();
+				
+				if (getalOrigineel == getalLinks) {
+					stenen.set(indexSteen, steen);
+				} else {
+					throw new IllegalArgumentException("Getallen/kleuren van de stenen komen niet overeen!");
+				}
+			}
+		} else {
+			if (!bevatSteenLinks(indexSteen) && bevatSteenRechts(indexSteen)) {
+				String kleur1 = steen.getKleur();
+				String kleur2 = geefSteen(indexSteen + 1).getKleur();
+				
+				if (kleur1 == kleur2) {
+					int getalOrigineel = steen.getGetal();
+					int getalRechts = geefSteen(indexSteen + 1).getGetal();
+					if (getalRechts == getalOrigineel + 1) {
+						if (getalRechts + 1 == 14) {
+							throw new IllegalArgumentException("U mag de steen hier niet plaatsen!");
+						} else {
+							stenen.set(indexSteen, steen);
+						}
+					}
+					else {
+						throw new IllegalArgumentException("Getal van de steen is niet kleiner!");
+					}
+				} else {
+					int getalOrigineel = steen.getGetal();
+					int getalRechts = geefSteen(indexSteen + 1).getGetal();
+					
+					if (getalOrigineel == getalRechts) {
+						stenen.set(indexSteen, steen);
+					} else {
+						throw new IllegalArgumentException("Getallen/kleuren van de stenen komen niet overeen!");
+					}
+				}
+			} else {
+				if(!bevatSteenLinks(indexSteen) && !bevatSteenRechts(indexSteen)) {
+					stenen.set(indexSteen, steen);
+				}
+				
+			}
+
+		}
+			/*stenen.set(indexSteen, steen);*/
 			// stenen.add(indexSteen, steen);
 		}
 	}
@@ -103,5 +164,17 @@ public class StenenSet
 		// } else {
 		//	throw new OngeldigInvoerException();
 		// }
+	}
+	
+	public boolean bevatSteenRechts(int indexSteen) {
+		if (indexSteen + 1 <= 12 && stenen.get(indexSteen + 1) != null) {
+			return true;
+		} else return false;
+	}
+	
+	public boolean bevatSteenLinks(int indexSteen) {
+		if (indexSteen - 1 >= 0 && stenen.get(indexSteen - 1) != null ) {
+			return true;
+		} else return false;
 	}
 }

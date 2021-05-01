@@ -74,6 +74,7 @@ public class Veld
 		}
 		else
 		{
+			
 			StenenSet set = stenenSets.get(setIndex);
 			set.voegSteenToe(steenIndex, steen);
 		}
