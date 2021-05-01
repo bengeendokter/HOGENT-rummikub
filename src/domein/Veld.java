@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import exceptions.DoelBevatSteenException;
+import exceptions.FoutePositieException;
+import exceptions.NogPlaatsOpVeldException;
 import exceptions.OngeldigInvoerException;
 
 public class Veld
@@ -64,20 +67,122 @@ public class Veld
 	 * @param steen			steen die zal toegevoegd worden
 	 */
 	public void voegSteenToe(int[] positieSteen, Steen steen)
+	//kan eventueel boolean doelIsWv als derde parameter krijgen
 	{
 		int setIndex = positieSteen[0];
-		int steenIndex = positieSteen[1];
+        int steenIndex = positieSteen[1];
+        
+        boolean waardeNull = false;
 		
-		if(setIndex >= stenenSets.size())
-		{
-			maakStenenSet(steen);
-		}
-		else
-		{
-			
-			StenenSet set = stenenSets.get(setIndex);
-			set.voegSteenToe(steenIndex, steen);
-		}
+        /*if(setIndex >= stenenSets.size())
+        {
+        	for (StenenSet s : stenenSets) {
+    			
+    			waardeNull = false;
+    			
+    			for (Steen o : s.getStenen()) {
+    				if (o != null) {
+    					waardeNull = true;
+    					break;
+    				}
+    			}
+    			
+    			if (!waardeNull) {
+    				throw new NogPlaatsOpVeldException();
+    			}
+    			
+        		if (waardeNull) {
+        			maakStenenSet(steen);
+        		}
+        	}}
+        else
+        {
+            StenenSet set = stenenSets.get(setIndex);
+            set.voegSteenToe(steenIndex, steen);
+        }*/
+        
+        /*if (!doelIsWv) {
+		    if(setIndex >= stenenSets.size() || steenIndex >= 13) {
+		    	
+		    	//controle op hoge index bij kolom
+		    	if (steenIndex >= 13)
+		    		throw new FoutePositieException();
+		    	
+		    	//controle op hoge index bij rij     	
+		    	for (StenenSet s : stenenSets) {
+					
+					waardeNull = false;
+					
+					for (Steen o : s.getStenen()) {
+						if (o != null) {
+							waardeNull = true;
+							break;
+						}
+					}
+					
+					if (!waardeNull) {
+						throw new NogPlaatsOpVeldException();
+					}
+					
+		    		if (waardeNull) {
+		    			maakStenenSet(steen);
+		    		}
+		    	}}
+		    else
+		    {
+		    	if (geefSteen(positieSteen) != null)
+		    		throw new DoelBevatSteenException();
+		    	
+		        StenenSet set = stenenSets.get(setIndex);
+		        set.voegSteenToe(steenIndex, steen);
+		    }
+        } else if (doelIsWv) {
+        	if(setIndex >= stenenSets.size() || steenIndex >= 13) {
+		    		throw new FoutePositieException();
+        	}
+		    else
+		    {
+		    	if (geefSteen(positieSteen) != null)
+		    		throw new DoelBevatSteenException();
+		    	
+		        StenenSet set = stenenSets.get(setIndex);
+		        set.voegSteenToe(steenIndex, steen);
+		    }
+        }*/
+        if(setIndex >= stenenSets.size() || steenIndex >= 13) {
+	    	
+	    	//controle op hoge index bij kolom
+	    	if (steenIndex >= 13)
+	    		throw new FoutePositieException();
+	    	
+	    	//controle op hoge index bij rij     	
+	    	for (StenenSet s : stenenSets) {
+				
+				waardeNull = false;
+				
+				for (Steen o : s.getStenen()) {
+					if (o != null) {
+						waardeNull = true;
+						break;
+					}
+				}
+				
+				if (!waardeNull) {
+					throw new NogPlaatsOpVeldException();
+				}
+				
+	    		if (waardeNull) {
+	    			maakStenenSet(steen);
+	    		}
+	    	}}
+	    else
+	    {
+	    	if (geefSteen(positieSteen) != null)
+	    		throw new DoelBevatSteenException();
+	    	
+	        StenenSet set = stenenSets.get(setIndex);
+	        set.voegSteenToe(steenIndex, steen);
+	    }
 	}
 	
 	/**
@@ -211,7 +316,7 @@ public class Veld
 		int steenIndex = positieSteen[1];
 		
 		// controle op indexen
-		if (setIndex < stenenSets.size()) {
+		/*if (setIndex < stenenSets.size()) {
 			if (steenIndex < stenenSets.get(setIndex).getStenen().size()) {
 				
 				StenenSet set = stenenSets.get(setIndex);
@@ -221,7 +326,9 @@ public class Veld
 			}
 		} else {
 			throw new OngeldigInvoerException();
-		}
+		}*/
+		StenenSet set = stenenSets.get(setIndex);
+		return set.geefSteen(steenIndex);
 	}
 
 	// Toegevoegd

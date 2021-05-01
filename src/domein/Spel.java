@@ -2,7 +2,13 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.List;
+
+import exceptions.BronBevatGeenSteenException;
+import exceptions.JokerException;
+import exceptions.OngeldigInvoerException;
+import exceptions.OngeldigeSpelsituatieException;
 
 public class Spel
 {
@@ -169,6 +175,7 @@ public class Spel
 	public void startBeurt()
 	{
 		beurt = new Beurt(spelerAanDeBeurt, velden.get(0));
+		spelerAanDeBeurt.setEersteKeer(true);
 	}
 	
 	/**
@@ -188,8 +195,13 @@ public class Spel
 			neemSteenUitPot();
 		}
 		
-		// voor dat we de speler veranderen slagen we eerst zijn stenen op
+		// voor dat we de speler veranderen slagen we eerst zijn stenen op en veranderen we attribuut isEersteKeer als hij al aangelegd heeft
 		stenenMetExtra = spelerAanDeBeurt.toString();
+		
+		//dit moet nog aangepast worden : speler stenen moeten ook min 30 punten zijn
+		if (isSteenAfgelegd()) {
+			spelerAanDeBeurt.setEersteKeer(false);
+		}
 		
 		// bepaal volgende speler aan de beurt		
 		int index = spelers.indexOf(spelerAanDeBeurt) + 1;
@@ -230,34 +242,140 @@ public class Spel
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
 		// zoek het doelVeld
-		int doelVeldIndex;
+				int doelVeldIndex;
+				
+				if(doelIsWv) // doel == werkveld
+				{
+					doelVeldIndex = 1;
+				}
+				else // doel == gemeenschappelijkveld
+				{
+					doelVeldIndex = 0;
+				}
+				
+				Veld doelVeld = velden.get(doelVeldIndex);
+				
+//-controle op velden (doel en bron) (positie moet niet leeg zijn, getal en positief zijn en moet bestaan)
+//OngeldigInvoerException
+			
+				try {
+					if (
+							positieDoel != null
+							&& positieDoel == (int[]) positieDoel
+							
+							&&
+							positieBron != null
+							&& positieBron == (int[]) positieBron
+	
+							&&
+							(positieDoel[0] == (int) positieDoel[0])
+							&& (positieDoel[1] == (int) positieDoel[1])
+							
+							/*&&
+							(positieDoel[0] >= 0 && positieDoel[0] < velden.get(0).getStenenSets().size())
+							&& (positieDoel[1] >= 0 && positieDoel[1] < velden.get(1).getStenenSets().get(positieDoel[1]).getStenen().size())*/
+							
+						) {
+						
+						//positieDoel moet een lege positie zijn => gooit exception in Veld in methode voegSteenToe()
+						
+						//positieBron moet verwijzen naar een steen
+						if (positieBron[0] >= spelerAanDeBeurt.getStenen().size()) {
+							throw new BronBevatGeenSteenException();
+						} else {
+							
+						}
+						
+					} else {
+						throw new OngeldigInvoerException();
+					}
+					
+//-controle op joker (mag niet gebruikt worden bij de eerste keer)
+//JokerException
+									
+						// zoek de bronSteen
+						Steen bronSteen;
+						Steen controleSteen;
+						
+						if(bronIsWv) // bron == werkveld
+						{
+							Veld bronVeld = velden.get(1);
+							
+							//joker mag niet ebruikt worden bij de eerste keer
+							controleSteen = bronVeld.geefSteen(positieBron);
+							
+							if (spelerAanDeBeurt.isEersteKeer() && controleSteen.isJoker())
+								throw new JokerException();
+							
+							
+							bronSteen = bronVeld.removeSteen(positieBron);
+						}
+						else // bron == spelerStenen
+						{
+							int bronSpelerSteenIndex = positieBron[0];
+							controleSteen = spelerAanDeBeurt.getStenen().get(bronSpelerSteenIndex);
+							
+							if (spelerAanDeBeurt.isEersteKeer() && controleSteen.isJoker())
+								throw new JokerException();
+							
+							bronSteen = spelerAanDeBeurt.removeSteen(bronSpelerSteenIndex);
+						}
+								
+//-controle op elke keer van aanleggen juisteheid van steen (DR) behalve 1ste
+//SteenAanleggenException
+										
+						// voeg de bronSteen aan het doelVeld
+						//doelVeld.voegSteenToe(positieDoel, bronSteen, doelIsWv);	
+						doelVeld.voegSteenToe(positieDoel, bronSteen);
 		
-		if(doelIsWv) // doel == werkveld
-		{
-			doelVeldIndex = 1;
-		}
-		else // doel == gemeenschappelijkveld
-		{
-			doelVeldIndex = 0;
-		}
-		
-		Veld doelVeld = velden.get(doelVeldIndex);
-		
-		// zoek de bronSteen
-		Steen bronSteen;
-		if(bronIsWv) // bron == werkveld
-		{
-			Veld bronVeld = velden.get(1);
-			bronSteen = bronVeld.removeSteen(positieBron);
-		}
-		else // bron == spelerStenen
-		{
-			int bronSpelerSteenIndex = positieBron[0];
-			bronSteen = spelerAanDeBeurt.removeSteen(bronSpelerSteenIndex);
-		}
-		
-		// voeg de bronSteen aan het doelVeld
-		doelVeld.voegSteenToe(positieDoel, bronSteen);
+				} catch (OngeldigInvoerException e) {
+					System.err.println(e.getMessage());
+				} catch (InputMismatchException e) {
+					System.err.println(e.getMessage());
+				} catch (JokerException e) {
+					System.err.println(e.getMessage());
+				}catch (BronBevatGeenSteenException e) {
+					System.err.println(e.getMessage());
+				} catch (OngeldigeSpelsituatieException e) {
+					System.err.println(e.getMessage());
+				}
+			
+				
+				// zoek de bronSteen
+				/*Steen bronSteen;
+				Steen controleSteen;
+				
+				if(bronIsWv) // bron == werkveld
+				{
+					Veld bronVeld = velden.get(1);
+					
+					//joker mag niet ebruikt worden bij de eerste keer
+					controleSteen = bronVeld.geefSteen(positieBron);
+					
+					if (spelerAanDeBeurt.isEersteKeer() && controleSteen.isJoker())
+						throw new JokerException();
+					
+					
+					bronSteen = bronVeld.removeSteen(positieBron);
+				}
+				else // bron == spelerStenen
+				{
+					int bronSpelerSteenIndex = positieBron[0];
+					controleSteen = spelerAanDeBeurt.getStenen().get(bronSpelerSteenIndex);
+					
+					if (spelerAanDeBeurt.isEersteKeer() && controleSteen.isJoker())
+						throw new JokerException();
+					
+					bronSteen = spelerAanDeBeurt.removeSteen(bronSpelerSteenIndex);
+				}
+						
+//-controle op elke keer van aanleggen juisteheid van steen (DR) behalve 1ste
+//SteenAanleggenException
+								
+				// voeg de bronSteen aan het doelVeld
+				//doelVeld.voegSteenToe(positieDoel, bronSteen, doelIsWv);	
+				doelVeld.voegSteenToe(positieDoel, bronSteen);*/
+
 	}
 	
 	/**
@@ -338,12 +456,16 @@ public class Spel
 		}
 		
 		// voeg de bronSteen aan het doelVeld
+//******************************
+		//doelVeld.voegSteenToe(positieDoel, bronSteen, false);
 		doelVeld.voegSteenToe(positieDoel, bronSteen);
 		
 		//TODO  joker komt toch altijd in het werkveld? (5C4)
 		// voeg de doelSteen toe aan bronVeld/Speler
 		if(bron instanceof Veld)
 		{
+//******************************
+			//((Veld) bron).voegSteenToe(positieBron, doelSteen, false);
 			((Veld) bron).voegSteenToe(positieBron, doelSteen);
 		}
 		else
@@ -371,6 +493,8 @@ public class Spel
 		Steen bronSteen = bronVeld.removeSteen(positieBron);
 
 		// voeg de bronSteen aan het doelVeld
+//******************************
+		//doelVeld.voegSteenToe(positieDoel, bronSteen, false);
 		doelVeld.voegSteenToe(positieDoel, bronSteen);
 	}
 	
