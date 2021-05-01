@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import exceptions.OngeldigInvoerException;
+
 public class StenenSet
 {
 	private List<Steen> stenen;
@@ -36,7 +38,8 @@ public class StenenSet
 		}
 		else
 		{
-			stenen.add(indexSteen, steen);
+			stenen.set(indexSteen, steen);
+			// stenen.add(indexSteen, steen);
 		}
 	}
 	
@@ -51,6 +54,12 @@ public class StenenSet
 	{
 		// TODO wat indien index te hoog? Fout of hoogst mogelijke index pakken? We doen melding
 		return stenen.remove(indexSteen);
+		
+		/*Steen steen = geefSteen(indexSteen);
+		
+		stenen.set(indexSteen, null);
+		
+		return steen;*/
 	}
 	
 	/**
@@ -70,8 +79,14 @@ public class StenenSet
 	@Override
 	public String toString()
 	{
-		Stream<String> stringList = stenen.stream().map(Steen::toString);
-		String output = stringList.collect(Collectors.joining("-"));		
+		String output = "";
+		
+		for (int i = 0; i < stenen.size(); i++) {
+			output += (stenen.get(i) == null)? "    ": stenen.get(i).toString();
+		}
+		
+		//Stream<String> stringList = stenen.stream().map((stenen])Steen::toString);
+		//String output = stringList.collect(Collectors.joining("-"));		
 		
 		return output;
 	}
@@ -83,6 +98,10 @@ public class StenenSet
 	 * @return	gevonden steen
 	 */
 	public Steen geefSteen(int indexSteen) {
-		return getStenen().get(indexSteen);
+		// if (indexSteen < getStenen().size()) {
+			return getStenen().get(indexSteen);
+		// } else {
+		//	throw new OngeldigInvoerException();
+		// }
 	}
 }

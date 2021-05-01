@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import exceptions.OngeldigInvoerException;
+
 public class Veld
 {
 	private List<StenenSet> stenenSets;
+	//toegevoegd
+	private final boolean isGV;
 	
 	//TODO boolean zitInWerkveld in constructor 
 	
@@ -15,9 +19,20 @@ public class Veld
 	 * Default constructor van Veld die een nieuw veld aanmaakt.
 	 * Wordt gebruikt in het begin van een spel of om het werkveld te resetten
 	 */
-	public Veld()
+	public Veld(boolean isGV)
 	{
-		this(new ArrayList<>());
+		// GV creeren als ArrayList van StenenSets met default lengte 13
+
+		this.isGV = isGV;
+		
+			List<StenenSet> setArray = new ArrayList<>();
+			for (int i = 0; i < ((isGV)? 13 : 2); i++) {
+				setArray.add(new StenenSet(Arrays.asList(new Steen[13])));
+			}
+			
+			this.stenenSets = setArray;
+		
+		//this(new ArrayList<StenenSet>());
 	}
 	
 	/**
@@ -27,8 +42,9 @@ public class Veld
 	 * 
 	 * @param stenenSets
 	 */
-	public Veld(List<StenenSet> stenenSets)
+	public Veld(List<StenenSet> stenenSets, boolean isGV)
 	{
+		this.isGV = isGV;
 		this.stenenSets = stenenSets;
 	}
 	
@@ -78,6 +94,7 @@ public class Veld
 		
 		StenenSet set = stenenSets.get(setIndex);
 		return set.removeSteen(steenIndex);
+		
 	}
 
 	/**
@@ -114,9 +131,14 @@ public class Veld
 	 */
 	public void maakStenenSet(Steen steen)
 	{
+		
+		stenenSets.add(new StenenSet(Arrays.asList(new Steen[13])));
+		
+		/*
 		List<Steen> stenenList = new ArrayList<>(Arrays.asList(steen));
 		StenenSet set = new StenenSet(stenenList);	
 		stenenSets.add(set);
+		*/
 	}
 	
 	/**
@@ -140,7 +162,7 @@ public class Veld
 	@Override
 	public String toString()
 	{
-		String output = "";
+		/*String output = "";
 		String kolomNrs = String.format("%3s", "");
 		for(int i = 1; i < 14; i++)
 		{
@@ -157,6 +179,22 @@ public class Veld
 		}
 		
 		return output;
+		*/
+		
+		String resultaat = "";
+		
+		resultaat += String.format("%3s", "");
+		for (int i = 1; i < 14; i++) {
+			resultaat += String.format("%2d%2s", i, " ");
+		}
+		
+		for (int i = 0; i < stenenSets.size(); i++) {
+			resultaat += String.format("%n%02d%1s", i+1,"");
+			resultaat += stenenSets.get(i).toString();
+		}
+		
+		return resultaat;
+		
 	}
 	
 	/**
@@ -171,8 +209,24 @@ public class Veld
 		int setIndex = positieSteen[0];
 		int steenIndex = positieSteen[1];
 		
-		StenenSet set = stenenSets.get(setIndex);
-		return set.geefSteen(steenIndex);
-		
+		// controle op indexen
+		if (setIndex < stenenSets.size()) {
+			if (steenIndex < stenenSets.get(setIndex).getStenen().size()) {
+				
+				StenenSet set = stenenSets.get(setIndex);
+				return set.geefSteen(steenIndex);
+			} else {
+				throw new OngeldigInvoerException();
+			}
+		} else {
+			throw new OngeldigInvoerException();
+		}
 	}
+
+	// Toegevoegd
+	public boolean isGV() {
+		return isGV;
+	}
+	
+	
 }

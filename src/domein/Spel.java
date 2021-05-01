@@ -51,8 +51,8 @@ public class Spel
 	private void maakVelden()
 	{
 		velden = new ArrayList<>();
-		velden.add(new Veld()); // gemeenschappelijkveld
-		velden.add(new Veld()); // werkveld
+		velden.add(new Veld(true)); // gemeenschappelijkveld
+		velden.add(new Veld(false)); // werkveld
 	}
 	
 	/**
@@ -199,7 +199,7 @@ public class Spel
 		setSpelerAanDeBeurt(spelers.get(index));
 		
 		// maak het WerkVeld leeg
-		velden.set(1, new Veld());
+		velden.set(1, new Veld(false));
 		
 		return stenenMetExtra;
 	}
@@ -212,7 +212,7 @@ public class Spel
 	{
 		setSpelerAanDeBeurt(beurt.getSpeler());
 		velden.set(0, beurt.getGemeenschappelijkVeld());
-		velden.set(1, new Veld());
+		velden.set(1, new Veld(false));
 		startBeurt();
 	}
 

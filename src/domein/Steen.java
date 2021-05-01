@@ -163,7 +163,12 @@ public class Steen implements Comparable<Steen>
 			return "JOK";
 		}
 		
-		return String.format("%S%02d"
+		// toegevoegd
+		if (this.getKleur() == null) {
+			return "";
+		}
+		
+		return String.format("%S%02d "
 				, kleur.charAt(0)
 				, getal);
 	}

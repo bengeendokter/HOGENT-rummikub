@@ -33,6 +33,7 @@ public class Beurt
 					.stream()
 					.map(stenenSet -> new StenenSet(stenenSet.getStenen())) // we zetten elke Set om naar een nieuwe Set
 					.collect(Collectors.toList()) // we maken van alle Sets terug een list
+ != null
 				);
 	}
 
