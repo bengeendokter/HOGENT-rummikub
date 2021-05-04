@@ -39,12 +39,12 @@ public class UseCase3SpelOverzicht extends VBox
 	
 	public UseCase3SpelOverzicht(DomeinController controller)
 	{
-		try
-		{
+//		try
+//		{
 			this.controller = controller;
 			
 			// TODO tijdelijke methode, verwijder later
-			 precondities();
+			precondities();
 			
 			// bouw het spelOverzicht
 			buildGui();
@@ -55,11 +55,11 @@ public class UseCase3SpelOverzicht extends VBox
 			
 			// update alle tekst en velden
 			updateGui();
-		}
-		catch(Exception e)
-		{
-			WarningAlertScherm.toonAlert();
-		}
+//		}
+//		catch(Exception e)
+//		{
+//			WarningAlertScherm.toonAlert();
+//		}
 	}
 
 	private void precondities()

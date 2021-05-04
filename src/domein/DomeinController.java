@@ -62,7 +62,7 @@ public class DomeinController
 	public void meldAanOffline()
 	{
 		Speler speler1 = new Speler("IkBenBen", "IkBenDokter");
-		Speler speler2 = new Speler("IkBenBen", "IkBenDokter");
+		Speler speler2 = new Speler("mns58", "myDiscordPassword");
 		
 		spelers.add(speler1);
 		spelers.add(speler2);

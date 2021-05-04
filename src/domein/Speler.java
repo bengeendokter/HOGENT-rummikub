@@ -11,7 +11,6 @@ public class Speler
 	private String wachtwoord;
 	private int score;
 	private List<Steen> stenen;
-	// toegevoegd
 	private boolean isEersteKeer;
 	
 	/**
@@ -24,7 +23,6 @@ public class Speler
 	public Speler(String gebruikersnaam, String wachtwoord)
 	{
 		this(gebruikersnaam, wachtwoord, new ArrayList<>());
-		setEersteKeer(isEersteKeer);
 	}
 	
 	/**
@@ -42,7 +40,7 @@ public class Speler
 		this.setGebruikersnaam(gebruikersnaam);
 		this.setWachtwoord(wachtwoord);
 		this.setScore(0);
-		setEersteKeer(isEersteKeer);
+		setEersteKeer(true);
 	}
 	
 	public String getGebruikersnaam()
@@ -86,6 +84,16 @@ public class Speler
 	public final void setScore(int score)
 	{
 		this.score = score;
+	}
+	
+	public boolean isEersteKeer()
+	{
+		return isEersteKeer;
+	}
+	
+	public final void setEersteKeer(boolean isEersteKeer)
+	{
+		this.isEersteKeer = isEersteKeer;
 	}
 	
 	/**
@@ -147,12 +155,7 @@ public class Speler
 	 * @return				Steen object van de verwijderde Steen
 	 */
 	public Steen removeSteen(int indexSteen)
-	{
-		/*Steen steen = stenen.get(indexSteen);
-		stenen.set(indexSteen, null);
-		return steen;
-		*/
-		
+	{		
 		return stenen.remove(indexSteen);
 	}
 	
@@ -190,7 +193,7 @@ public class Speler
 	public String toString()
 	{
 		// we sorteren eerst de stenen
-		//Collections.sort(stenen);;
+		Collections.sort(stenen);
 		
 		String output = "";
 		String steenString;
@@ -219,22 +222,10 @@ public class Speler
 			}
 			
 			// voeg steen toe aan output
-			steenString = (stenen.get(steenIndex) == null)? "    " : stenen.get(steenIndex).toString();	
+			steenString = stenen.get(steenIndex).toString();
 			output += String.format("%-4s", steenString);
 		}
 		
 		return output;
 	}
-
-	public boolean isEersteKeer() {
-		return isEersteKeer;
-	}
-
-	public void setEersteKeer(boolean isEersteKeer) {
-		this.isEersteKeer = isEersteKeer;
-	}
-	
-	
-	
-	
 }

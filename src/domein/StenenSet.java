@@ -1,10 +1,14 @@
 package domein;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import exceptions.OngeldigInvoerException;
+import exceptions.FoutePositieException;
 
 public class StenenSet
 {
@@ -20,7 +24,22 @@ public class StenenSet
 		return stenen;
 	}
 	
-	//TODO boolean zitInWerkveld in constructor 
+	/**
+	 * Use Case 3:
+	 * Geeft de steen terug in een StenenSet via een index
+	 * @param 	indexSteen int positie om de steen te vinden
+	 * @return	gevonden steen
+	 */
+	public Steen geefSteen(int indexSteen)
+	{
+		if(indexSteen >= 13)
+		{
+			throw new FoutePositieException();
+		}
+
+		return getStenen().get(indexSteen);
+	}
+	
 	
 	/**
 	 * Use Case 3:
@@ -31,77 +50,19 @@ public class StenenSet
 	 */
 	public void voegSteenToe(int indexSteen, Steen steen)
 	{
-		// TODO index wrs wel nodig bij gv maar niet bij wv, hier onderscheid in maken?
-		if(indexSteen >= stenen.size())
+		// we controleren of de laatste plek van de Set leeg is
+		// indien de plek leeg is kunnen we een steen plaatsen, anders gooien we een exception
+		if(geefSteen(stenen.size() - 1) != null)
 		{
-			stenen.add(steen);
+			throw new IllegalArgumentException("Er kan geen steen meer bij geplaats worden");
 		}
-		else
-		{	if (bevatSteenLinks(indexSteen) && !bevatSteenRechts(indexSteen)) {
-			String kleur1 = steen.getKleur();
-			String kleur2 = geefSteen(indexSteen - 1).getKleur();
-			
-			if (kleur1 == kleur2) {
-				int getalOrigineel = steen.getGetal();
-				int getalLinks = geefSteen(indexSteen - 1).getGetal();
-				if (getalLinks == getalOrigineel - 1) {
-					if (getalLinks - 1 == 0) {
-						throw new IllegalArgumentException("U mag de steen hier niet plaatsen!");
-					} else {
-						stenen.set(indexSteen, steen);
-					}
-				}else {
-					throw new IllegalArgumentException("Getal van steen is niet groter!");
-				}
-			} else {
-				int getalOrigineel = steen.getGetal();
-				int getalLinks = geefSteen(indexSteen - 1).getGetal();
-				
-				if (getalOrigineel == getalLinks) {
-					stenen.set(indexSteen, steen);
-				} else {
-					throw new IllegalArgumentException("Getallen/kleuren van de stenen komen niet overeen!");
-				}
-			}
-		} else {
-			if (!bevatSteenLinks(indexSteen) && bevatSteenRechts(indexSteen)) {
-				String kleur1 = steen.getKleur();
-				String kleur2 = geefSteen(indexSteen + 1).getKleur();
-				
-				if (kleur1 == kleur2) {
-					int getalOrigineel = steen.getGetal();
-					int getalRechts = geefSteen(indexSteen + 1).getGetal();
-					if (getalRechts == getalOrigineel + 1) {
-						if (getalRechts + 1 == 14) {
-							throw new IllegalArgumentException("U mag de steen hier niet plaatsen!");
-						} else {
-							stenen.set(indexSteen, steen);
-						}
-					}
-					else {
-						throw new IllegalArgumentException("Getal van de steen is niet kleiner!");
-					}
-				} else {
-					int getalOrigineel = steen.getGetal();
-					int getalRechts = geefSteen(indexSteen + 1).getGetal();
-					
-					if (getalOrigineel == getalRechts) {
-						stenen.set(indexSteen, steen);
-					} else {
-						throw new IllegalArgumentException("Getallen/kleuren van de stenen komen niet overeen!");
-					}
-				}
-			} else {
-				if(!bevatSteenLinks(indexSteen) && !bevatSteenRechts(indexSteen)) {
-					stenen.set(indexSteen, steen);
-				}
-				
-			}
-
-		}
-			/*stenen.set(indexSteen, steen);*/
-			// stenen.add(indexSteen, steen);
-		}
+		
+		// we voegen de steen toe op de meegegeven index en verwijderen het laatste null element zodat we weer 1 elementen hebben
+		stenen.add(indexSteen, steen);
+		stenen.remove(stenen.size() - 1);
+		// vul potentieel gat tussen de hiervoor laatste steen en de huidig geplaatste steen op
+		// dit doen we door alle null stenen naar achter te verplaatsen
+		Collections.sort(stenen, Comparator.nullsLast(null));
 	}
 	
 	/**
@@ -113,14 +74,19 @@ public class StenenSet
 	 */
 	public Steen removeSteen(int indexSteen)
 	{
-		// TODO wat indien index te hoog? Fout of hoogst mogelijke index pakken? We doen melding
-		return stenen.remove(indexSteen);
-		
-		/*Steen steen = geefSteen(indexSteen);
-		
+		// zoek de steen op de gegeven positie
+		Steen steen = geefSteen(indexSteen);
+		// verwijder de steen door deze in te stellen op null
 		stenen.set(indexSteen, null);
-		
-		return steen;*/
+		// vul het gat in de rij op door alle nullen naar achter te plaatsen
+		Collections.sort(stenen, Comparator.nullsLast(null));
+		// geef de gevraagde steen terug
+		return steen;
+	}
+	
+	private boolean isLeeg()
+	{
+		return stenen.stream().allMatch(steen -> steen == null);
 	}
 	
 	/**
@@ -129,7 +95,122 @@ public class StenenSet
 	 */
 	public void controleerSet()
 	{
+		boolean isSerie = true;
+		boolean isRij = true;
 		
+		if(!isLeeg())
+		{
+			// we houden rekening met het uitzonderlijke geval dat de eerste 2 stenen van de set jokers zijn
+			
+		// 1. controle of set minimum 3 stenen heeft
+			int grootte = (int) stenen.stream().filter(steen -> steen != null).count();
+			if(grootte < 3)
+			{
+				throw new IllegalArgumentException("Een serie of rij heeft minumum 3 stenen");
+			}
+			
+		// 2. controleer of set een serie is
+			Iterator<Steen> iterator = stenen.iterator();
+			Steen previous = null;
+			Steen huidigeSteen = null;
+			int serieGetal = 0;
+			List<String> vorigeKleuren = new ArrayList<>();
+			
+			// we nemen alvast het eerste element, dit kan niet null zijn want de Set heeft minimum 3 stenen
+			previous = iterator.next();
+			
+			// indien de eerste steen een joker is pakken we de volgende steen
+			if(previous.isJoker())
+			{
+				previous = iterator.next();
+			}
+
+			// indien de tweede steen een joker is pakken we de volgende steen (er zijn maar 2 jokers in het spel)
+			if(previous.isJoker())
+			{
+				previous = iterator.next();
+			}
+			
+			// we stellen een paar eigenschappen van de serie in
+			vorigeKleuren.add(previous.getKleur());
+			serieGetal = previous.getGetal();
+			
+			// we overlopen de stenen zolang de set nog altijd een serie is
+			while(isSerie && iterator.hasNext())
+			{
+				huidigeSteen = iterator.next();
+				
+				// indien de steen niet null is gaan we verder
+				if(huidigeSteen != null)
+				{
+					// we controleren of de getalWaarde overal dezelfde is
+					if(huidigeSteen.getGetal() != serieGetal)
+					{
+						// de getal waarde komt niet overeen, de set is enkel een serie als de steen een joker is
+						isSerie = huidigeSteen.isJoker();
+					}
+					// als we een steen vinden met eenzelfde kleur als een vorige steen is het geen serie
+					if(vorigeKleuren.contains(huidigeSteen.getKleur()))
+					{
+						isSerie = false;
+					}
+					// indien de steen geen joker is voegen we de kleur toe aan de vorige stenen
+					if(!huidigeSteen.isJoker())
+					{
+						vorigeKleuren.add(huidigeSteen.getKleur());
+					} 
+				}
+			}
+			
+		// 3. controleer of set een rij is
+			iterator = stenen.iterator();
+			int vorigGetal = 0;
+			String rijKleur = "";
+			
+			// we nemen alvast het eerste element, dit kan niet null zijn want de Set heeft minimum 3 stenen
+			previous = iterator.next();
+			
+			// indien de eerste steen een joker is pakken we de volgende steen
+			if(previous.isJoker())
+			{
+				previous = iterator.next();
+			}
+
+			// indien de tweede steen een joker is pakken we de volgende steen (er zijn maar 2 jokers in het spel)
+			if(previous.isJoker())
+			{
+				previous = iterator.next();
+			}
+			
+			// we stellen een paar eigenschappen van de rij in
+			vorigGetal = previous.getGetal();
+			rijKleur = previous.getKleur();
+			
+			// we overlopen de stenen zolang de set nog altijd een rij is
+			while(isRij && iterator.hasNext())
+			{
+				huidigeSteen = iterator.next();
+				
+				// indien de steen niet null is gaan we verder
+				if(huidigeSteen != null)
+				{
+					// we controleren of de getalWaarde oplopend is en of de rijKleur overal overeenkomt
+					if(vorigGetal != huidigeSteen.getGetal() + 1 || rijKleur != huidigeSteen.getKleur())
+					{
+						// de getal waarde of kleur klopt niet, de set is enkel een rij als de steen een joker is
+						isRij = huidigeSteen.isJoker();
+					}
+					// we stellen de volgende getalwaarde in
+					vorigGetal++;
+				}
+			}
+		}
+		
+		// 4. gooi exception indien set geen serie en geen rij is
+		if(!isSerie && !isRij)
+		{
+			throw new IllegalArgumentException("De stenen set is geen serie of rij");
+		}
 	}
 	
 	/**
@@ -140,41 +221,9 @@ public class StenenSet
 	@Override
 	public String toString()
 	{
-		String output = "";
-		
-		for (int i = 0; i < stenen.size(); i++) {
-			output += (stenen.get(i) == null)? "    ": stenen.get(i).toString();
-		}
-		
-		//Stream<String> stringList = stenen.stream().map((stenen])Steen::toString);
-		//String output = stringList.collect(Collectors.joining("-"));		
+		Stream<String> stringList = stenen.stream().filter(steen -> steen != null).map(Steen::toString);
+		String output = stringList.collect(Collectors.joining("-"));
 		
 		return output;
-	}
-	
-	/**
-	 * Use Case 3:
-	 * Geeft de steen terug in een StenenSet via een index
-	 * @param 	indexSteen int positie om de steen te vinden
-	 * @return	gevonden steen
-	 */
-	public Steen geefSteen(int indexSteen) {
-		// if (indexSteen < getStenen().size()) {
-			return getStenen().get(indexSteen);
-		// } else {
-		//	throw new OngeldigInvoerException();
-		// }
-	}
-	
-	public boolean bevatSteenRechts(int indexSteen) {
-		if (indexSteen + 1 <= 12 && stenen.get(indexSteen + 1) != null) {
-			return true;
-		} else return false;
-	}
-	
-	public boolean bevatSteenLinks(int indexSteen) {
-		if (indexSteen - 1 >= 0 && stenen.get(indexSteen - 1) != null ) {
-			return true;
-		} else return false;
 	}
 }

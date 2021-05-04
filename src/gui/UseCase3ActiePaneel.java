@@ -409,8 +409,9 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
         	bronIsWv = bron.getSelectedToggle().equals(radioBronWv);
         	
         	// stel posities in
-        	positieDoel = new int[]{doelRij - 1, doelKolom - 1};
-        	positieBron = new int[]{bronRij - 1, bronKolom - 1};
+        	// verlaag de indexen met 1 en stel de posities in
+        	positieDoel = new int[]{--doelRij, --doelKolom};
+        	positieBron = new int[]{--bronRij, --bronKolom};
         }
         catch (NumberFormatException e)
         {

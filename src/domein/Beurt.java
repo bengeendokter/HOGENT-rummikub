@@ -31,9 +31,9 @@ public class Beurt
 				(
 					gv.getStenenSets() // we nemen vragen de (List<StenenSets>) stenenSets op
 					.stream()
-					.map(stenenSet -> new StenenSet(stenenSet.getStenen())) // we zetten elke Set om naar een nieuwe Set
+					.map(stenenSet -> new StenenSet(new ArrayList<>(stenenSet.getStenen()))) // we zetten elke Set om naar een nieuwe Set
 					.collect(Collectors.toList()) // we maken van alle Sets terug een list
- != null
+					, true
 				);
 	}
 

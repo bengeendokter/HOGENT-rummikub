@@ -3,39 +3,33 @@ package domein;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import exceptions.DoelBevatSteenException;
 import exceptions.FoutePositieException;
-import exceptions.NogPlaatsOpVeldException;
-import exceptions.OngeldigInvoerException;
 
 public class Veld
 {
 	private List<StenenSet> stenenSets;
-	//toegevoegd
-	private final boolean isGV;
+	private final boolean isGv;
 	
-	//TODO boolean zitInWerkveld in constructor 
+	// TODO boolean zitInWerkveld in constructor StenenSet of in controle methode
 	
 	/**
 	 * Use Case 3:
 	 * Default constructor van Veld die een nieuw veld aanmaakt.
 	 * Wordt gebruikt in het begin van een spel of om het werkveld te resetten
 	 */
-	public Veld(boolean isGV)
+	public Veld(boolean isGv)
 	{
-		// GV creeren als ArrayList van StenenSets met default lengte 13
-
-		this.isGV = isGV;
-		
-			List<StenenSet> setArray = new ArrayList<>();
-			for (int i = 0; i < ((isGV)? 13 : 2); i++) {
-				setArray.add(new StenenSet(Arrays.asList(new Steen[13])));
-			}
-			
-			this.stenenSets = setArray;
-		
-		//this(new ArrayList<StenenSet>());
+		// Een gv heeft default 13 rijen en een wv 2. Elke rij/StenenSet heeft plaats voor 13 stenen
+		this
+		(
+				new ArrayList<>(Arrays.asList(new StenenSet[ isGv ? 13 : 2]))
+				.stream()
+				.map(nullObject -> new StenenSet(new ArrayList<>(Arrays.asList(new Steen[13]))))
+				.collect(Collectors.toList())
+				, isGv
+		);
 	}
 	
 	/**
@@ -45,10 +39,10 @@ public class Veld
 	 * 
 	 * @param stenenSets
 	 */
-	public Veld(List<StenenSet> stenenSets, boolean isGV)
+	public Veld(List<StenenSet> stenenSets, boolean isGv)
 	{
-		this.isGV = isGV;
 		this.stenenSets = stenenSets;
+		this.isGv = isGv;
 	}
 	
 	// TODO implementeer controles, hoe?
@@ -57,7 +51,12 @@ public class Veld
 	{
 		return stenenSets;
 	}
-
+	
+	public boolean isGV()
+	{
+		return isGv;
+	}
+	
 	/**
 	 * Use Case 3:
 	 * Voegt steen toe in een bestaande of tegelijkertijd aangemaakte StenenSet
@@ -67,122 +66,32 @@ public class Veld
 	 * @param steen			steen die zal toegevoegd worden
 	 */
 	public void voegSteenToe(int[] positieSteen, Steen steen)
-	//kan eventueel boolean doelIsWv als derde parameter krijgen
 	{
 		int setIndex = positieSteen[0];
-        int steenIndex = positieSteen[1];
-        
-        boolean waardeNull = false;
+		int steenIndex = positieSteen[1];
 		
-        /*if(setIndex >= stenenSets.size())
-        {
-        	for (StenenSet s : stenenSets) {
-    			
-    			waardeNull = false;
-    			
-    			for (Steen o : s.getStenen()) {
-    				if (o != null) {
-    					waardeNull = true;
-    					break;
-    				}
-    			}
-    			
-    			if (!waardeNull) {
-    				throw new NogPlaatsOpVeldException();
-    			}
-    			
-        		if (waardeNull) {
-        			maakStenenSet(steen);
-        		}
-        	}}
-        else
-        {
-            StenenSet set = stenenSets.get(setIndex);
-            set.voegSteenToe(steenIndex, steen);
-        }*/
-        
-        /*if (!doelIsWv) {
-		    if(setIndex >= stenenSets.size() || steenIndex >= 13) {
-		    	
-		    	//controle op hoge index bij kolom
-		    	if (steenIndex >= 13)
-		    		throw new FoutePositieException();
-		    	
-		    	//controle op hoge index bij rij     	
-		    	for (StenenSet s : stenenSets) {
-					
-					waardeNull = false;
-					
-					for (Steen o : s.getStenen()) {
-						if (o != null) {
-							waardeNull = true;
-							break;
-						}
-					}
-					
-					if (!waardeNull) {
-						throw new NogPlaatsOpVeldException();
-					}
-					
-		    		if (waardeNull) {
-		    			maakStenenSet(steen);
-		    		}
-		    	}}
-		    else
-		    {
-		    	if (geefSteen(positieSteen) != null)
-		    		throw new DoelBevatSteenException();
-		    	
-		        StenenSet set = stenenSets.get(setIndex);
-		        set.voegSteenToe(steenIndex, steen);
-		    }
-        } else if (doelIsWv) {
-        	if(setIndex >= stenenSets.size() || steenIndex >= 13) {
-		    		throw new FoutePositieException();
-        	}
-		    else
-		    {
-		    	if (geefSteen(positieSteen) != null)
-		    		throw new DoelBevatSteenException();
-		    	
-		        StenenSet set = stenenSets.get(setIndex);
-		        set.voegSteenToe(steenIndex, steen);
-		    }
-        }*/
-        if(setIndex >= stenenSets.size() || steenIndex >= 13) {
-	    	
-	    	//controle op hoge index bij kolom
-	    	if (steenIndex >= 13)
-	    		throw new FoutePositieException();
-	    	
-	    	//controle op hoge index bij rij     	
-	    	for (StenenSet s : stenenSets) {
-				
-				waardeNull = false;
-				
-				for (Steen o : s.getStenen()) {
-					if (o != null) {
-						waardeNull = true;
-						break;
-					}
-				}
-				
-				if (!waardeNull) {
-					throw new NogPlaatsOpVeldException();
-				}
-				
-	    		if (waardeNull) {
-	    			maakStenenSet(steen);
-	    		}
-	    	}}
-	    else
-	    {
-	    	if (geefSteen(positieSteen) != null)
-	    		throw new DoelBevatSteenException();
-	    	
-	        StenenSet set = stenenSets.get(setIndex);
-	        set.voegSteenToe(steenIndex, steen);
-	    }
+		// TODO nog plaats exception
+		
+		// indien setIdex te hoog, maak een nieuwe stenenSet aan
+		if(setIndex >= stenenSets.size())
+		{
+			maakStenenSet(steen);
+		}
+		else
+		{
+			
+			// TODO we controler best niet of al een steen ligt want zo kan je geen steen invoegen en wordt joker vervangen moeilijk
+	    	// controleer of er al een steen ligt
+			// geefSteen controleert ook of de positie geldig is
+//	    	if(geefSteen(positieSteen) != null)
+//			{
+//				throw new DoelBevatSteenException();
+//			}
+			
+	    	// indien er geen steen ligt plaatsen we de nieuwe steen in de stenenSet
+			StenenSet set = stenenSets.get(setIndex);
+			set.voegSteenToe(steenIndex, steen);
+		}
 	}
 	
 	/**
@@ -194,15 +103,17 @@ public class Veld
 	 * @return 				verwijderde steen
 	 */
 	public Steen removeSteen(int[] positieSteen)
-	{
+	{		
 		int setIndex = positieSteen[0];
 		int steenIndex = positieSteen[1];
+		
+		controleerGeldigePositie(positieSteen);
 		
 		StenenSet set = stenenSets.get(setIndex);
 		return set.removeSteen(steenIndex);
 		
 	}
-
+	
 	/**
 	 * Use Case 3: 
 	 * Splitst een rij of serie in nieuwe StenenSets door gegeven array (rij en kolom),
@@ -224,7 +135,7 @@ public class Veld
 		StenenSet set1, set2;
 		set1 = new StenenSet(subList1);
 		set2 = new StenenSet(subList2);
-
+		
 		stenenSets.add(setIndex, set2);
 		stenenSets.add(setIndex, set1);
 	}
@@ -237,14 +148,16 @@ public class Veld
 	 */
 	public void maakStenenSet(Steen steen)
 	{
+		// maak een Steen list aan met default lengte 13
+		Steen[] steenArray = new Steen[13];
+		List<Steen> stenenList = new ArrayList<>(Arrays.asList(steenArray));
 		
-		stenenSets.add(new StenenSet(Arrays.asList(new Steen[13])));
+		// stel de steen in als het eerste element
+		stenenList.set(0, steen);
 		
-		/*
-		List<Steen> stenenList = new ArrayList<>(Arrays.asList(steen));
-		StenenSet set = new StenenSet(stenenList);	
-		stenenSets.add(set);
-		*/
+		// maak hiermee een nieuwe stenenSet en voeg deze toe aan de stenenSets
+		StenenSet newStenenSet = new StenenSet(stenenList);
+		stenenSets.add(newStenenSet);
 	}
 	
 	/**
@@ -268,39 +181,23 @@ public class Veld
 	@Override
 	public String toString()
 	{
-		/*String output = "";
-		String kolomNrs = String.format("%3s", "");
-		for(int i = 1; i < 14; i++)
-		{
-			kolomNrs += String.format("%02d%2s", i, "");
-		}
-		
-		output = kolomNrs + "\n";
-		
-		for(int i = 0; i < stenenSets.size(); i++)
-		{
-			String rijNr = String.format("%02d%1s", i + 1, "");
-			String setString = stenenSets.get(i).toString();
-			output += rijNr + setString + "\n";
-		}
-		
-		return output;
-		*/
-		
 		String resultaat = "";
 		
+		// kolomNrs
 		resultaat += String.format("%3s", "");
-		for (int i = 1; i < 14; i++) {
-			resultaat += String.format("%2d%2s", i, " ");
+		for(int kolomNr = 1; kolomNr < 14; kolomNr++)
+		{
+			resultaat += String.format("%02d%2s", kolomNr, "");
 		}
 		
-		for (int i = 0; i < stenenSets.size(); i++) {
-			resultaat += String.format("%n%02d%1s", i+1,"");
-			resultaat += stenenSets.get(i).toString();
+		// rijen/stenenSets
+		for(int rijNr = 0; rijNr < stenenSets.size(); rijNr++)
+		{
+			resultaat += String.format("%n%02d%1s", rijNr + 1, "");
+			resultaat += stenenSets.get(rijNr).toString();
 		}
 		
 		return resultaat;
-		
 	}
 	
 	/**
@@ -308,33 +205,29 @@ public class Veld
 	 * Geeft steen terug door middel van een positie (array) door methode geefSteen() uit klasse Set aan te roepen
 	 * @param 	positieSteen array met 2 int elementen (rij om de juiste StenenSet te vinden,
 	 * 							kolom om de juiste steen van de juiste StenenSet te vinden) die helpt de steen te vinden
-	 * @return					gevonden steen via positiearray
+	 * @return					gevonden steen via positie array
 	 */
-	public Steen geefSteen(int[] positieSteen) {
-		//TODO exception als steen niet bestaat (foute positie bv)
+	public Steen geefSteen(int[] positieSteen)
+	{
+		// steen kan null zijn
 		int setIndex = positieSteen[0];
 		int steenIndex = positieSteen[1];
 		
-		// controle op indexen
-		/*if (setIndex < stenenSets.size()) {
-			if (steenIndex < stenenSets.get(setIndex).getStenen().size()) {
-				
-				StenenSet set = stenenSets.get(setIndex);
-				return set.geefSteen(steenIndex);
-			} else {
-				throw new OngeldigInvoerException();
-			}
-		} else {
-			throw new OngeldigInvoerException();
-		}*/
+		controleerGeldigePositie(positieSteen);
+
 		StenenSet set = stenenSets.get(setIndex);
 		return set.geefSteen(steenIndex);
 	}
-
-	// Toegevoegd
-	public boolean isGV() {
-		return isGV;
+	
+	private void controleerGeldigePositie(int[] positieSteen)
+	{
+		int setIndex = positieSteen[0];
+		int steenIndex = positieSteen[1];
+		
+		// gooit exception indien setIdex/steenIndex te hoog
+		if(setIndex >= stenenSets.size() || steenIndex >= 13 )
+		{
+			throw new FoutePositieException();
+		}
 	}
-	
-	
 }

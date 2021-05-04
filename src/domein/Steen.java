@@ -128,18 +128,18 @@ public class Steen implements Comparable<Steen>
 	@Override
 	public int compareTo(Steen steen)
 	{
-		// vergelijk eerst de kleuren
-		int vergelijk = kleur.compareTo(steen.getKleur());
-		
 		// controleer of 1 van de 2 een joker is
 		if(steen.getKleur().equals("joker"))
 		{
-			vergelijk = -1;
+			return -1;
 		}
 		else if(kleur.equals("joker"))
 		{
-			vergelijk = 1;
+			return 1;
 		}
+		
+		// vergelijk eerst de kleuren
+		int vergelijk = kleur.compareTo(steen.getKleur());
 		
 		// indien kleuren gelijk, vergelijk de getallen 
 		if(vergelijk == 0)
@@ -163,12 +163,7 @@ public class Steen implements Comparable<Steen>
 			return "JOK";
 		}
 		
-		// toegevoegd
-		if (this.getKleur() == null) {
-			return "";
-		}
-		
-		return String.format("%S%02d "
+		return String.format("%S%02d"
 				, kleur.charAt(0)
 				, getal);
 	}
