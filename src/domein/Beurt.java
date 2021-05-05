@@ -8,6 +8,7 @@ public class Beurt
 {
 	private Speler speler;
 	private Veld gv;
+	private Veld wv;
 	
 	/**
 	 * Use Case 3:
@@ -18,6 +19,12 @@ public class Beurt
 	 * @param gv		Veld object van het gemeenschappelijkveld in het begin van de beurt
 	 */
 	public Beurt(Speler speler, Veld gv)
+	{
+		this(speler, gv, new Veld(false));
+	}
+	
+	// Constructor voor beurtVoorActie van Spel
+	public Beurt(Speler speler, Veld gv, Veld wv)
 	{
 		// we gebruiken de constructor van Speler waarbij we de spelerStenen kunnen meegeven
 		this.speler = new Speler
@@ -35,6 +42,15 @@ public class Beurt
 					.collect(Collectors.toList()) // we maken van alle Sets terug een list
 					, true
 				);
+		// we gebruiken de constructor van Veld waarbij we de stenenSets kunnen meegeven
+		this.wv = new Veld
+				(
+					wv.getStenenSets() // we nemen vragen de (List<StenenSets>) stenenSets op
+					.stream()
+					.map(stenenSet -> new StenenSet(new ArrayList<>(stenenSet.getStenen()))) // we zetten elke Set om naar een nieuwe Set
+					.collect(Collectors.toList()) // we maken van alle Sets terug een list
+					, true
+				);
 	}
 
 	public Speler getSpeler()
@@ -45,5 +61,10 @@ public class Beurt
 	public Veld getGemeenschappelijkVeld()
 	{
 		return gv;
+	}
+	
+	public Veld getWerkVeld()
+	{
+		return wv;
 	}
 }

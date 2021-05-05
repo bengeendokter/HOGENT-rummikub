@@ -40,7 +40,6 @@ public class StenenSet
 		return getStenen().get(indexSteen);
 	}
 	
-	
 	/**
 	 * Use Case 3:
 	 * Voegt een steen toe aan de set (serie of rij)
@@ -80,11 +79,11 @@ public class StenenSet
 		stenen.set(indexSteen, null);
 		// vul het gat in de rij op door alle nullen naar achter te plaatsen
 		Collections.sort(stenen, Comparator.nullsLast(null));
-		// geef de gevraagde steen terug
+		// geef de gevraagde steen terug (kan null zijn)
 		return steen;
 	}
 	
-	private boolean isLeeg()
+	public boolean isLeeg()
 	{
 		return stenen.stream().allMatch(steen -> steen == null);
 	}
@@ -195,7 +194,7 @@ public class StenenSet
 				if(huidigeSteen != null)
 				{
 					// we controleren of de getalWaarde oplopend is en of de rijKleur overal overeenkomt
-					if(vorigGetal != huidigeSteen.getGetal() + 1 || rijKleur != huidigeSteen.getKleur())
+					if(vorigGetal != huidigeSteen.getGetal() - 1 || rijKleur != huidigeSteen.getKleur())
 					{
 						// de getal waarde of kleur klopt niet, de set is enkel een rij als de steen een joker is
 						isRij = huidigeSteen.isJoker();

@@ -11,7 +11,7 @@ public class Speler
 	private String wachtwoord;
 	private int score;
 	private List<Steen> stenen;
-	private boolean isEersteKeer;
+	private boolean isEersteZet;
 	
 	/**
 	 * Use Case 2:
@@ -40,7 +40,7 @@ public class Speler
 		this.setGebruikersnaam(gebruikersnaam);
 		this.setWachtwoord(wachtwoord);
 		this.setScore(0);
-		setEersteKeer(true);
+		setEersteZet(true);
 	}
 	
 	public String getGebruikersnaam()
@@ -86,14 +86,14 @@ public class Speler
 		this.score = score;
 	}
 	
-	public boolean isEersteKeer()
+	public boolean isEersteZet()
 	{
-		return isEersteKeer;
+		return isEersteZet;
 	}
 	
-	public final void setEersteKeer(boolean isEersteKeer)
+	public final void setEersteZet(boolean isEersteKeer)
 	{
-		this.isEersteKeer = isEersteKeer;
+		this.isEersteZet = isEersteKeer;
 	}
 	
 	/**
@@ -156,6 +156,12 @@ public class Speler
 	 */
 	public Steen removeSteen(int indexSteen)
 	{		
+		// indexSteen moet verwijzen naar een Speler steen
+		if(indexSteen >= stenen.size())
+		{
+			throw new IllegalArgumentException("De steen is buiten het bereik van de speler stenen");
+		}
+		
 		return stenen.remove(indexSteen);
 	}
 	

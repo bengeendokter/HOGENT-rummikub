@@ -96,8 +96,15 @@ public class UseCase3KnoppenPaneelKeuze extends VBox implements UseCase3HasText
 	        		toonScoreScherm();
 	        	}
 	        	
-	        	parent.toonEindeBeurt();
-	        	parent.eindePaneel();      
+	        	try
+	        	{
+		        	parent.toonEindeBeurt();
+		        	parent.eindePaneel();
+	        	}
+	        	catch(Exception e)
+	        	{
+	        		lblMelding.setText(e.getMessage());
+	        	}
 	        });
 		}
 		catch(IOException e)

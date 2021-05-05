@@ -124,7 +124,9 @@ public class UseCase3SpelOverzicht extends VBox
 	
 	public void toonEindeBeurt()
 	{
-		txaSpelerStenen.setText(controller.beeindigBeurt());
+		String spelerStenenExtraSteen = controller.beeindigBeurt();
+		buildVelden();
+		txaSpelerStenen.setText(spelerStenenExtraSteen);
 	}
 	
 	public void startPaneel()

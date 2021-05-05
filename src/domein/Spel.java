@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import exceptions.Min30PuntenException;
+
 public class Spel
 {
 	// 2 x (4 kleuren x 13 getallen) + 2 jokers = 106 stenen
@@ -11,8 +13,11 @@ public class Spel
 	private List<Steen> stenen;
 	private List<Speler> spelers;
 	private Speler spelerAanDeBeurt;
-	private Beurt beurt;
-	private List<Veld> velden; // [gemeenschappelijkveld, werkveld]
+	private int spelerAanDeBeurtIndex;
+	private Beurt beurtInBegin;
+	private Beurt beurtVoorActie;
+	private Veld gv;
+	private Veld wv;
 	
 	/**
 	 * Use Case 2:
@@ -29,14 +34,16 @@ public class Spel
 		// bepaal de speler volgorde en de eerste speler aan de beurt
 		Collections.shuffle(spelers);
 		this.spelers = spelers;
-		setSpelerAanDeBeurt(spelers.get(0));
+		setSpelerAanDeBeurt(spelers.get(0), 0);
 		
 		verdeelStenen();
 	}
 	
-	private void setSpelerAanDeBeurt(Speler speler)
+	private void setSpelerAanDeBeurt(Speler speler, int spelerAanDeBeurtIndex)
 	{
 		this.spelerAanDeBeurt = speler;
+		this.spelerAanDeBeurtIndex = spelerAanDeBeurtIndex;
+		spelers.set(spelerAanDeBeurtIndex, speler);
 	}
 	
 	public Speler getSpelerAanDeBeurt()
@@ -50,9 +57,8 @@ public class Spel
 	 */
 	private void maakVelden()
 	{
-		velden = new ArrayList<>();
-		velden.add(new Veld(true)); // gemeenschappelijkveld
-		velden.add(new Veld(false)); // werkveld
+		gv = new Veld(true); // gemeenschappelijkveld
+		wv = new Veld(false); // werkveld
 	}
 	
 	/**
@@ -168,8 +174,7 @@ public class Spel
 	 */
 	public void startBeurt()
 	{
-		beurt = new Beurt(spelerAanDeBeurt, velden.get(0));
-		// spelerAanDeBeurt.setEersteKeer(true);
+		beurtInBegin = new Beurt(spelerAanDeBeurt, gv);
 	}
 	
 	/**
@@ -178,38 +183,53 @@ public class Spel
 	 */
 	public String beeindigBeurt()
 	{
-		// TODO controleer geldige spelsituatie
-		// controleer gemeenschappelijk veld
-		velden.get(0).controleerVeld();
-		
 		// variabele om de speler stenen met de nieuw getrokken steen te kunnen terug geven
-		String stenenMetExtra;
+		String stenenMetExtra = "";
 		
-		// controleer of speler steen heeft afgelegd
-		if(!isSteenAfgelegd())
+		try
 		{
-			neemSteenUitPot();
+			// controleer geldigheid indien eerste zet
+			if(spelerAanDeBeurt.isEersteZet())
+			{
+				if(isSteenAfgelegd() && !wv.isGeldigeEersteZet())
+				{
+					throw new Min30PuntenException();
+				}
+			}
+			
+			// controleer gemeenschappelijk veld
+			gv.controleerVeld();
+			
+			// controleer werk veld en verplaats rijen/series naar gv
+			werkVeldSetsNaarGv();
+			
+			// controleer of speler steen heeft afgelegd
+			if(!isSteenAfgelegd())
+			{
+				neemSteenUitPot();
+			}
+			else if(spelerAanDeBeurt.isEersteZet())
+			{
+				spelerAanDeBeurt.setEersteZet(false);
+			}
+			
+			// voor dat we de speler veranderen slagen we eerst zijn stenen op en veranderen we attribuut isEersteKeer als hij al aangelegd heeft
+			stenenMetExtra = spelerAanDeBeurt.toString();
+			
+			// bepaal volgende speler aan de beurt		
+			int index = spelerAanDeBeurtIndex + 1;
+			index %= spelers.size();
+			
+			// stel de volgende speler aan de beurt in
+			setSpelerAanDeBeurt(spelers.get(index), index);
+			
+			// maak het WerkVeld leeg
+			wv = new Veld(false);
 		}
-		
-		// voor dat we de speler veranderen slagen we eerst zijn stenen op en veranderen we attribuut isEersteKeer als hij al aangelegd heeft
-		stenenMetExtra = spelerAanDeBeurt.toString();
-		
-		//dit moet nog aangepast worden : speler stenen moeten ook min 30 punten zijn
-		if(isSteenAfgelegd())
+		catch(Exception e)
 		{
-			spelerAanDeBeurt.setEersteKeer(false);
+			throw new IllegalArgumentException(e.getMessage());
 		}
-		
-		// bepaal volgende speler aan de beurt		
-		int index = spelers.indexOf(spelerAanDeBeurt) + 1;
-		index %= spelers.size();
-		
-		// stel de volgende speler aan de beurt in
-		setSpelerAanDeBeurt(spelers.get(index));
-		
-		// maak het WerkVeld leeg
-		velden.set(1, new Veld(false));
-		
 		return stenenMetExtra;
 	}
 	
@@ -219,10 +239,22 @@ public class Spel
 	 */
 	public void resetBeurt()
 	{
-		setSpelerAanDeBeurt(beurt.getSpeler());
-		velden.set(0, beurt.getGemeenschappelijkVeld());
-		velden.set(1, new Veld(false));
+		setSpelerAanDeBeurt(beurtInBegin.getSpeler(), spelerAanDeBeurtIndex);
+		gv = beurtInBegin.getGemeenschappelijkVeld();
+		wv = new Veld(false);
 		startBeurt();
+	}
+	
+	private void slaBeurtOp()
+	{
+		beurtVoorActie = new Beurt(spelerAanDeBeurt, gv, wv);
+	}
+	
+	private void resetActie()
+	{
+		setSpelerAanDeBeurt(beurtVoorActie.getSpeler(), spelerAanDeBeurtIndex);
+		gv = beurtVoorActie.getGemeenschappelijkVeld();
+		wv = beurtVoorActie.getWerkVeld();
 	}
 	
 	/**
@@ -238,34 +270,31 @@ public class Spel
 	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
-// zoek het doelVeld
-		int doelVeldIndex;
+		if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
+		{
+			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
+		}
+		
+		slaBeurtOp();
+		
+		// zoek het doelVeld
+		Veld doelVeld;
 		
 		if(doelIsWv) // doel == werkveld
 		{
-			doelVeldIndex = 1;
+			doelVeld = wv;
 		}
 		else // doel == gemeenschappelijkveld
 		{
-			doelVeldIndex = 0;
+			doelVeld = gv;
 		}
-		
-		Veld doelVeld = velden.get(doelVeldIndex);
-		
-		
-		// TODO verplaats naar controle in Speler 	
-		// positieBron moet verwijzen naar een Speler steen
-//		if(positieBron[0] >= spelerAanDeBeurt.getStenen().size())
-//		{
-//			throw new BronBevatGeenSteenException();
-//		}
-		
+
 		// zoek de bronSteen
 		Steen bronSteen;
 		
 		if(bronIsWv) // bron == werkveld
 		{
-			Veld bronVeld = velden.get(1);
+			Veld bronVeld = wv;
 			bronSteen = bronVeld.removeSteen(positieBron);
 		}
 		else // bron == spelerStenen
@@ -276,6 +305,20 @@ public class Spel
 		
 		// voeg de bronSteen aan het doelVeld
 		doelVeld.voegSteenToe(positieDoel, bronSteen);
+		
+		// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we mss de actie
+		if(!doelIsWv)
+		{
+			try
+			{
+				doelVeld.controleerVeld();
+			}
+			catch(IllegalArgumentException e)
+			{
+				resetActie();
+				throw e;
+			}
+		}
 	}
 	
 	/**
@@ -288,19 +331,39 @@ public class Spel
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	{
-		int doelVeldIndex;
+		if(spelerAanDeBeurt.isEersteZet())
+		{
+			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
+		}
+		
+		slaBeurtOp();
+		
+		Veld doelVeld;
 		
 		if(doelIsWv) // doel == werkveld
 		{
-			doelVeldIndex = 1;
+			doelVeld  = wv;
 		}
 		else // doel == gemeenschappelijkveld
 		{
-			doelVeldIndex = 0;
+			doelVeld  = gv;
 		}
 		
-		Veld doelVeld = velden.get(doelVeldIndex);
 		doelVeld.splitsRijOfSerie(positieDoel);
+		
+		// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we mss de actie
+		if(!doelIsWv)
+		{
+			try
+			{
+				doelVeld.controleerVeld();
+			}
+			catch(IllegalArgumentException e)
+			{
+				resetActie();
+				throw e;
+			}
+		}
 	}
 	
 	/**
@@ -316,26 +379,31 @@ public class Spel
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
+		if(spelerAanDeBeurt.isEersteZet())
+		{
+			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
+		}
+		
+		slaBeurtOp();
+		
 		// zoek het doelVeld
-		int doelVeldIndex;
+		Veld doelVeld;
 		
 		if(doelIsWv) // doel == werkveld
 		{
-			doelVeldIndex = 1;
+			doelVeld = wv;
 		}
 		else // doel == gemeenschappelijkveld
 		{
-			doelVeldIndex = 0;
+			doelVeld = gv;
 		}
 		
-		Veld doelVeld = velden.get(doelVeldIndex);
 		Steen controleSteen = doelVeld.geefSteen(positieDoel);
 		
 		//controleert eerst de steen (moet een joker zijn)
-		
 		if(!controleSteen.isJoker())
 		{
-			//TODO exception gooien als steen geen joker is
+			throw new IllegalArgumentException("De steen die u wilt vervangen is geen joker");
 		}
 		
 		//als steen joker is, dan pas verwijderen
@@ -346,7 +414,7 @@ public class Spel
 		Object bron;
 		if(bronIsWv) // bron == werkveld
 		{
-			bron = velden.get(1);
+			bron = wv;
 			bronSteen = ((Veld) bron).removeSteen(positieBron);
 		}
 		else // bron == spelerStenen
@@ -358,15 +426,22 @@ public class Spel
 		// voeg de bronSteen aan het doelVeld
 		doelVeld.voegSteenToe(positieDoel, bronSteen);
 		
-		//TODO  joker komt toch altijd in het werkveld? (5C4)
-		// voeg de doelSteen toe aan bronVeld/Speler
-		if(bron instanceof Veld)
+
+		// voeg de doelSteen (joker) toe aan werkVeld
+		wv.voegSteenToe(positieBron, doelSteen);
+		
+		// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we mss de actie
+		if(!doelIsWv)
 		{
-			((Veld) bron).voegSteenToe(positieBron, doelSteen);
-		}
-		else
-		{
-			((Speler) bron).voegSteenToe(doelSteen);
+			try
+			{
+				doelVeld.controleerVeld();
+			}
+			catch(IllegalArgumentException e)
+			{
+				resetActie();
+				throw e;
+			}
 		}
 	}
 	
@@ -381,15 +456,32 @@ public class Spel
 	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	{
+		if(spelerAanDeBeurt.isEersteZet())
+		{
+			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
+		}
+		
+		slaBeurtOp();
+		
 		// zoek het doelVeld (werkveld)
-		Veld doelVeld = velden.get(1);
+		Veld doelVeld = wv;
 		
 		// zoek de bronSteen
-		Veld bronVeld = velden.get(0);
+		Veld bronVeld = gv;
 		Steen bronSteen = bronVeld.removeSteen(positieBron);
 		
 		// voeg de bronSteen aan het doelVeld
 		doelVeld.voegSteenToe(positieDoel, bronSteen);
+		
+		try
+		{
+			doelVeld.controleerVeld();
+		}
+		catch(IllegalArgumentException e)
+		{
+			resetActie();
+			throw e;
+		}
 	}
 	
 	/**
@@ -400,7 +492,7 @@ public class Spel
 	 */
 	private boolean isSteenAfgelegd()
 	{
-		int beginAantalStenen = beurt.getSpeler().getStenen().size();
+		int beginAantalStenen = beurtInBegin.getSpeler().getStenen().size();
 		int huidigAantalStenen = spelerAanDeBeurt.getStenen().size();
 		
 		return beginAantalStenen != huidigAantalStenen;
@@ -415,21 +507,26 @@ public class Spel
 		spelerAanDeBeurt.voegSteenToe(stenen.remove(stenen.size() - 1));
 	}
 	
-// TODO controle methodes nodig?
-//	private void controleerGemeenschappelijkVeld()
-//	{
-//		velden.get(0).controleerVeld();
-//	}
-//
-//	private void controleerWerkVeld()
-//	{
-//		velden.get(1).controleerVeld();
-//	}
-//
-//	private void controleerSpel()
-//	{
-//		// is deze methode nodig?
-//	}
+// methode die het werkveld controleert en eventueel volledige rijen of series naar het gv kan verplaatsen bij einde beurt
+	private void werkVeldSetsNaarGv()
+	{
+		slaBeurtOp();
+		
+		try
+		{
+			wv.controleerVeld();
+			
+			for(StenenSet set : wv.getStenenSets())
+			{
+				gv.addSet(set);
+			}
+		}
+		catch(IllegalArgumentException e)
+		{
+			resetActie();
+			throw e;
+		}
+	}
 	
 	/**
 	 * Use Case 3:
@@ -440,8 +537,8 @@ public class Spel
 	public String[] geefSpelOverzicht()
 	{
 		String[] spelOverzichtArray = new String[3];
-		spelOverzichtArray[0] = velden.get(0).toString();
-		spelOverzichtArray[1] = velden.get(1).toString();
+		spelOverzichtArray[0] = gv.toString();
+		spelOverzichtArray[1] = wv.toString();
 		spelOverzichtArray[2] = spelerAanDeBeurt.toString();
 		return spelOverzichtArray;
 	}

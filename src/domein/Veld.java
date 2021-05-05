@@ -2,7 +2,9 @@ package domein;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import exceptions.FoutePositieException;
@@ -11,8 +13,6 @@ public class Veld
 {
 	private List<StenenSet> stenenSets;
 	private final boolean isGv;
-	
-	// TODO boolean zitInWerkveld in constructor StenenSet of in controle methode
 	
 	/**
 	 * Use Case 3:
@@ -24,11 +24,11 @@ public class Veld
 		// Een gv heeft default 13 rijen en een wv 2. Elke rij/StenenSet heeft plaats voor 13 stenen
 		this
 		(
-				new ArrayList<>(Arrays.asList(new StenenSet[ isGv ? 13 : 2]))
-				.stream()
-				.map(nullObject -> new StenenSet(new ArrayList<>(Arrays.asList(new Steen[13]))))
-				.collect(Collectors.toList())
-				, isGv
+			new ArrayList<>(Arrays.asList(new StenenSet[isGv ? 13 : 2]))
+			.stream()
+			.map(nullObject -> new StenenSet(new ArrayList<>(Arrays.asList(new Steen[13]))))
+			.collect(Collectors.toList())
+			, isGv
 		);
 	}
 	
@@ -45,8 +45,6 @@ public class Veld
 		this.isGv = isGv;
 	}
 	
-	// TODO implementeer controles, hoe?
-	
 	public List<StenenSet> getStenenSets()
 	{
 		return stenenSets;
@@ -55,6 +53,26 @@ public class Veld
 	public boolean isGV()
 	{
 		return isGv;
+	}
+	
+	/**
+	 * Use Case 3:
+	 * Geeft steen terug door middel van een positie (array) door methode geefSteen() uit klasse Set aan te roepen
+	 * 
+	 * @param 	positieSteen array met 2 int elementen (rij om de juiste StenenSet te vinden,
+	 * 			kolom om de juiste steen van de juiste StenenSet te vinden) die helpt de steen te vinden
+	 * @return	gevonden steen via positie array
+	 */
+	public Steen geefSteen(int[] positieSteen)
+	{
+		// steen kan null zijn
+		int setIndex = positieSteen[0];
+		int steenIndex = positieSteen[1];
+		
+		controleerGeldigePositie(setIndex, steenIndex);
+
+		StenenSet set = stenenSets.get(setIndex);
+		return set.geefSteen(steenIndex);
 	}
 	
 	/**
@@ -70,8 +88,6 @@ public class Veld
 		int setIndex = positieSteen[0];
 		int steenIndex = positieSteen[1];
 		
-		// TODO nog plaats exception
-		
 		// indien setIdex te hoog, maak een nieuwe stenenSet aan
 		if(setIndex >= stenenSets.size())
 		{
@@ -79,19 +95,10 @@ public class Veld
 		}
 		else
 		{
-			
-			// TODO we controler best niet of al een steen ligt want zo kan je geen steen invoegen en wordt joker vervangen moeilijk
-	    	// controleer of er al een steen ligt
-			// geefSteen controleert ook of de positie geldig is
-//	    	if(geefSteen(positieSteen) != null)
-//			{
-//				throw new DoelBevatSteenException();
-//			}
-			
-	    	// indien er geen steen ligt plaatsen we de nieuwe steen in de stenenSet
 			StenenSet set = stenenSets.get(setIndex);
 			set.voegSteenToe(steenIndex, steen);
 		}
+		sorteerSets();
 	}
 	
 	/**
@@ -107,11 +114,33 @@ public class Veld
 		int setIndex = positieSteen[0];
 		int steenIndex = positieSteen[1];
 		
-		controleerGeldigePositie(positieSteen);
+		controleerGeldigePositie(setIndex, steenIndex);
 		
 		StenenSet set = stenenSets.get(setIndex);
-		return set.removeSteen(steenIndex);
+		Steen steen = set.removeSteen(steenIndex);
+		sorteerSets();
+		return steen;
+	}
+	
+	/**
+	 * Use Case 3:
+	 * Maakt een StenenSet met een Steen en voegt die StenenSet toe aan attribuut stenenSets
+	 * 
+	 * @param steen	Steen die in een StenenSet moet
+	 */
+	public void maakStenenSet(Steen steen)
+	{
+		// maak een Steen list aan met default lengte 13
+		Steen[] steenArray = new Steen[13];
+		List<Steen> stenenList = new ArrayList<>(Arrays.asList(steenArray));
 		
+		// stel de steen in als het eerste element
+		stenenList.set(0, steen);
+		
+		// maak hiermee een nieuwe stenenSet en voeg deze toe aan de stenenSets
+		StenenSet newStenenSet = new StenenSet(stenenList);
+		stenenSets.add(newStenenSet);
+		sorteerSets();
 	}
 	
 	/**
@@ -138,26 +167,54 @@ public class Veld
 		
 		stenenSets.add(setIndex, set2);
 		stenenSets.add(setIndex, set1);
+		sorteerSets();
 	}
 	
-	/**
-	 * Use Case 3:
-	 * Maakt een StenenSet met een Steen en voegt die StenenSet toe aan attribuut stenenSets
-	 * 
-	 * @param steen	Steen die in een StenenSet moet
-	 */
-	public void maakStenenSet(Steen steen)
+	private void controleerGeldigePositie(int setIndex, int steenIndex)
 	{
-		// maak een Steen list aan met default lengte 13
-		Steen[] steenArray = new Steen[13];
-		List<Steen> stenenList = new ArrayList<>(Arrays.asList(steenArray));
-		
-		// stel de steen in als het eerste element
-		stenenList.set(0, steen);
-		
-		// maak hiermee een nieuwe stenenSet en voeg deze toe aan de stenenSets
-		StenenSet newStenenSet = new StenenSet(stenenList);
-		stenenSets.add(newStenenSet);
+		// gooit exception indien setIdex/steenIndex te hoog
+		if(setIndex >= stenenSets.size() || steenIndex >= 13 )
+		{
+			throw new FoutePositieException();
+		}
+	}
+	
+	public void addSet(StenenSet set)
+	{
+		stenenSets.add(set);
+		sorteerSets();
+	}
+	
+	// plaatst lege sets onderaan
+	private void sorteerSets()
+	{
+		stenenSets.sort(Comparator.comparing(StenenSet::isLeeg));
+	}
+	
+	public boolean isGeldigeEersteZet()
+	{
+		return stenenSets.stream()
+				  		 .filter(Predicate.not(StenenSet::isLeeg))
+				  		 .map(StenenSet::getStenen)
+				  		 // indien er een joker in de stenenSet zit word deze set niet mee geteld
+				  		 .filter
+				  		 (
+				  			stenenList -> !stenenList.stream()
+				  									.filter(steen -> steen != null)
+				  									.anyMatch(Steen::isJoker)
+				  				 
+				  		 )
+				  		 // zet elke stenenSet om in zijn waarde
+						 .map
+						 (
+							 stenenList -> stenenList.stream()
+							  						 .filter(steen -> steen != null)
+							  						 .map(Steen::getGetal)
+							  						 // berekend voor elke set de waarde
+							  						 .reduce(0, (totaal, getalWaarde) -> totaal + getalWaarde)
+						 )
+						 // controleer of er een stenenSet is met een waarde >= 30
+						 .anyMatch(setWaarde -> setWaarde >= 30);
 	}
 	
 	/**
@@ -198,36 +255,5 @@ public class Veld
 		}
 		
 		return resultaat;
-	}
-	
-	/**
-	 * Use Case 3:
-	 * Geeft steen terug door middel van een positie (array) door methode geefSteen() uit klasse Set aan te roepen
-	 * @param 	positieSteen array met 2 int elementen (rij om de juiste StenenSet te vinden,
-	 * 							kolom om de juiste steen van de juiste StenenSet te vinden) die helpt de steen te vinden
-	 * @return					gevonden steen via positie array
-	 */
-	public Steen geefSteen(int[] positieSteen)
-	{
-		// steen kan null zijn
-		int setIndex = positieSteen[0];
-		int steenIndex = positieSteen[1];
-		
-		controleerGeldigePositie(positieSteen);
-
-		StenenSet set = stenenSets.get(setIndex);
-		return set.geefSteen(steenIndex);
-	}
-	
-	private void controleerGeldigePositie(int[] positieSteen)
-	{
-		int setIndex = positieSteen[0];
-		int steenIndex = positieSteen[1];
-		
-		// gooit exception indien setIdex/steenIndex te hoog
-		if(setIndex >= stenenSets.size() || steenIndex >= 13 )
-		{
-			throw new FoutePositieException();
-		}
 	}
 }
