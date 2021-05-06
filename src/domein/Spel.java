@@ -6,6 +6,8 @@ import java.util.List;
 
 import exceptions.Min30PuntenException;
 
+// TODO implementeer UC4
+// TODO testen testen testen
 public class Spel
 {
 	// 2 x (4 kleuren x 13 getallen) + 2 jokers = 106 stenen
@@ -177,6 +179,7 @@ public class Spel
 		beurtInBegin = new Beurt(spelerAanDeBeurt, gv);
 	}
 	
+	// TODO los bug op dat spelerAanDeBeurt.isEersteZet() soms random terug om true zet
 	/**
 	 * Use Case 3:
 	 * Beëindigt de beurt
@@ -331,7 +334,7 @@ public class Spel
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	{
-		if(spelerAanDeBeurt.isEersteZet())
+		if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
 		{
 			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
 		}
@@ -379,7 +382,7 @@ public class Spel
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
-		if(spelerAanDeBeurt.isEersteZet())
+		if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
 		{
 			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
 		}

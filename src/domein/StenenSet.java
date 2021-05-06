@@ -108,6 +108,7 @@ public class StenenSet
 				throw new IllegalArgumentException("Een serie of rij heeft minumum 3 stenen");
 			}
 			
+			// TODO serie mag max 4 stenen zijn controle
 		// 2. controleer of set een serie is
 			Iterator<Steen> iterator = stenen.iterator();
 			Steen previous = null;
@@ -161,6 +162,7 @@ public class StenenSet
 				}
 			}
 			
+			// TODO joker mag niet voor 1 of na 13 controle
 		// 3. controleer of set een rij is
 			iterator = stenen.iterator();
 			int vorigGetal = 0;

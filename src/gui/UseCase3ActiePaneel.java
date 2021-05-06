@@ -125,6 +125,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		}
 	}
 	
+	// TODO verplaats alle controller aanroepen en vang errors op in melding
 	public void legAan()
 	{
 		// bepaal welke actie dit is voor de buildText methode
