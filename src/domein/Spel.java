@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import exceptions.FouteEersteZetException;
+import exceptions.FoutePositieException;
+import exceptions.GeenPlaatsOpRijException;
+import exceptions.GeenSerieOfRijException;
+import exceptions.GeenSpelerSteenOpPlaats;
 import exceptions.Min30PuntenException;
+import exceptions.SteenIsGeenJokerException;
 
 // TODO implementeer UC4
 // TODO testen testen testen
@@ -199,7 +205,7 @@ public class Spel
 				}
 			}
 			
-			// controleer gemeenschappelijk veld
+			// controleer gemeenschappelijk veld, is niet noodzakelijk aangezien op einde van acties al controle is
 			gv.controleerVeld();
 			
 			// controleer werk veld en verplaats rijen/series naar gv
@@ -228,9 +234,9 @@ public class Spel
 			// maak het WerkVeld leeg
 			wv = new Veld(false);
 		}
-		catch(Exception e)
+		catch(Min30PuntenException | GeenSerieOfRijException e)
 		{
-			throw new IllegalArgumentException(e.getMessage());
+			throw e;
 		}
 		return stenenMetExtra;
 	}
@@ -272,54 +278,57 @@ public class Spel
 	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
-		if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
-		{
-			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
-		}
-		
 		slaBeurtOp();
 		
-		// zoek het doelVeld
-		Veld doelVeld;
-		
-		if(doelIsWv) // doel == werkveld
+		try
 		{
-			doelVeld = wv;
-		}
-		else // doel == gemeenschappelijkveld
-		{
-			doelVeld = gv;
-		}
-
-		// zoek de bronSteen
-		Steen bronSteen;
-		
-		if(bronIsWv) // bron == werkveld
-		{
-			Veld bronVeld = wv;
-			bronSteen = bronVeld.removeSteen(positieBron);
-		}
-		else // bron == spelerStenen
-		{
-			int bronSpelerSteenIndex = positieBron[0];
-			bronSteen = spelerAanDeBeurt.removeSteen(bronSpelerSteenIndex);
-		}
-		
-		// voeg de bronSteen aan het doelVeld
-		doelVeld.voegSteenToe(positieDoel, bronSteen);
-		
-		// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we mss de actie
-		if(!doelIsWv)
-		{
-			try
+			if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
 			{
+				throw new FouteEersteZetException();
+			}
+
+			
+			// zoek het doelVeld
+			Veld doelVeld;
+			
+			if(doelIsWv) // doel == werkveld
+			{
+				doelVeld = wv;
+			}
+			else // doel == gemeenschappelijkveld
+			{
+				doelVeld = gv;
+			}
+
+			// zoek de bronSteen
+			Steen bronSteen;
+			
+			if(bronIsWv) // bron == werkveld
+			{
+				Veld bronVeld = wv;
+				bronSteen = bronVeld.removeSteen(positieBron);
+			}
+			else // bron == spelerStenen
+			{
+				int bronSpelerSteenIndex = positieBron[0];
+				bronSteen = spelerAanDeBeurt.removeSteen(bronSpelerSteenIndex);
+			}
+			
+			// voeg de bronSteen aan het doelVeld
+			doelVeld.voegSteenToe(positieDoel, bronSteen);
+			
+			// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we indien nodig de actie
+			if(!doelIsWv)
+			{
+
 				doelVeld.controleerVeld();
 			}
-			catch(IllegalArgumentException e)
-			{
-				resetActie();
-				throw e;
-			}
+		}
+		catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
+				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
+		{
+			resetActie();
+			throw e;
 		}
 	}
 	
@@ -333,38 +342,39 @@ public class Spel
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	{
-		if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
-		{
-			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
-		}
-		
 		slaBeurtOp();
 		
-		Veld doelVeld;
-		
-		if(doelIsWv) // doel == werkveld
+		try
 		{
-			doelVeld  = wv;
-		}
-		else // doel == gemeenschappelijkveld
-		{
-			doelVeld  = gv;
-		}
-		
-		doelVeld.splitsRijOfSerie(positieDoel);
-		
-		// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we mss de actie
-		if(!doelIsWv)
-		{
-			try
+			if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
+			{
+				throw new FouteEersteZetException();
+			}
+			
+			Veld doelVeld;
+			
+			if(doelIsWv) // doel == werkveld
+			{
+				doelVeld  = wv;
+			}
+			else // doel == gemeenschappelijkveld
+			{
+				doelVeld  = gv;
+			}
+			
+			doelVeld.splitsRijOfSerie(positieDoel);
+			
+			// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we indien nodig de actie
+			if(!doelIsWv)
 			{
 				doelVeld.controleerVeld();
 			}
-			catch(IllegalArgumentException e)
-			{
-				resetActie();
-				throw e;
-			}
+		}
+		catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
+				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
+		{
+			resetActie();
+			throw e;
 		}
 	}
 	
@@ -381,69 +391,71 @@ public class Spel
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	{
-		if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
-		{
-			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
-		}
-		
 		slaBeurtOp();
 		
-		// zoek het doelVeld
-		Veld doelVeld;
-		
-		if(doelIsWv) // doel == werkveld
+		try
 		{
-			doelVeld = wv;
-		}
-		else // doel == gemeenschappelijkveld
-		{
-			doelVeld = gv;
-		}
-		
-		Steen controleSteen = doelVeld.geefSteen(positieDoel);
-		
-		//controleert eerst de steen (moet een joker zijn)
-		if(!controleSteen.isJoker())
-		{
-			throw new IllegalArgumentException("De steen die u wilt vervangen is geen joker");
-		}
-		
-		//als steen joker is, dan pas verwijderen
-		Steen doelSteen = doelVeld.removeSteen(positieDoel);
-		
-		// zoek de bronSteen
-		Steen bronSteen;
-		Object bron;
-		if(bronIsWv) // bron == werkveld
-		{
-			bron = wv;
-			bronSteen = ((Veld) bron).removeSteen(positieBron);
-		}
-		else // bron == spelerStenen
-		{
-			bron = spelerAanDeBeurt;
-			bronSteen = ((Speler) bron).removeSteen(positieBron[0]);
-		}
-		
-		// voeg de bronSteen aan het doelVeld
-		doelVeld.voegSteenToe(positieDoel, bronSteen);
-		
+			if(spelerAanDeBeurt.isEersteZet() && !doelIsWv)
+			{
+				throw new FouteEersteZetException();
+			}
+			
+			
+			// zoek het doelVeld
+			Veld doelVeld;
+			
+			if(doelIsWv) // doel == werkveld
+			{
+				doelVeld = wv;
+			}
+			else // doel == gemeenschappelijkveld
+			{
+				doelVeld = gv;
+			}
+			
+			Steen controleSteen = doelVeld.geefSteen(positieDoel);
+			
+			//controleert eerst de steen (moet een joker zijn)
+			if(!controleSteen.isJoker())
+			{
+				throw new SteenIsGeenJokerException();
+			}
+			
+			//als steen joker is, dan pas verwijderen
+			Steen doelSteen = doelVeld.removeSteen(positieDoel);
+			
+			// zoek de bronSteen
+			Steen bronSteen;
+			Object bron;
+			if(bronIsWv) // bron == werkveld
+			{
+				bron = wv;
+				bronSteen = ((Veld) bron).removeSteen(positieBron);
+			}
+			else // bron == spelerStenen
+			{
+				bron = spelerAanDeBeurt;
+				bronSteen = ((Speler) bron).removeSteen(positieBron[0]);
+			}
+			
+			// voeg de bronSteen aan het doelVeld
+			doelVeld.voegSteenToe(positieDoel, bronSteen);
+			
 
-		// voeg de doelSteen (joker) toe aan werkVeld
-		wv.voegSteenToe(positieBron, doelSteen);
-		
-		// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we mss de actie
-		if(!doelIsWv)
-		{
-			try
+			// voeg de doelSteen (joker) toe aan werkVeld
+			wv.voegSteenToe(positieBron, doelSteen);
+			
+			// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we indien nodig de actie
+			if(!doelIsWv)
 			{
 				doelVeld.controleerVeld();
 			}
-			catch(IllegalArgumentException e)
-			{
-				resetActie();
-				throw e;
-			}
+		}
+		catch(FouteEersteZetException | GeenSerieOfRijException | SteenIsGeenJokerException
+				| FoutePositieException | GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
+		{
+			resetActie();
+			throw e;
 		}
 	}
 	
@@ -458,28 +470,31 @@ public class Spel
 	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	{
-		if(spelerAanDeBeurt.isEersteZet())
-		{
-			throw new IllegalArgumentException("Als eerste zet moet je stenen aanlegen op het werkveld");
-		}
-		
 		slaBeurtOp();
-		
-		// zoek het doelVeld (werkveld)
-		Veld doelVeld = wv;
-		
-		// zoek de bronSteen
-		Veld bronVeld = gv;
-		Steen bronSteen = bronVeld.removeSteen(positieBron);
-		
-		// voeg de bronSteen aan het doelVeld
-		doelVeld.voegSteenToe(positieDoel, bronSteen);
 		
 		try
 		{
+			if(spelerAanDeBeurt.isEersteZet())
+			{
+				throw new FouteEersteZetException();
+			}
+			
+			// zoek het doelVeld (werkveld)
+			Veld doelVeld = wv;
+			
+			// zoek de bronSteen
+			Veld bronVeld = gv;
+			Steen bronSteen = bronVeld.removeSteen(positieBron);
+			
+			// voeg de bronSteen aan het doelVeld
+			doelVeld.voegSteenToe(positieDoel, bronSteen);
+			
+
 			bronVeld.controleerVeld();
+
 		}
-		catch(IllegalArgumentException e)
+		catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
+				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
 		{
 			resetActie();
 			throw e;
@@ -523,7 +538,7 @@ public class Spel
 				gv.addSet(set);
 			}
 		}
-		catch(IllegalArgumentException e)
+		catch(GeenSerieOfRijException e)
 		{
 			resetActie();
 			throw e;

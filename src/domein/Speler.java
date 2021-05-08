@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import exceptions.GeenSpelerSteenOpPlaats;
+
 public class Speler
 {
 	private String gebruikersnaam;
@@ -159,7 +161,7 @@ public class Speler
 		// indexSteen moet verwijzen naar een Speler steen
 		if(indexSteen >= stenen.size())
 		{
-			throw new IllegalArgumentException("De steen is buiten het bereik van de speler stenen");
+			throw new GeenSpelerSteenOpPlaats();
 		}
 		
 		return stenen.remove(indexSteen);

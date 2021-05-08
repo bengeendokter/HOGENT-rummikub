@@ -3,7 +3,15 @@ package gui;
 import java.io.IOException;
 
 import domein.DomeinController;
+import exceptions.FouteEersteZetException;
+import exceptions.FoutePositieException;
+import exceptions.GeenPlaatsOpRijException;
+import exceptions.GeenSerieOfRijException;
+import exceptions.GeenSpelerSteenOpPlaats;
+import exceptions.OngeldigInvoerException;
+import exceptions.SteenIsGeenJokerException;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -119,7 +127,6 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		}
 	}
 	
-	// TODO vang alle soorten fouten apart op en implementeer tweetaligheid
 	public void legAan()
 	{
 		// bepaal welke actie dit is voor de buildText methode
@@ -133,16 +140,13 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		radioBronSpeler.setDisable(false);
 		
 		// selecteer alvast de meest logische keuzes
-		radioDoelGv.setSelected(true);
+		radioDoelWv.setSelected(true);
 		radioBronSpeler.setSelected(true);
 		// en activeer de bijhorende velden
 		enableDoelVelden();
 		txfBronRij.setDisable(false);
 		// aangezien logische keuze afwijkt van wat er met velden normaal gebeurt stellen we dit direct in
-		txfBronRij.setOnAction(evt2 -> {
-			leesVelden();
-			actieLegAan(positieDoel, doelIsWv, positieBron, bronIsWv);
-		}); // hetzelfde als OK knop
+		txfBronRij.setOnAction(this::actieLegAan); // hetzelfde als OK knop
 		
 		// bepaal wat er met BronVelden gebeurt als er een BronRadio wordt aangeklikt
 		// niet nodig voor DoelVelden, die staan altijd beide aan
@@ -153,10 +157,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			txfBronRij.setOnAction(evt2 -> {
 				txfBronKolom.requestFocus();
 			});
-			txfBronKolom.setOnAction(evt2 -> {
-				leesVelden();
-				actieLegAan(positieDoel, doelIsWv, positieBron, bronIsWv);
-			}); // hetzelfde als OK knop
+			txfBronKolom.setOnAction(this::actieLegAan); // hetzelfde als OK knop
 		});
 		
 		radioBronSpeler.setOnAction(evt -> {
@@ -165,33 +166,24 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			txfBronKolom.clear();
 			
 			// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-			txfBronRij.setOnAction(evt2 -> {
-				leesVelden();
-				actieLegAan(positieDoel, doelIsWv, positieBron, bronIsWv);
-			}); // hetzelfde als OK knop
+			txfBronRij.setOnAction(this::actieLegAan); // hetzelfde als OK knop
 		});
 		
 		// implementeer de OK knop
-		btnOk.setOnAction(evt -> {
-			leesVelden();
-			actieLegAan(positieDoel, doelIsWv, positieBron, bronIsWv);
-		});
+		btnOk.setOnAction(this::actieLegAan);
 	}
 	
-	private void actieLegAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	private void actieLegAan(ActionEvent evt)
 	{
 		try
 		{
+			leesVelden();
 			controller.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
 			parent.updateGui();
 		}
-		catch(IllegalArgumentException e)
-		{
-			lblMelding.setText(e.getMessage());
-		}
 		catch(Exception e)
 		{
-			WarningAlertScherm.toonAlert();
+			exceptionToMelding(e);
 		}
 	}
 	
@@ -220,32 +212,23 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		});
 		
 		// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-		txfDoelKolom.setOnAction(evt2 -> {
-			leesVelden();
-			actieSplits(positieDoel, doelIsWv);
-		}); // hetzelfde als OK knop
+		txfDoelKolom.setOnAction(this::actieSplits); // hetzelfde als OK knop
 		
 		// implementeer de OK knop
-		btnOk.setOnAction(evt -> {
-			leesVelden();
-			actieSplits(positieDoel, doelIsWv);
-		});
+		btnOk.setOnAction(this::actieSplits);
 	}
 	
-	private void actieSplits(int[] positieDoel, boolean doelIsWv)
+	private void actieSplits(ActionEvent evt)
 	{
 		try
 		{
+			leesVelden();
 			controller.splitsRijOfSerie(positieDoel, doelIsWv);
 			parent.updateGui();
 		}
-		catch(IllegalArgumentException e)
-		{
-			lblMelding.setText(e.getMessage());
-		}
 		catch(Exception e)
 		{
-			WarningAlertScherm.toonAlert();
+			exceptionToMelding(e);
 		}
 	}
 	
@@ -268,10 +251,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		enableDoelVelden();
 		txfBronRij.setDisable(false);
 		// aangezien logische keuze afwijkt van wat er met velden normaal gebeurt stellen we dit direct in
-		txfBronRij.setOnAction(evt2 -> {
-			leesVelden();
-			actieJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
-		}); // hetzelfde als OK knop
+		txfBronRij.setOnAction(this::actieJoker); // hetzelfde als OK knop
 		
 		// bepaal wat er met BronVelden gebeurt als er een BronRadio wordt aangeklikt
 		// niet nodig voor DoelVelden, die staan altijd beide aan
@@ -282,10 +262,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			txfBronRij.setOnAction(evt2 -> {
 				txfBronKolom.requestFocus();
 			});
-			txfBronKolom.setOnAction(evt2 -> {
-				leesVelden();
-				actieJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
-			}); // hetzelfde als OK knop
+			txfBronKolom.setOnAction(this::actieJoker); // hetzelfde als OK knop
 		});
 		
 		radioBronSpeler.setOnAction(evt -> {
@@ -294,33 +271,24 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			txfBronKolom.clear();
 			
 			// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-			txfBronRij.setOnAction(evt2 -> {
-				leesVelden();
-				actieJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
-			}); // hetzelfde als OK knop
+			txfBronRij.setOnAction(this::actieJoker); // hetzelfde als OK knop
 		});
 		
 		// implementeer de OK knop
-		btnOk.setOnAction(evt -> {
-			leesVelden();
-			actieJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
-		});
+		btnOk.setOnAction(this::actieJoker);
 	}
 	
-	private void actieJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	private void actieJoker(ActionEvent evt)
 	{
 		try
 		{
+			leesVelden();
 			controller.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
 			parent.updateGui();
 		}
-		catch(IllegalArgumentException e)
-		{
-			lblMelding.setText(e.getMessage());
-		}
 		catch(Exception e)
 		{
-			WarningAlertScherm.toonAlert();
+			exceptionToMelding(e);
 		}
 	}
 	
@@ -342,32 +310,23 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		enableBronVelden();
 		
 		// wat er gebeurt als er op ENTER wordt gedrukt in laatste veld
-		txfBronKolom.setOnAction(evt2 -> {
-			leesVelden();
-			actieWerkveld(positieDoel, positieBron);
-		}); // hetzelfde als OK knop
+		txfBronKolom.setOnAction(this::actieWerkveld); // hetzelfde als OK knop
 		
 		// implementeer de OK knop
-		btnOk.setOnAction(evt -> {
-			leesVelden();
-			actieWerkveld(positieDoel, positieBron);
-		});
+		btnOk.setOnAction(this::actieWerkveld);
 	}
 	
-	private void actieWerkveld(int[] positieDoel, int[] positieBron)
+	private void actieWerkveld(ActionEvent evt)
 	{
 		try
 		{
+			leesVelden();
 			controller.verplaatsNaarWerkveld(positieDoel, positieBron);
 			parent.updateGui();
 		}
-		catch(IllegalArgumentException e)
-		{
-			lblMelding.setText(e.getMessage());
-		}
 		catch(Exception e)
 		{
-			WarningAlertScherm.toonAlert();
+			exceptionToMelding(e);
 		}
 	}
 
@@ -439,14 +398,61 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			// get radio bron knop
 			bronIsWv = bron.getSelectedToggle().equals(radioBronWv);
 			
+			// controleer of positie waarden minstens 1 zijn
+			if(doelRij < 1 || doelKolom < 1 || bronRij < 1 || bronKolom < 1)
+			{
+				throw new IllegalArgumentException("De positie waarden moeten minstens 1 zijn");
+			}
+			
 			// stel posities in
 			// verlaag de indexen met 1 en stel de posities in
 			positieDoel = new int[] {--doelRij, --doelKolom};
 			positieBron = new int[] {--bronRij, --bronKolom};
 		}
-		catch(NumberFormatException e)
+		catch(IllegalArgumentException e)
 		{
-			lblMelding.setText("Enkel getallen!");
+			throw new OngeldigInvoerException();
+		}
+	}
+	
+	private void exceptionToMelding(Exception ex)
+	{
+		try
+		{
+			throw ex;
+		}
+		catch(OngeldigInvoerException e)
+		{
+			lblMelding.setText(controller.getMessages("msgOngeldigeInvoer"));
+		}
+		catch(FoutePositieException e)
+		{
+			lblMelding.setText(controller.getMessages("msgFoutePositie"));
+		}
+		catch(FouteEersteZetException e)
+		{
+			lblMelding.setText(controller.getMessages("msgFouteEersteZet"));
+		}
+		catch(GeenPlaatsOpRijException e)
+		{
+			lblMelding.setText(controller.getMessages("msgFouteEersteZet"));
+		}
+		catch(GeenSpelerSteenOpPlaats e)
+		{
+			lblMelding.setText(controller.getMessages("msgFouteSpelerSteen"));
+		}
+		catch(SteenIsGeenJokerException e)
+		{
+			lblMelding.setText(controller.getMessages("msgGeenJoker"));
+		}
+		catch(GeenSerieOfRijException e)
+		{
+			lblMelding.setText(controller.getMessages("msgGeenSerieOfRij"));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			WarningAlertScherm.toonAlert();
 		}
 	}
 }

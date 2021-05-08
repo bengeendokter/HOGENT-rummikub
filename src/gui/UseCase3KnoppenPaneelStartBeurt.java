@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import domein.DomeinController;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -43,12 +44,7 @@ public class UseCase3KnoppenPaneelStartBeurt extends VBox implements UseCase3Has
 			loader.setRoot(this);
 			loader.load();
 			
-	        btnStart.setOnAction(evt -> 
-	        {
-	        	startBeurt();
-	        	parent.keuzePaneel();      
-	        }
-	        );
+	        btnStart.setOnAction(this::startBeurt);
 		}
 		catch(IOException e)
 		{
@@ -56,9 +52,17 @@ public class UseCase3KnoppenPaneelStartBeurt extends VBox implements UseCase3Has
 		}
 	}
 	
-	private void startBeurt()
+	private void startBeurt(ActionEvent evt)
 	{
-		controller.startBeurt();
+		try
+		{
+			controller.startBeurt();
+			parent.keuzePaneel();
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		} 
 	}
 	
 	@Override

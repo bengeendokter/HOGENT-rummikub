@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import domein.DomeinController;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -48,15 +49,24 @@ public class UseCase3KnoppenPaneelEindeBeurt extends VBox implements UseCase3Has
 			loader.setRoot(this);
 			loader.load();
 			
-			btnOk.setOnAction(evt -> 
-	        {
-	        	parent.startPaneel();
-	        	parent.updateGui();
-	        });
+			btnOk.setOnAction(this::toonStartScherm);
 		}
 		catch(IOException e)
 		{
 			throw new RuntimeException("Het scherm kan niet geladen worden");
+		}
+	}
+	
+	private void toonStartScherm(ActionEvent evt)
+	{
+    	try
+		{
+			parent.startPaneel();
+			parent.updateGui();
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
 		}
 	}
 	

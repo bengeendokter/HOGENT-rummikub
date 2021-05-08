@@ -144,17 +144,28 @@ public class UseCase1LoginScherm extends GridPane
     	{
     		lblMessage.setText(controller.getMessages("msgConnectionFailed"));
     	}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
     }
 
 	private void volgendScherm()
 	{
-		UseCase1GebruikersLijstScherm sc = new UseCase1GebruikersLijstScherm(controller);
-        Scene scene = new Scene(sc);
-        Stage stage = (Stage) this.getScene().getWindow();
-        stage.setScene(scene);
-        // centreer scherm
-        stage.setX((Screen.getPrimary().getVisualBounds().getWidth() - sc.getWidth()) / 2);
-        stage.setY((Screen.getPrimary().getVisualBounds().getHeight() - sc.getWidth()) / 2);
-        stage.show();
+		try
+		{
+			UseCase1GebruikersLijstScherm sc = new UseCase1GebruikersLijstScherm(controller);
+			Scene scene = new Scene(sc);
+			Stage stage = (Stage) this.getScene().getWindow();
+			stage.setScene(scene);
+			// centreer scherm
+			stage.setX((Screen.getPrimary().getVisualBounds().getWidth() - sc.getWidth()) / 2);
+			stage.setY((Screen.getPrimary().getVisualBounds().getHeight() - sc.getWidth()) / 2);
+			stage.show();
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 }

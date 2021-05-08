@@ -102,5 +102,9 @@ public class UseCase1AantalGebruikersScherm extends GridPane
             txfAmount.clear();
             lblMessage.setText(controller.getMessages("askNrUsersError"));
         }
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 }

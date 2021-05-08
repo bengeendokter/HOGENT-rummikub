@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import exceptions.FoutePositieException;
+import exceptions.GeenPlaatsOpRijException;
+import exceptions.GeenSerieOfRijException;
 
 public class StenenSet
 {
@@ -53,7 +55,12 @@ public class StenenSet
 		// indien de plek leeg is kunnen we een steen plaatsen, anders gooien we een exception
 		if(geefSteen(stenen.size() - 1) != null)
 		{
-			throw new IllegalArgumentException("Er kan geen steen meer bij geplaats worden");
+			throw new GeenPlaatsOpRijException();
+		}
+		
+		if(indexSteen >= 13)
+		{
+			throw new FoutePositieException();
 		}
 		
 		// we voegen de steen toe op de meegegeven index en verwijderen het laatste null element zodat we weer 1 elementen hebben
@@ -105,7 +112,7 @@ public class StenenSet
 			int grootte = (int) stenen.stream().filter(steen -> steen != null).count();
 			if(grootte < 3)
 			{
-				throw new IllegalArgumentException("Een serie of rij heeft minumum 3 stenen");
+				throw new GeenSerieOfRijException("Een serie of rij heeft minumum 3 stenen");
 			}
 			
 		// 2. controleer of set een serie is
@@ -236,7 +243,7 @@ public class StenenSet
 		// 4. gooi exception indien set geen serie en geen rij is
 		if(!isSerie && !isRij)
 		{
-			throw new IllegalArgumentException("De stenen set is geen serie of rij");
+			throw new GeenSerieOfRijException();
 		}
 	}
 	

@@ -47,7 +47,7 @@ public class UseCase2Applicatie
 	private void speelBeurt()
 	{
 		// TODO tijdelijke methode voor UC2App, verwijder deze later
-		controller.eindigSpel();
+//		controller.eindigSpel();
 	}
 
 	private void geefScoreOverzicht()
