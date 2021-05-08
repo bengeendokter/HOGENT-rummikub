@@ -75,6 +75,7 @@ public class DomeinController
 		spelers.add(speler2);
 	}
 	
+	// TODO pas geefLijstGebruikersnaam voor UC4
 	/**
 	 * Use Case 1:
 	 * Geeft een lijst van de aangemelde gebruikers
@@ -263,6 +264,9 @@ public class DomeinController
 	{
 		return spel.geefSpelOverzicht();
 	}
+	
+// Use Case 4 functies
+	// TODO updateScore
 	
 // Taal functies
 	/**

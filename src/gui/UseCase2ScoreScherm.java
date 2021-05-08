@@ -46,6 +46,8 @@ public class UseCase2ScoreScherm extends VBox
 		lblScores.setText(lijst);
 	}
 	
+	// TODO updateScore
+	
 	private void buildGui() throws RuntimeException
 	{
 		try

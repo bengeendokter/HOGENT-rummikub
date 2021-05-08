@@ -25,4 +25,6 @@ public class SpelerRepository
 		Speler speler = mapper.geefSpeler(gebruikersnaam, wachtwoord);
 		return speler;
 	}
+	
+	// TODO voeg methode updateScore toe
 }

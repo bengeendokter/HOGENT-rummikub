@@ -13,7 +13,7 @@ import exceptions.SpelerNietGevondenException;
 
 public class SpelerMapper
 {
-
+	// TODO pas geefSpeler zodat score ook mee gegeven word aan nieuwe constructor van speler
 	public Speler geefSpeler(String gebruikersnaam, String wachtwoord) throws SpelerNietGevondenException, RuntimeException
 	{
 		Speler speler = null;
@@ -60,4 +60,6 @@ public class SpelerMapper
 		}
 		return speler;
 	}
+	
+	// TODO voeg methode updateScore toe
 }

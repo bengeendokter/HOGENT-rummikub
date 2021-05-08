@@ -15,6 +15,7 @@ public class Speler
 	private List<Steen> stenen;
 	private boolean isEersteZet;
 	
+	// TODO pas constructor en attributen aan voor UC4
 	/**
 	 * Use Case 2:
 	 * Constructor die een Speler object aanmaakt aan de hand van de gebruikersnaam en wachtwoord
@@ -191,6 +192,8 @@ public class Speler
 		Speler other = (Speler) obj;
 		return Objects.equals(gebruikersnaam, other.gebruikersnaam);
 	}
+	
+	// TODO voeg compareTo methode toe voor UC4
 	
 	/**
 	 * Use Case 3:
