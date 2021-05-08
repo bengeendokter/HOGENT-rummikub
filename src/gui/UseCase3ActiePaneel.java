@@ -102,21 +102,15 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			});
 			
 			// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-	        txfDoelRij.setOnAction(evt -> 
-	        {
-	        	txfDoelKolom.requestFocus();
-	        }
-	        ); // ga naar volgend veld
-	        txfDoelKolom.setOnAction(evt -> 
-	        {
-	        	txfBronRij.requestFocus();
-	        }
-	        );
-	        txfBronRij.setOnAction(evt -> 
-	        {
-	        	txfBronKolom.requestFocus();
-	        }
-	        );
+			txfDoelRij.setOnAction(evt -> {
+				txfDoelKolom.requestFocus();
+			}); // ga naar volgend veld
+			txfDoelKolom.setOnAction(evt -> {
+				txfBronRij.requestFocus();
+			});
+			txfBronRij.setOnAction(evt -> {
+				txfBronKolom.requestFocus();
+			});
 			
 		}
 		catch(IOException e)
@@ -125,7 +119,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		}
 	}
 	
-	// TODO verplaats alle controller aanroepen en vang errors op in melding
+	// TODO vang alle soorten fouten apart op en implementeer tweetaligheid
 	public void legAan()
 	{
 		// bepaal welke actie dit is voor de buildText methode
@@ -145,13 +139,10 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		enableDoelVelden();
 		txfBronRij.setDisable(false);
 		// aangezien logische keuze afwijkt van wat er met velden normaal gebeurt stellen we dit direct in
-        txfBronRij.setOnAction(evt2 -> 
-        {
-		    leesVelden();
-		    controller.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
-		    parent.updateGui();
-        }
-        ); // hetzelfde als OK knop
+		txfBronRij.setOnAction(evt2 -> {
+			leesVelden();
+			actieLegAan(positieDoel, doelIsWv, positieBron, bronIsWv);
+		}); // hetzelfde als OK knop
 		
 		// bepaal wat er met BronVelden gebeurt als er een BronRadio wordt aangeklikt
 		// niet nodig voor DoelVelden, die staan altijd beide aan
@@ -159,18 +150,13 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			enableBronVelden();
 			
 			// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-	        txfBronRij.setOnAction(evt2 -> 
-	        {
-	        	txfBronKolom.requestFocus();
-	        }
-	        );
-	        txfBronKolom.setOnAction(evt2 -> 
-	        {
-			    leesVelden();
-			    controller.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
-			    parent.updateGui();
-	        }
-	        ); // hetzelfde als OK knop
+			txfBronRij.setOnAction(evt2 -> {
+				txfBronKolom.requestFocus();
+			});
+			txfBronKolom.setOnAction(evt2 -> {
+				leesVelden();
+				actieLegAan(positieDoel, doelIsWv, positieBron, bronIsWv);
+			}); // hetzelfde als OK knop
 		});
 		
 		radioBronSpeler.setOnAction(evt -> {
@@ -179,21 +165,34 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			txfBronKolom.clear();
 			
 			// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-	        txfBronRij.setOnAction(evt2 -> 
-	        {
-			    leesVelden();
-			    controller.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
-			    parent.updateGui();
-	        }
-	        ); // hetzelfde als OK knop
+			txfBronRij.setOnAction(evt2 -> {
+				leesVelden();
+				actieLegAan(positieDoel, doelIsWv, positieBron, bronIsWv);
+			}); // hetzelfde als OK knop
 		});
 		
 		// implementeer de OK knop
 		btnOk.setOnAction(evt -> {
-		    leesVelden();
-		    controller.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
-		    parent.updateGui();
+			leesVelden();
+			actieLegAan(positieDoel, doelIsWv, positieBron, bronIsWv);
 		});
+	}
+	
+	private void actieLegAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	{
+		try
+		{
+			controller.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
+			parent.updateGui();
+		}
+		catch(IllegalArgumentException e)
+		{
+			lblMelding.setText(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 	
 	public void splits()
@@ -221,24 +220,37 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		});
 		
 		// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-        txfDoelKolom.setOnAction(evt2 -> 
-        {
-		    leesVelden();
-		    controller.splitsRijOfSerie(positieDoel, doelIsWv);
-		    parent.updateGui();
-        }
-        ); // hetzelfde als OK knop
+		txfDoelKolom.setOnAction(evt2 -> {
+			leesVelden();
+			actieSplits(positieDoel, doelIsWv);
+		}); // hetzelfde als OK knop
 		
 		// implementeer de OK knop
 		btnOk.setOnAction(evt -> {
-		    leesVelden();
-		    controller.splitsRijOfSerie(positieDoel, doelIsWv);
-		    parent.updateGui();
+			leesVelden();
+			actieSplits(positieDoel, doelIsWv);
 		});
 	}
 	
+	private void actieSplits(int[] positieDoel, boolean doelIsWv)
+	{
+		try
+		{
+			controller.splitsRijOfSerie(positieDoel, doelIsWv);
+			parent.updateGui();
+		}
+		catch(IllegalArgumentException e)
+		{
+			lblMelding.setText(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
+	}
+	
 	public void joker()
-	{	
+	{
 		// bepaal welke actie dit is voor de buildText methode
 		actie = "joker";
 		buildText();
@@ -256,13 +268,10 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		enableDoelVelden();
 		txfBronRij.setDisable(false);
 		// aangezien logische keuze afwijkt van wat er met velden normaal gebeurt stellen we dit direct in
-        txfBronRij.setOnAction(evt2 -> 
-        {
-		    leesVelden();
-		    controller.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
-		    parent.updateGui();
-        }
-        ); // hetzelfde als OK knop
+		txfBronRij.setOnAction(evt2 -> {
+			leesVelden();
+			actieJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
+		}); // hetzelfde als OK knop
 		
 		// bepaal wat er met BronVelden gebeurt als er een BronRadio wordt aangeklikt
 		// niet nodig voor DoelVelden, die staan altijd beide aan
@@ -270,18 +279,13 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			enableBronVelden();
 			
 			// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-	        txfBronRij.setOnAction(evt2 -> 
-	        {
-	        	txfBronKolom.requestFocus();
-	        }
-	        );
-	        txfBronKolom.setOnAction(evt2 -> 
-	        {
-			    leesVelden();
-			    controller.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
-			    parent.updateGui();
-	        }
-	        ); // hetzelfde als OK knop
+			txfBronRij.setOnAction(evt2 -> {
+				txfBronKolom.requestFocus();
+			});
+			txfBronKolom.setOnAction(evt2 -> {
+				leesVelden();
+				actieJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
+			}); // hetzelfde als OK knop
 		});
 		
 		radioBronSpeler.setOnAction(evt -> {
@@ -290,21 +294,34 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			txfBronKolom.clear();
 			
 			// wat er gebeurt als er op ENTER wordt gedrukt in een veld
-	        txfBronRij.setOnAction(evt2 -> 
-	        {
-			    leesVelden();
-			    controller.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
-			    parent.updateGui();
-	        }
-	        ); // hetzelfde als OK knop
+			txfBronRij.setOnAction(evt2 -> {
+				leesVelden();
+				actieJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
+			}); // hetzelfde als OK knop
 		});
 		
 		// implementeer de OK knop
 		btnOk.setOnAction(evt -> {
-		    leesVelden();
-		    controller.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
-		    parent.updateGui();
+			leesVelden();
+			actieJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
 		});
+	}
+	
+	private void actieJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	{
+		try
+		{
+			controller.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
+			parent.updateGui();
+		}
+		catch(IllegalArgumentException e)
+		{
+			lblMelding.setText(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
 	}
 	
 	public void werkVeld()
@@ -325,22 +342,35 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		enableBronVelden();
 		
 		// wat er gebeurt als er op ENTER wordt gedrukt in laatste veld
-        txfBronKolom.setOnAction(evt2 -> 
-        {
-		    leesVelden();
-		    controller.verplaatsNaarWerkveld(positieDoel, positieBron);
-		    parent.updateGui();
-        }
-        ); // hetzelfde als OK knop
-				
+		txfBronKolom.setOnAction(evt2 -> {
+			leesVelden();
+			actieWerkveld(positieDoel, positieBron);
+		}); // hetzelfde als OK knop
+		
 		// implementeer de OK knop
 		btnOk.setOnAction(evt -> {
-		    leesVelden();
-		    controller.verplaatsNaarWerkveld(positieDoel, positieBron);
-		    parent.updateGui();
+			leesVelden();
+			actieWerkveld(positieDoel, positieBron);
 		});
 	}
 	
+	private void actieWerkveld(int[] positieDoel, int[] positieBron)
+	{
+		try
+		{
+			controller.verplaatsNaarWerkveld(positieDoel, positieBron);
+			parent.updateGui();
+		}
+		catch(IllegalArgumentException e)
+		{
+			lblMelding.setText(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
+	}
+
 	private void enableDoelVelden()
 	{
 		txfDoelRij.setDisable(false);
@@ -358,7 +388,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		txfBronRij.setDisable(false);
 		txfBronKolom.setDisable(false);
 	}
-
+	
 	@Override
 	public void buildText()
 	{
@@ -381,42 +411,42 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 	
 	private void leesVelden()
 	{
-        try
-        {
-        	// get doel velden
-        	int doelRij = Integer.parseInt(txfDoelRij.getText());
-        	int doelKolom = Integer.parseInt(txfDoelKolom.getText());
-        	
-        	// get bron velden
-        	String bronRijTekst = txfBronRij.getText();
-        	String bronKolomTekst = txfBronKolom.getText();
-        	
-        	if(bronRijTekst.isBlank())
-        	{
-        		bronRijTekst = "1";
-        	}
-        	if(bronKolomTekst.isBlank())
-        	{
-        		bronKolomTekst = "1";
-        	}
-        	
-        	int bronRij = Integer.parseInt(bronRijTekst);
-        	int bronKolom = Integer.parseInt(bronKolomTekst);
-        	
-        	// get radio doel knop
-        	doelIsWv = doel.getSelectedToggle().equals(radioDoelWv);
-        	
-        	// get radio bron knop
-        	bronIsWv = bron.getSelectedToggle().equals(radioBronWv);
-        	
-        	// stel posities in
-        	// verlaag de indexen met 1 en stel de posities in
-        	positieDoel = new int[]{--doelRij, --doelKolom};
-        	positieBron = new int[]{--bronRij, --bronKolom};
-        }
-        catch (NumberFormatException e)
-        {
-            lblMelding.setText("Enkel getallen!");
-        }
+		try
+		{
+			// get doel velden
+			int doelRij = Integer.parseInt(txfDoelRij.getText());
+			int doelKolom = Integer.parseInt(txfDoelKolom.getText());
+			
+			// get bron velden
+			String bronRijTekst = txfBronRij.getText();
+			String bronKolomTekst = txfBronKolom.getText();
+			
+			if(bronRijTekst.isBlank())
+			{
+				bronRijTekst = "1";
+			}
+			if(bronKolomTekst.isBlank())
+			{
+				bronKolomTekst = "1";
+			}
+			
+			int bronRij = Integer.parseInt(bronRijTekst);
+			int bronKolom = Integer.parseInt(bronKolomTekst);
+			
+			// get radio doel knop
+			doelIsWv = doel.getSelectedToggle().equals(radioDoelWv);
+			
+			// get radio bron knop
+			bronIsWv = bron.getSelectedToggle().equals(radioBronWv);
+			
+			// stel posities in
+			// verlaag de indexen met 1 en stel de posities in
+			positieDoel = new int[] {--doelRij, --doelKolom};
+			positieBron = new int[] {--bronRij, --bronKolom};
+		}
+		catch(NumberFormatException e)
+		{
+			lblMelding.setText("Enkel getallen!");
+		}
 	}
 }

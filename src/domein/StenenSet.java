@@ -108,7 +108,6 @@ public class StenenSet
 				throw new IllegalArgumentException("Een serie of rij heeft minumum 3 stenen");
 			}
 			
-			// TODO serie mag max 4 stenen zijn controle
 		// 2. controleer of set een serie is
 			Iterator<Steen> iterator = stenen.iterator();
 			Steen previous = null;
@@ -134,6 +133,12 @@ public class StenenSet
 			// we stellen een paar eigenschappen van de serie in
 			vorigeKleuren.add(previous.getKleur());
 			serieGetal = previous.getGetal();
+			
+			// serie mag max 4 stenen zijn, een joker kan niet gebruikt worden als 5e/6e steen
+			if(grootte > 4)
+			{
+				isSerie = false;
+			}
 			
 			// we overlopen de stenen zolang de set nog altijd een serie is
 			while(isSerie && iterator.hasNext())
@@ -162,11 +167,14 @@ public class StenenSet
 				}
 			}
 			
-			// TODO joker mag niet voor 1 of na 13 controle
 		// 3. controleer of set een rij is
 			iterator = stenen.iterator();
 			int vorigGetal = 0;
 			String rijKleur = "";
+			
+			// we maken variabelen aan voor de controle: een joker mag niet voor 1 of na 13 liggen
+			boolean vorigIsJoker = false;
+			boolean vorigIsDertien = false;
 			
 			// we nemen alvast het eerste element, dit kan niet null zijn want de Set heeft minimum 3 stenen
 			previous = iterator.next();
@@ -175,6 +183,7 @@ public class StenenSet
 			if(previous.isJoker())
 			{
 				previous = iterator.next();
+				vorigIsJoker = true;
 			}
 
 			// indien de tweede steen een joker is pakken we de volgende steen (er zijn maar 2 jokers in het spel)
@@ -186,6 +195,12 @@ public class StenenSet
 			// we stellen een paar eigenschappen van de rij in
 			vorigGetal = previous.getGetal();
 			rijKleur = previous.getKleur();
+			
+			// indien er in het begin een joker voor een 1 ligt is de set geen rij
+			if(vorigIsJoker && vorigGetal == 1)
+			{
+				isRij = false;
+			}
 			
 			// we overlopen de stenen zolang de set nog altijd een rij is
 			while(isRij && iterator.hasNext())
@@ -201,6 +216,17 @@ public class StenenSet
 						// de getal waarde of kleur klopt niet, de set is enkel een rij als de steen een joker is
 						isRij = huidigeSteen.isJoker();
 					}
+					
+					// indien joker na een 13 ligt is de set geen rij
+					if(huidigeSteen.getGetal() == 13)
+					{
+						vorigIsDertien = true;
+					}
+					else if(vorigIsDertien && huidigeSteen.isJoker())
+					{
+						isRij = false;
+					}
+					
 					// we stellen de volgende getalwaarde in
 					vorigGetal++;
 				}
