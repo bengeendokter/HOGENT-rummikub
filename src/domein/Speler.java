@@ -156,7 +156,7 @@ public class Speler
 	 * @param indexSteen	index van de steen die moet verwijderd worden
 	 * @return				Steen object van de verwijderde Steen
 	 */
-	public Steen removeSteen(int indexSteen)
+	public Steen removeSteen(int indexSteen) throws GeenSpelerSteenOpPlaats
 	{		
 		// indexSteen moet verwijzen naar een Speler steen
 		if(indexSteen >= stenen.size())

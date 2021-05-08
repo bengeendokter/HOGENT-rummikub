@@ -124,6 +124,8 @@ public class Steen implements Comparable<Steen>
 	 * Use Case 3:
 	 * CompareTo methode die de Stenen eerst sorteert op kleur en daarna op getal waarde,
 	 * jokers worden achteraan geplaatst
+	 * 
+	 * @param steen	andere steen waarmee vergeleken wordt
 	 */
 	@Override
 	public int compareTo(Steen steen)
@@ -154,6 +156,8 @@ public class Steen implements Comparable<Steen>
 	 * Use Case 2:
 	 * ToString methode die de steen weergeeft als een String van 3 karakters,
 	 * bv. JOK, G01, B11...
+	 * 
+	 * @return	steen in de vorm van 3 karakters
 	 */
 	@Override
 	public String toString()

@@ -13,7 +13,7 @@ public class Beurt
 	/**
 	 * Use Case 3:
 	 * Constructor van Beurt die de spelerAanDeBeurt en het gemeenschappelijkveld opslaat
-	 *  waarbij vooral hun bijhorende stenen belangrijk zijn om de beurt later te kunnen resetten
+	 * waarbij vooral hun bijhorende stenen belangrijk zijn om de beurt later te kunnen resetten
 	 * 
 	 * @param speler	Speler object van de speler aan de beurt in het begin van zijn beurt
 	 * @param gv		Veld object van het gemeenschappelijkveld in het begin van de beurt
@@ -23,7 +23,15 @@ public class Beurt
 		this(speler, gv, new Veld(false));
 	}
 	
-	// Constructor voor beurtVoorActie van Spel
+	/**
+	 * Use Case 3:
+	 * Constructor van Beurt die waaraan ook een werkveld kan meegegeven worden.
+	 * Deze constructor word gebruikt om een niet geldige actie te kunnen terugdraaien
+	 *  
+	 * @param speler	Speler object van de speler aan het begin van de zet
+	 * @param gv		Veld object van het gemeenschappelijkveld  aan het begin van de zet
+	 * @param wv		Veld object van het werkveld  aan het begin van de zet
+	 */
 	public Beurt(Speler speler, Veld gv, Veld wv)
 	{
 		// we gebruiken de constructor van Speler waarbij we de spelerStenen kunnen meegeven

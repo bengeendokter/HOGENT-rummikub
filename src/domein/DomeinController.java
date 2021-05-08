@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.BuitenBereikException;
+import exceptions.FouteEersteZetException;
+import exceptions.FoutePositieException;
 import exceptions.FoutieveTaalInvoerException;
+import exceptions.GeenPlaatsOpRijException;
+import exceptions.GeenSerieOfRijException;
+import exceptions.GeenSpelerSteenOpPlaats;
+import exceptions.Min30PuntenException;
 import exceptions.ReedsAangemeldException;
 import exceptions.SpelerNietGevondenException;
+import exceptions.SteenIsGeenJokerException;
 import utility.Taal;
 
 public class DomeinController
@@ -46,7 +53,7 @@ public class DomeinController
 	 * @param wachtwoord		het wachtwoord waarnaar gezocht wordt in de databank
 	 */
 	public void meldAan(String gebruikersnaam, String wachtwoord)
-			throws ReedsAangemeldException, SpelerNietGevondenException, RuntimeException
+	throws ReedsAangemeldException, SpelerNietGevondenException, RuntimeException
 	{
 		Speler gevondenSpeler = spelerrepo.geefSpeler(gebruikersnaam, wachtwoord);
 		
@@ -163,7 +170,7 @@ public class DomeinController
 	 * @return	geeft de toString van de speler stenen terug
 	 * 			om weer te geven of de speler aan de beurt een extra steen kreeg of niet
 	 */
-	public String beeindigBeurt()
+	public String beeindigBeurt() throws GeenSerieOfRijException, Min30PuntenException
 	{
 		return spel.beeindigBeurt();
 	}
@@ -190,6 +197,8 @@ public class DomeinController
 	 * @param bronIsWv		boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke bezit)
 	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
 	{
 		spel.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
 	}
@@ -204,6 +213,8 @@ public class DomeinController
 	 * @param doelIsWv		boolean geeft true als het op het werkveld moet gesplitst worden (false voor gemeen. veld)
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
+	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
 	{
 		spel.splitsRijOfSerie(positieDoel, doelIsWv);
 	}
@@ -220,6 +231,8 @@ public class DomeinController
 	 * @param bronIsWv		boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke bezit)
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SteenIsGeenJokerException
 	{
 		spel.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
 	}
@@ -234,6 +247,8 @@ public class DomeinController
 	 * 						die aangeeft vanwaar een steen afkomstig is
 	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
+	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
 	{
 		spel.verplaatsNaarWerkveld(positieDoel, positieBron);
 	}

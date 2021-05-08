@@ -16,6 +16,12 @@ public class StenenSet
 {
 	private List<Steen> stenen;
 	
+	/**
+	 * Use Case 3:
+	 * Constructor van StenenSet waaraan een lijst van stenen moet meegeven worden
+	 * 
+	 * @param stenen	lijst van stenen die in de set zitten
+	 */
 	public StenenSet(List<Steen> stenen)
 	{
 		this.stenen = stenen;
@@ -29,10 +35,11 @@ public class StenenSet
 	/**
 	 * Use Case 3:
 	 * Geeft de steen terug in een StenenSet via een index
+	 * 
 	 * @param 	indexSteen int positie om de steen te vinden
 	 * @return	gevonden steen
 	 */
-	public Steen geefSteen(int indexSteen)
+	public Steen geefSteen(int indexSteen) throws FoutePositieException
 	{
 		if(indexSteen >= 13)
 		{
@@ -49,7 +56,7 @@ public class StenenSet
 	 * @param indexSteen	int positie die aangeeft waar de steen toegevoegd moet worden
 	 * @param steen			steen die toegevoegd moet worden in een serie of rij
 	 */
-	public void voegSteenToe(int indexSteen, Steen steen)
+	public void voegSteenToe(int indexSteen, Steen steen) throws GeenPlaatsOpRijException, FoutePositieException
 	{
 		// we controleren of de laatste plek van de Set leeg is
 		// indien de plek leeg is kunnen we een steen plaatsen, anders gooien we een exception
@@ -78,7 +85,7 @@ public class StenenSet
 	 * @param indexSteen	int positie die aangeeft waar de steen verwijderd moet worden 
 	 * @return				geeft de verwijderde steen terug
 	 */
-	public Steen removeSteen(int indexSteen)
+	public Steen removeSteen(int indexSteen) throws FoutePositieException
 	{
 		// zoek de steen op de gegeven positie
 		Steen steen = geefSteen(indexSteen);
@@ -90,6 +97,12 @@ public class StenenSet
 		return steen;
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Geeft terug of de StenenSet volledig leeg is of niet
+	 * 
+	 * @return	true indien de set volledig leeg is
+	 */
 	public boolean isLeeg()
 	{
 		return stenen.stream().allMatch(steen -> steen == null);
@@ -99,7 +112,7 @@ public class StenenSet
 	 * Use Case 3:
 	 * Controleert de set op geldigheid volgens DR_GELDIGE_SPELSITUATIE (serie of rij)
 	 */
-	public void controleerSet()
+	public void controleerSet() throws GeenSerieOfRijException
 	{
 		boolean isSerie = true;
 		boolean isRij = true;
@@ -251,6 +264,8 @@ public class StenenSet
 	 * Use Case 3:
 	 * ToString methode die de StenenSets weergeeft door de Stenen te joinen met een '-'
 	 * bv. JOK-G02-G03, B01-Z01-R01-G01...
+	 * 
+	 * @return	string weergave van al de stenen in de set
 	 */
 	@Override
 	public String toString()

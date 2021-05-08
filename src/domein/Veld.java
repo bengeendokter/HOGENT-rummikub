@@ -8,16 +8,20 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import exceptions.FoutePositieException;
+import exceptions.GeenPlaatsOpRijException;
+import exceptions.GeenSerieOfRijException;
 
 public class Veld
 {
 	private List<StenenSet> stenenSets;
 	private final boolean isGv;
-	
+
 	/**
 	 * Use Case 3:
 	 * Default constructor van Veld die een nieuw veld aanmaakt.
 	 * Wordt gebruikt in het begin van een spel of om het werkveld te resetten
+	 * 
+	 * @param isGv	boolean die bepaalt of het een gemeenschappelijkveld of een werkveld is 
 	 */
 	public Veld(boolean isGv)
 	{
@@ -31,13 +35,14 @@ public class Veld
 			, isGv
 		);
 	}
-	
+
 	/**
 	 * Use Case 3:
 	 * Constructor van Veld die een nieuw veld aanmaakt aan de hand van een lijst van StenenSets.
 	 * Wordt gebruikt in de klasse Beurt om een copy van een bestaand gemeenschappelijk veld in op te slaan
 	 * 
-	 * @param stenenSets
+	 * @param stenenSets	de sets die zich op het veld bevinden
+	 * @param isGv			boolean die bepaalt of het een gemeenschappelijkveld of een werkveld is
 	 */
 	public Veld(List<StenenSet> stenenSets, boolean isGv)
 	{
@@ -63,7 +68,7 @@ public class Veld
 	 * 			kolom om de juiste steen van de juiste StenenSet te vinden) die helpt de steen te vinden
 	 * @return	gevonden steen via positie array
 	 */
-	public Steen geefSteen(int[] positieSteen)
+	public Steen geefSteen(int[] positieSteen) throws FoutePositieException
 	{
 		// steen kan null zijn
 		int setIndex = positieSteen[0];
@@ -83,7 +88,7 @@ public class Veld
 	 * 						kolom om de juiste steen van de juiste StenenSet te vinden)	die aangeeft vanwaar de steen afkomstig is
 	 * @param steen			steen die zal toegevoegd worden
 	 */
-	public void voegSteenToe(int[] positieSteen, Steen steen)
+	public void voegSteenToe(int[] positieSteen, Steen steen) throws GeenPlaatsOpRijException, FoutePositieException
 	{
 		int setIndex = positieSteen[0];
 		int steenIndex = positieSteen[1];
@@ -109,7 +114,7 @@ public class Veld
 	 * 						kolom om de juiste steen van de juiste StenenSet te vinden)	die aangeeft vanwaar de steen afkomstig is
 	 * @return 				verwijderde steen
 	 */
-	public Steen removeSteen(int[] positieSteen)
+	public Steen removeSteen(int[] positieSteen) throws FoutePositieException
 	{		
 		int setIndex = positieSteen[0];
 		int steenIndex = positieSteen[1];
@@ -170,7 +175,14 @@ public class Veld
 		sorteerSets();
 	}
 	
-	private void controleerGeldigePositie(int setIndex, int steenIndex)
+	/**
+	 * Use Case 3: 
+	 * Gooit een exception indien er een foute positie meegeven wordt
+	 * 
+	 * @param setIndex		positie van de set
+	 * @param steenIndex	positie van de steen
+	 */
+	private void controleerGeldigePositie(int setIndex, int steenIndex) throws FoutePositieException
 	{
 		// gooit exception indien setIdex/steenIndex te hoog
 		if(setIndex >= stenenSets.size() || steenIndex >= 13 )
@@ -179,18 +191,34 @@ public class Veld
 		}
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Voegt een set toe aan het veld
+	 * 
+	 * @param set	de set die toegevoegd moet worden
+	 */
 	public void addSet(StenenSet set)
 	{
 		stenenSets.add(set);
 		sorteerSets();
 	}
 	
-	// plaatst lege sets onderaan
+	/**
+	 * Use Case 3:
+	 * Sorteert de sets door alle lege sets achteraan te plaatsen
+	 */
 	private void sorteerSets()
 	{
 		stenenSets.sort(Comparator.comparing(StenenSet::isLeeg));
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Controleert of er een set is die geen joker bevat en minimum 30 punten waard is,
+	 * deze methode controleert niet of de set een rij of serie is
+	 * 
+	 * @return	geeft true terug indien het veld een set bevat die 30 punten waard en geen joker bevat
+	 */
 	public boolean isGeldigeEersteZet()
 	{
 		return stenenSets.stream()
@@ -222,7 +250,7 @@ public class Veld
 	 * Controleert elke set op geldigheid (zijn de rijen en series juist aangemaakt volgens DR_GELDIGE_SPELSITUATIE)
 	 * door methode controleerSet() uit klasse StenenSet aan te roepen
 	 */
-	public void controleerVeld()
+	public void controleerVeld() throws GeenSerieOfRijException
 	{
 		for(StenenSet set : stenenSets)
 		{

@@ -104,8 +104,6 @@ public class Spel
 	/**
 	 * Use Case 2:
 	 * Geeft elke speler 14 stenen
-	 * 
-	 * @param spelers	een lijst met de aangemelde spelers
 	 */
 	private void verdeelStenen()
 	{
@@ -123,7 +121,7 @@ public class Spel
 	 * Use Case 2:
 	 * Geeft terug of het spel ten einde is of niet
 	 * 
-	 * @return geeft	true terug indien er een winnaar is
+	 * @return	geeft true terug indien er een winnaar is
 	 */
 	public boolean isEindeSpel()
 	{
@@ -187,9 +185,11 @@ public class Spel
 	
 	/**
 	 * Use Case 3:
-	 * Beëindigt de beurt
+	 * Beëindigt de beurt en controleert of er een geldige spel situatie is
+	 * 
+	 * @return	geeft de String voorstelling van de speler stenen terug voor moest de speler een extra steen krijgen
 	 */
-	public String beeindigBeurt()
+	public String beeindigBeurt() throws GeenSerieOfRijException, Min30PuntenException
 	{
 		// variabele om de speler stenen met de nieuw getrokken steen te kunnen terug geven
 		String stenenMetExtra = "";
@@ -253,11 +253,19 @@ public class Spel
 		startBeurt();
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Slaat een Beurt object op om indien nodig de actie te kunnen resetten
+	 */
 	private void slaBeurtOp()
 	{
 		beurtVoorActie = new Beurt(spelerAanDeBeurt, gv, wv);
 	}
 	
+	/**
+	 * Use Case 3:
+	 * Reset de actie voor moest de actie niet toegestaan zijn
+	 */
 	private void resetActie()
 	{
 		setSpelerAanDeBeurt(beurtVoorActie.getSpeler(), spelerAanDeBeurtIndex);
@@ -277,6 +285,8 @@ public class Spel
 	 * @param bronIsWv		boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke bezit)
 	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
 	{
 		slaBeurtOp();
 		
@@ -341,6 +351,8 @@ public class Spel
 	 * @param doelIsWv		boolean geeft true als het op het werkveld moet gesplitst worden (false voor gemeen. veld)
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
+	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
 	{
 		slaBeurtOp();
 		
@@ -390,6 +402,8 @@ public class Spel
 	 * @param bronIsWv		boolean geeft true als steen zich bevindt op het werkveld (false voor persoonlijke bezit)
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
+	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SteenIsGeenJokerException
 	{
 		slaBeurtOp();
 		
@@ -469,6 +483,8 @@ public class Spel
 	 * 						die aangeeft vanwaar een steen afkomstig is
 	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
+	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
 	{
 		slaBeurtOp();
 		
@@ -524,8 +540,11 @@ public class Spel
 		spelerAanDeBeurt.voegSteenToe(stenen.remove(stenen.size() - 1));
 	}
 	
-// methode die het werkveld controleert en eventueel volledige rijen of series naar het gv kan verplaatsen bij einde beurt
-	private void werkVeldSetsNaarGv()
+	/**
+	 * Use Case 3:
+	 * Controleert het werkveld en verplaatst daarna de geldige sets naar het gemeenschappelijkveld
+	 */
+	private void werkVeldSetsNaarGv() throws GeenSerieOfRijException
 	{
 		slaBeurtOp();
 		
