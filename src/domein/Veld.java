@@ -133,7 +133,7 @@ public class Veld
 	 * 
 	 * @param steen	Steen die in een StenenSet moet
 	 */
-	public void maakStenenSet(Steen steen)
+	private void maakStenenSet(Steen steen)
 	{
 		// maak een Steen list aan met default lengte 13
 		Steen[] steenArray = new Steen[13];
