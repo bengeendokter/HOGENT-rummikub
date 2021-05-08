@@ -33,6 +33,8 @@ public class Beurt
 					, speler.getWachtwoord()
 					, (List<Steen>) new ArrayList<>(speler.getStenen()) // maakt een nieuwe List van de meegegeven spelerStenen
 				);
+		// we stellen het isEersteZet attribuut in
+		this.speler.setEersteZet(speler.isEersteZet());
 		// we gebruiken de constructor van Veld waarbij we de stenenSets kunnen meegeven
 		this.gv = new Veld
 				(

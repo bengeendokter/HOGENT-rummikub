@@ -179,7 +179,6 @@ public class Spel
 		beurtInBegin = new Beurt(spelerAanDeBeurt, gv);
 	}
 	
-	// TODO los bug op dat spelerAanDeBeurt.isEersteZet() soms random terug om true zet
 	/**
 	 * Use Case 3:
 	 * Beëindigt de beurt
@@ -478,7 +477,7 @@ public class Spel
 		
 		try
 		{
-			doelVeld.controleerVeld();
+			bronVeld.controleerVeld();
 		}
 		catch(IllegalArgumentException e)
 		{
