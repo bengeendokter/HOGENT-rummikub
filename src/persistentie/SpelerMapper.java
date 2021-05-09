@@ -13,7 +13,6 @@ import exceptions.SpelerNietGevondenException;
 
 public class SpelerMapper
 {
-	// TODO pas geefSpeler zodat score ook mee gegeven word aan nieuwe constructor van speler
 	public Speler geefSpeler(String gebruikersnaam, String wachtwoord) throws SpelerNietGevondenException, RuntimeException
 	{
 		Speler speler = null;
@@ -40,7 +39,12 @@ public class SpelerMapper
 				if (rs.next())
 				{
 					// String wachtwoord = rs.getString("wachtwoord");
-					speler = new Speler(gebruikersnaam, wachtwoord);
+					speler = new Speler
+					(
+							rs.getString("gebruikersnaam")
+							, rs.getString("wachtwoord")
+							, rs.getInt("score")
+					);
 				}
 				else // Speler niet gevonden
 				{
@@ -48,7 +52,7 @@ public class SpelerMapper
 				}
 			}
 		}
-		catch (CommunicationsException e) // waarschijnlijk geen internetverbinding
+		catch(CommunicationsException e) // waarschijnlijk geen internetverbinding
 		{
 			throw new RuntimeException("Kan geen verbinding maken met de online databank"
 										+ ", contoleer uw internet verbinding");
@@ -60,6 +64,35 @@ public class SpelerMapper
 		}
 		return speler;
 	}
-	
-	// TODO voeg methode updateScore toe
+
+	public void updateTotaalScore(Speler speler)
+	{
+		try
+		(
+				Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+				PreparedStatement query = conn.prepareStatement
+				(
+					String.format
+					(
+							"UPDATE %s.Speler SET score = ? WHERE gebruikersnaam = ?"
+							,Connectie.USER
+					)
+				)
+		)
+		{
+			query.setInt(1, speler.getTotaalScore());
+			query.setString(2, speler.getGebruikersnaam());
+			query.executeUpdate();
+		}
+		catch(CommunicationsException e) // waarschijnlijk geen internetverbinding
+		{
+			throw new RuntimeException("Kan geen verbinding maken met de online databank"
+										+ ", contoleer uw internet verbinding");
+		}
+		catch(SQLException e) // er is een probleem opgetreden
+		{
+			throw new RuntimeException("Er is een probleem opgetreden"
+										+ ", er zit waarschijnlijk een fout in de SQL syntax of de Connectie klasse");
+		}
+	}
 }

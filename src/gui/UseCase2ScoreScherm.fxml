@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="230.0" type="VBox" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="207.0" prefWidth="284.0" spacing="5.0" type="VBox" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="267.0">
          <children>
@@ -15,10 +15,12 @@
          </children>
       </HBox>
       <Label fx:id="lblScoreList" text="De eindscore is:" />
-      <Label fx:id="lblScores" alignment="TOP_CENTER" prefHeight="70.0" prefWidth="137.0" text="IceBergUser58: -100 TUF: 600         IkBenBen: -200 mns58: -300" wrapText="true">
+      <Label fx:id="lblScores" alignment="TOP_CENTER" prefHeight="66.0" prefWidth="163.0" text="IceBergUser58: -100 TUF: 600         IkBenBen: -200 mns58: -300" wrapText="true">
          <font>
             <Font name="Courier New" size="11.0" />
          </font></Label>
+      <Button fx:id="btnUploadScore" mnemonicParsing="false" text="Upload Score" />
+      <Label fx:id="lblMelding" alignment="CENTER" prefHeight="17.0" prefWidth="355.0" text=" Melding tekst" textAlignment="CENTER" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -44,7 +44,7 @@ public class UseCase3SpelOverzicht extends VBox
 			this.controller = controller;
 			
 			// TODO tijdelijke methode, verwijder later
-			precondities();
+//			precondities();
 			
 			// bouw het spelOverzicht
 			buildGui();
@@ -62,14 +62,14 @@ public class UseCase3SpelOverzicht extends VBox
 		}
 	}
 
-	private void precondities()
-	{
-//		controller.meldAan("IkBenBen", "IkBenDokter");
-//		controller.meldAan("mns58", "myDiscordPassword");
-		controller.meldAanOffline();
-		
-		controller.startSpel();
-	}
+//	private void precondities()
+//	{
+////		controller.meldAan("IkBenBen", "IkBenDokter");
+////		controller.meldAan("mns58", "myDiscordPassword");
+//		controller.meldAanOffline();
+//		
+//		controller.startSpel();
+//	}
 
 	private void buildGui() throws RuntimeException
 	{
@@ -83,7 +83,9 @@ public class UseCase3SpelOverzicht extends VBox
 			btnTaal.setOnAction(evt -> 
 	        {
 	        	controller.veranderTaal();
-	        	buildText();;      
+	        	buildText();   
+	        	// TODO om eindig spel te testen, verwijder later
+//	        	controller.eindigSpel();
 	        });
 		}
 		catch(IOException e)

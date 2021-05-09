@@ -26,5 +26,14 @@ public class SpelerRepository
 		return speler;
 	}
 	
-	// TODO voeg methode updateScore toe
+	/**
+	 * Use Case 4:
+	 * Update de totaalScore van de speler in de databank
+	 * 
+	 * @param speler	de speler waarvan de score geüpdate wordt
+	 */
+	public void updateTotaalScore(Speler speler) throws RuntimeException
+	{
+		mapper.updateTotaalScore(speler);
+	}
 }

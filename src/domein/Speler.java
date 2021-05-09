@@ -7,25 +7,26 @@ import java.util.Objects;
 
 import exceptions.GeenSpelerSteenOpPlaats;
 
-public class Speler
+public class Speler implements Comparable<Speler>
 {
 	private String gebruikersnaam;
 	private String wachtwoord;
 	private int score;
+	private int totaalScore;
 	private List<Steen> stenen;
 	private boolean isEersteZet;
 	
-	// TODO pas constructor en attributen aan voor UC4
 	/**
 	 * Use Case 2:
 	 * Constructor die een Speler object aanmaakt aan de hand van de gebruikersnaam en wachtwoord
 	 * 
 	 * @param gebruikersnaam	de naam van de Speler
 	 * @param wachtwoord		het wachtwoord van de Speler
+	 * @param totaalScore		de totaal score van alle gespeelde spellen
 	 */
-	public Speler(String gebruikersnaam, String wachtwoord)
+	public Speler(String gebruikersnaam, String wachtwoord, int totaalScore)
 	{
-		this(gebruikersnaam, wachtwoord, new ArrayList<>());
+		this(gebruikersnaam, wachtwoord, new ArrayList<>(), totaalScore);
 	}
 	
 	/**
@@ -36,13 +37,15 @@ public class Speler
 	 * @param gebruikersnaam	de naam van de Speler
 	 * @param wachtwoord		het wachtwoord van de Speler
 	 * @param stenen			een lijst van Stenen
+	 * @param totaalScore		de totaal score van alle gespeelde spellen
 	 */
-	public Speler(String gebruikersnaam, String wachtwoord, List<Steen> stenen)
+	public Speler(String gebruikersnaam, String wachtwoord, List<Steen> stenen, int totaalScore)
 	{
 		this.stenen = stenen;
 		this.setGebruikersnaam(gebruikersnaam);
 		this.setWachtwoord(wachtwoord);
 		this.setScore(0);
+		this.setTotaalScore(totaalScore);
 		setEersteZet(true);
 	}
 	
@@ -89,6 +92,16 @@ public class Speler
 		this.score = score;
 	}
 	
+	public int getTotaalScore()
+	{
+		return totaalScore;
+	}
+
+	private void setTotaalScore(int totaalScore)
+	{
+		this.totaalScore = totaalScore;
+	}
+
 	public boolean isEersteZet()
 	{
 		return isEersteZet;
@@ -151,6 +164,15 @@ public class Speler
 	}
 	
 	/**
+	 * Use Case 4:
+	 * Update de totaal score door er de huidige score bij op te tellen
+	 */
+	public void updateTotaalScore()
+	{
+		totaalScore += score;
+	}
+	
+	/**
 	 * Use Case 3:
 	 * Verwijdert een Steen op een bepaalde index van de spelerStenen en geeft deze Steen ook terug
 	 * 
@@ -193,7 +215,24 @@ public class Speler
 		return Objects.equals(gebruikersnaam, other.gebruikersnaam);
 	}
 	
-	// TODO voeg compareTo methode toe voor UC4
+	/**
+	 * Use Case 4:
+	 * Sorteert spelers eerst volgens totaalScore en daarna volgens gebruikersnaam
+	 * 
+	 * @param speler	andere speler waarmee vergeleken wordt
+	 */
+	@Override
+	public int compareTo(Speler speler)
+	{
+		int vergelijk = Integer.compare(totaalScore, speler.getTotaalScore()) * -1;
+		
+		if(vergelijk == 0)
+		{
+			vergelijk = gebruikersnaam.compareTo(speler.getGebruikersnaam());
+		}
+		
+		return vergelijk;
+	}
 	
 	/**
 	 * Use Case 3:

@@ -68,7 +68,7 @@ public class UseCase1GebruikersLijstScherm extends VBox
     	btnTaal.setText(controller.getMessages("btnTaal"));
 		lblUserList.setText(controller.getMessages("lijstNamen"));
 
-		List<String> gebruikersnamen = controller.geefLijstGebruikersnaam();
+		List<String> gebruikersnamen = controller.geefLijstOverzicht();
 		String lijst = String.join("\n", gebruikersnamen);
 		
 		lblUsers.setText(lijst);

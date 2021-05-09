@@ -12,7 +12,6 @@ import exceptions.GeenSpelerSteenOpPlaats;
 import exceptions.Min30PuntenException;
 import exceptions.SteenIsGeenJokerException;
 
-// TODO implementeer UC4
 // TODO testen testen testen
 public class Spel
 {

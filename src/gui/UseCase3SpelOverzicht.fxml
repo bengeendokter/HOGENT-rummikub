@@ -15,7 +15,7 @@
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="580.0" VBox.vgrow="NEVER">
          <children>
-            <Label fx:id="lblUserName" text="IkBenBen">
+            <Label fx:id="lblUserName" prefHeight="25.0" prefWidth="485.0" text="IkBenBen">
                <font>
                   <Font name="Tahoma" size="20.0" />
                </font>

@@ -1,6 +1,7 @@
 package domein;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import exceptions.BuitenBereikException;
@@ -57,7 +58,7 @@ public class DomeinController
 	{
 		Speler gevondenSpeler = spelerrepo.geefSpeler(gebruikersnaam, wachtwoord);
 		
-		if(geefLijstGebruikersnaam().contains(gebruikersnaam))
+		if(spelers.contains(gevondenSpeler))
 		{
 			throw new ReedsAangemeldException();
 		}
@@ -68,29 +69,31 @@ public class DomeinController
 	// TODO tijdelijke methode om zonder internet het programma te testen, verwijder later
 	public void meldAanOffline()
 	{
-		Speler speler1 = new Speler("IkBenBen", "IkBenDokter");
-		Speler speler2 = new Speler("mns58", "myDiscordPassword");
+		Speler speler1 = new Speler("IkBenBen", "IkBenDokter", 0);
+		Speler speler2 = new Speler("mns58", "myDiscordPassword", 0);
 		
 		spelers.add(speler1);
 		spelers.add(speler2);
 	}
 	
-	// TODO pas geefLijstGebruikersnaam voor UC4
 	/**
 	 * Use Case 1:
 	 * Geeft een lijst van de aangemelde gebruikers
 	 * 
 	 * @return	een List van gebruikersnamen
 	 */
-	public List<String> geefLijstGebruikersnaam()
+	public List<String> geefLijstOverzicht()
 	{
-		List<String> gebruikersnamen = new ArrayList<>();
+		List<String> overzicht = new ArrayList<>();
 		
-		for(Speler speler : spelers)
+		Collections.sort(spelers);
+		
+		for(int i = 0; i < spelers.size(); i++)
 		{
-			gebruikersnamen.add(speler.getGebruikersnaam());
+			overzicht.add(String.format("%d. %-15s %4d", i + 1, spelers.get(i).getGebruikersnaam() + ":", spelers.get(i).getTotaalScore()));
 		}
-		return gebruikersnamen;
+
+		return overzicht;
 	}
 	
 // Use Case 2 functies
@@ -116,7 +119,7 @@ public class DomeinController
 	
 	/**
 	 * Use Case 2:
-	 * Geeft een overzicht van de score per speler
+	 * Geeft een overzicht van de score per speler en update lokaal de totaal score van elke speler
 	 * 
 	 * @return	een lijst met de gebruikersnamen en scores van de spelers
 	 */
@@ -126,10 +129,12 @@ public class DomeinController
 		
 		List<String> puntenlijst = new ArrayList<String>();
 		
-		for(Speler speler : spelers)
-		{
-			puntenlijst.add(String.format("%13s: %4d", speler.getGebruikersnaam(), speler.getScore()));
-		}
+		spelers.stream()
+			   .forEach(speler ->
+			   {
+				   speler.updateTotaalScore();
+				   puntenlijst.add(String.format("%-15s %4d", speler.getGebruikersnaam() + ":", speler.getScore()));
+			   });
 		
 		return puntenlijst;
 	}
@@ -147,12 +152,12 @@ public class DomeinController
 	
 	// TODO tijdelijke methode voor UC2App, verwijder deze later
 	// Verwijdert alle stenen van een speler door een nieuwe speler aan te maken, dit is nu de winnaar
-//	public void eindigSpel()
-//	{
-//		Speler winnaar = spelers.get(1);
-//		winnaar = new Speler(winnaar.getGebruikersnaam(), winnaar.getWachtwoord());
-//		spelers.set(1, winnaar);
-//	}
+	public void eindigSpel()
+	{
+		Speler winnaar = spelers.get(1);
+		winnaar = new Speler(winnaar.getGebruikersnaam(), winnaar.getWachtwoord(), winnaar.getTotaalScore());
+		spelers.set(1, winnaar);
+	}
 	
 // Use Case 3 functies
 	/**
@@ -265,8 +270,15 @@ public class DomeinController
 		return spel.geefSpelOverzicht();
 	}
 	
-// Use Case 4 functies
-	// TODO updateScore
+	/**
+	 * Use Case 4:
+	 * Upload de totaal score van elke speler naar de databank
+	 */
+	public void updateTotaalScore() throws RuntimeException
+	{
+		spelers.stream()
+			   .forEach(speler -> spelerrepo.updateTotaalScore(speler));
+	}
 	
 // Taal functies
 	/**

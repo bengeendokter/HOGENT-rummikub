@@ -137,7 +137,7 @@ public class UseCase1Applicatie
 	{
 		System.out.println(controller.getMessages("lijstNamen"));
 		
-		List<String> gebruikersnamen = controller.geefLijstGebruikersnaam();
+		List<String> gebruikersnamen = controller.geefLijstOverzicht();
 		
 		for(String naam : gebruikersnamen)
 		{

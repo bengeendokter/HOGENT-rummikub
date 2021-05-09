@@ -20,6 +20,10 @@ public class UseCase2ScoreScherm extends VBox
 	private Label lblScoreList;
 	@FXML
 	private Label lblScores;
+	@FXML
+	private Button btnUploadScore;
+	@FXML
+	private Label lblMelding;
 	
 	private DomeinController controller;
 	
@@ -46,8 +50,6 @@ public class UseCase2ScoreScherm extends VBox
 		lblScores.setText(lijst);
 	}
 	
-	// TODO updateScore
-	
 	private void buildGui() throws RuntimeException
 	{
 		try
@@ -57,7 +59,8 @@ public class UseCase2ScoreScherm extends VBox
 			loader.setRoot(this);
 			loader.load();
 			
-	        btnTaal.setOnAction(this::TaalPushed);	        
+	        btnTaal.setOnAction(this::TaalPushed);
+	        btnUploadScore.setOnAction(this::uploadScore);
 		}
 		catch (IOException e)
 		{
@@ -69,11 +72,30 @@ public class UseCase2ScoreScherm extends VBox
 	{
     	btnTaal.setText(controller.getMessages("btnTaal"));
     	lblScoreList.setText(controller.getMessages("eindScore"));
+    	btnUploadScore.setText(controller.getMessages("btnUploadScore"));
+    	lblMelding.setText("");
 	}
 	
     private void TaalPushed(ActionEvent event)
     {
     	controller.veranderTaal();
     	buildText();
+    }
+    
+    private void uploadScore(ActionEvent evt)
+    {
+    	try
+		{
+			controller.updateTotaalScore();
+			lblMelding.setText(controller.getMessages("msgScoreUploaded"));
+		}
+		catch(RuntimeException e)
+		{
+			lblMelding.setText(controller.getMessages("msgConnectionFailed"));
+		}
+		catch(Exception e)
+		{
+			WarningAlertScherm.toonAlert();
+		}
     }
 }

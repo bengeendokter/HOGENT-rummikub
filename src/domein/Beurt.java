@@ -40,6 +40,7 @@ public class Beurt
 					speler.getGebruikersnaam()
 					, speler.getWachtwoord()
 					, (List<Steen>) new ArrayList<>(speler.getStenen()) // maakt een nieuwe List van de meegegeven spelerStenen
+					, speler.getTotaalScore()
 				);
 		// we stellen het isEersteZet attribuut in
 		this.speler.setEersteZet(speler.isEersteZet());
