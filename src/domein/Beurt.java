@@ -51,7 +51,6 @@ public class Beurt
 					.stream()
 					.map(stenenSet -> new StenenSet(new ArrayList<>(stenenSet.getStenen()))) // we zetten elke Set om naar een nieuwe Set
 					.collect(Collectors.toList()) // we maken van alle Sets terug een list
-					, true
 				);
 		// we gebruiken de constructor van Veld waarbij we de stenenSets kunnen meegeven
 		this.wv = new Veld
@@ -60,7 +59,6 @@ public class Beurt
 					.stream()
 					.map(stenenSet -> new StenenSet(new ArrayList<>(stenenSet.getStenen()))) // we zetten elke Set om naar een nieuwe Set
 					.collect(Collectors.toList()) // we maken van alle Sets terug een list
-					, true
 				);
 	}
 

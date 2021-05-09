@@ -14,7 +14,6 @@ import exceptions.GeenSerieOfRijException;
 public class Veld
 {
 	private List<StenenSet> stenenSets;
-	private final boolean isGv;
 
 	/**
 	 * Use Case 3:
@@ -32,7 +31,6 @@ public class Veld
 			.stream()
 			.map(nullObject -> new StenenSet(new ArrayList<>(Arrays.asList(new Steen[13]))))
 			.collect(Collectors.toList())
-			, isGv
 		);
 	}
 
@@ -42,24 +40,17 @@ public class Veld
 	 * Wordt gebruikt in de klasse Beurt om een copy van een bestaand gemeenschappelijk veld in op te slaan
 	 * 
 	 * @param stenenSets	de sets die zich op het veld bevinden
-	 * @param isGv			boolean die bepaalt of het een gemeenschappelijkveld of een werkveld is
 	 */
-	public Veld(List<StenenSet> stenenSets, boolean isGv)
+	public Veld(List<StenenSet> stenenSets)
 	{
 		this.stenenSets = stenenSets;
-		this.isGv = isGv;
 	}
 	
 	public List<StenenSet> getStenenSets()
 	{
 		return stenenSets;
 	}
-	
-	public boolean isGV()
-	{
-		return isGv;
-	}
-	
+
 	/**
 	 * Use Case 3:
 	 * Geeft steen terug door middel van een positie (array) door methode geefSteen() uit klasse Set aan te roepen
