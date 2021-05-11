@@ -233,8 +233,10 @@ public class Veld
 							  						 // berekend voor elke set de waarde
 							  						 .reduce(0, (totaal, getalWaarde) -> totaal + getalWaarde)
 						 )
-						 // controleer of er een stenenSet is met een waarde >= 30
-						 .anyMatch(setWaarde -> setWaarde >= 30);
+						 // tel de waarden van alle sets op
+						 .reduce(0, (totaal, setWaarde) -> totaal + setWaarde)
+						 // controleer of de totaal waarde groter is dan 30
+						 >= 30;
 	}
 	
 	/**
