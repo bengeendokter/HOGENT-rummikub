@@ -34,7 +34,7 @@
             <Label fx:id="lblGv" text="Gemeenschappelijkveld" />
          </children>
       </HBox>
-      <ScrollPane fitToWidth="true" maxWidth="580.0" prefHeight="94.0" prefWidth="580.0" VBox.vgrow="NEVER">
+      <ScrollPane fitToWidth="true" maxWidth="580.0" prefHeight="125.0" prefWidth="580.0" VBox.vgrow="NEVER">
         <content>
           <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="565.0">
                <children>
@@ -52,7 +52,7 @@
             <Label fx:id="lblWv" text="Werkveld" />
          </children>
       </HBox>
-      <ScrollPane fitToWidth="true" layoutX="20.0" layoutY="310.0" maxWidth="580.0" prefHeight="96.0" prefWidth="580.0" VBox.vgrow="NEVER">
+      <ScrollPane fitToWidth="true" layoutX="20.0" layoutY="310.0" maxWidth="580.0" prefHeight="77.0" prefWidth="580.0" VBox.vgrow="NEVER">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="2000.0">
                <children>
@@ -70,7 +70,7 @@
             <Label fx:id="lblSpelerStenen" text="Speler Stenen" />
          </children>
       </HBox>
-      <ScrollPane fitToWidth="true" layoutX="20.0" layoutY="73.0" maxWidth="580.0" prefHeight="109.0" prefWidth="580.0" VBox.vgrow="NEVER">
+      <ScrollPane fitToWidth="true" layoutX="20.0" layoutY="73.0" maxWidth="580.0" prefHeight="124.0" prefWidth="580.0" VBox.vgrow="NEVER">
          <content>
             <AnchorPane maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="2000.0">
                <children>

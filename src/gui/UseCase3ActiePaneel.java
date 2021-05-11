@@ -148,6 +148,31 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		// aangezien logische keuze afwijkt van wat er met velden normaal gebeurt stellen we dit direct in
 		txfBronRij.setOnAction(this::actieLegAan); // hetzelfde als OK knop
 		
+		// bepaal wat er met BronVelden gebeurt als er een de bron wordt veranderd via tabs en toetsenbord
+		this.setOnKeyReleased(evt -> 
+		{
+			RadioButton selected = (RadioButton) bron.getSelectedToggle();
+			if(selected.equals(radioBronSpeler))
+			{
+				disableBronVelden();
+				txfBronRij.setDisable(false);
+				txfBronKolom.clear();
+				
+				// wat er gebeurt als er op ENTER wordt gedrukt in een veld
+				txfBronRij.setOnAction(this::actieLegAan); // hetzelfde als OK knop
+			}
+			else
+			{
+				enableBronVelden();
+				
+				// wat er gebeurt als er op ENTER wordt gedrukt in een veld
+				txfBronRij.setOnAction(evt2 -> {
+					txfBronKolom.requestFocus();
+				});
+				txfBronKolom.setOnAction(this::actieLegAan); // hetzelfde als OK knop
+			}
+		});
+		
 		// bepaal wat er met BronVelden gebeurt als er een BronRadio wordt aangeklikt
 		// niet nodig voor DoelVelden, die staan altijd beide aan
 		radioBronWv.setOnAction(evt -> {
@@ -252,6 +277,31 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		txfBronRij.setDisable(false);
 		// aangezien logische keuze afwijkt van wat er met velden normaal gebeurt stellen we dit direct in
 		txfBronRij.setOnAction(this::actieJoker); // hetzelfde als OK knop
+		
+		// bepaal wat er met BronVelden gebeurt als er een de bron wordt veranderd via tabs en toetsenbord
+		this.setOnKeyReleased(evt -> 
+		{
+			RadioButton selected = (RadioButton) bron.getSelectedToggle();
+			if(selected.equals(radioBronSpeler))
+			{
+				disableBronVelden();
+				txfBronRij.setDisable(false);
+				txfBronKolom.clear();
+				
+				// wat er gebeurt als er op ENTER wordt gedrukt in een veld
+				txfBronRij.setOnAction(this::actieJoker); // hetzelfde als OK knop
+			}
+			else
+			{
+				enableBronVelden();
+				
+				// wat er gebeurt als er op ENTER wordt gedrukt in een veld
+				txfBronRij.setOnAction(evt2 -> {
+					txfBronKolom.requestFocus();
+				});
+				txfBronKolom.setOnAction(this::actieJoker); // hetzelfde als OK knop
+			}
+		});
 		
 		// bepaal wat er met BronVelden gebeurt als er een BronRadio wordt aangeklikt
 		// niet nodig voor DoelVelden, die staan altijd beide aan

@@ -11,8 +11,6 @@ import exceptions.GeenSerieOfRijException;
 import exceptions.GeenSpelerSteenOpPlaats;
 import exceptions.Min30PuntenException;
 import exceptions.SteenIsGeenJokerException;
-
-// TODO testen testen testen
 public class Spel
 {
 	// 2 x (4 kleuren x 13 getallen) + 2 jokers = 106 stenen

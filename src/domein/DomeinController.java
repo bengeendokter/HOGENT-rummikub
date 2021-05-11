@@ -67,14 +67,14 @@ public class DomeinController
 	}
 	
 	// TODO tijdelijke methode om zonder internet het programma te testen, verwijder later
-	public void meldAanOffline()
-	{
-		Speler speler1 = new Speler("IkBenBen", "IkBenDokter", 0);
-		Speler speler2 = new Speler("mns58", "myDiscordPassword", 0);
-		
-		spelers.add(speler1);
-		spelers.add(speler2);
-	}
+//	public void meldAanOffline()
+//	{
+//		Speler speler1 = new Speler("IkBenBen", "IkBenDokter", 0);
+//		Speler speler2 = new Speler("mns58", "myDiscordPassword", 0);
+//		
+//		spelers.add(speler1);
+//		spelers.add(speler2);
+//	}
 	
 	/**
 	 * Use Case 1:
@@ -152,12 +152,12 @@ public class DomeinController
 	
 	// TODO tijdelijke methode voor UC2App, verwijder deze later
 	// Verwijdert alle stenen van een speler door een nieuwe speler aan te maken, dit is nu de winnaar
-	public void eindigSpel()
-	{
-		Speler winnaar = spelers.get(1);
-		winnaar = new Speler(winnaar.getGebruikersnaam(), winnaar.getWachtwoord(), winnaar.getTotaalScore());
-		spelers.set(1, winnaar);
-	}
+//	public void eindigSpel()
+//	{
+//		Speler winnaar = spelers.get(1);
+//		winnaar = new Speler(winnaar.getGebruikersnaam(), winnaar.getWachtwoord(), winnaar.getTotaalScore());
+//		spelers.set(1, winnaar);
+//	}
 	
 // Use Case 3 functies
 	/**

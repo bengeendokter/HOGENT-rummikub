@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="580.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="258.0" prefWidth="580.0" spacing="5.0" type="VBox" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="580.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="580.0" spacing="5.0" type="VBox" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="580.0" spacing="10.0">
          <children>
