@@ -193,8 +193,12 @@ public class StenenSet
 			String rijKleur = "";
 			
 			// we maken variabelen aan voor de controle: een joker mag niet voor 1 of na 13 liggen
+			// ook 2 jokers voor een 2 of na een 12 zijn niet toegestaan
 			boolean vorigIsJoker = false;
 			boolean vorigIsDertien = false;
+			boolean vorigIsTwaalf = false;
+			boolean jokerNaTwaalf = false;
+			int vorigIsJokerCount = 0;
 			
 			// we nemen alvast het eerste element, dit kan niet null zijn want de Set heeft minimum 3 stenen
 			previous = iterator.next();
@@ -204,12 +208,14 @@ public class StenenSet
 			{
 				previous = iterator.next();
 				vorigIsJoker = true;
+				vorigIsJokerCount++;
 			}
 
 			// indien de tweede steen een joker is pakken we de volgende steen (er zijn maar 2 jokers in het spel)
 			if(previous.isJoker())
 			{
 				previous = iterator.next();
+				vorigIsJokerCount++;
 			}
 			
 			// we stellen een paar eigenschappen van de rij in
@@ -218,6 +224,10 @@ public class StenenSet
 			
 			// indien er in het begin een joker voor een 1 ligt is de set geen rij
 			if(vorigIsJoker && vorigGetal == 1)
+			{
+				isRij = false;
+			}
+			else if(vorigIsJokerCount == 2 && vorigGetal == 2)
 			{
 				isRij = false;
 			}
@@ -246,6 +256,21 @@ public class StenenSet
 					{
 						isRij = false;
 					}
+					
+					// indien twee jokers na een 12 liggen is de set geen rij
+					if(huidigeSteen.getGetal() == 12)
+					{
+						vorigIsTwaalf = true;
+					}
+					else if(jokerNaTwaalf && huidigeSteen.isJoker())
+					{
+						isRij = false;
+					}
+					else if(vorigIsTwaalf && huidigeSteen.isJoker())
+					{
+						jokerNaTwaalf = true;
+					}
+
 					
 					// we stellen de volgende getalwaarde in
 					vorigGetal++;
