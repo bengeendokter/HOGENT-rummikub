@@ -114,6 +114,28 @@ class StenenSetTest
 	}
 	
 	@Test
+	void controleerSet_rijMetJokersInBegin_doeNiets()
+	{
+		geslaagd = true;
+		
+		try
+		{
+			controleerSetString("JOK-Z08-Z09");
+		}
+		catch(Exception e)
+		{
+			geslaagd = false;
+		}
+		Assertions.assertTrue(geslaagd);
+	}
+	
+	@Test
+	void controleerSet_rijMetJokerInBeginVoorGetalWaarde1_gooiGeenSerieOfRijException()
+	{
+		Assertions.assertThrows(GeenSerieOfRijException.class, () -> controleerSetString("JOK-G01-G02-G03"));
+	}
+	
+	@Test
 	void controleerSet_rijMetTweeJokersOpEinde_doeNiets()
 	{
 		geslaagd = true;
