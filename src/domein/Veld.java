@@ -87,6 +87,7 @@ public class Veld
 		// indien setIdex te hoog, maak een nieuwe stenenSet aan
 		if(setIndex >= stenenSets.size())
 		{
+			// TODO geen extra rij aanmaken als dit niet moet
 			maakStenenSet(steen);
 		}
 		else

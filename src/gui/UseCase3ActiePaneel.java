@@ -380,6 +380,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			String bronRijTekst = txfBronRij.getText();
 			String bronKolomTekst = txfBronKolom.getText();
 			
+			// TODO leeg veld gooit exception
 			if(bronRijTekst.isBlank())
 			{
 				bronRijTekst = "1";

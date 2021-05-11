@@ -84,8 +84,8 @@ public class UseCase3SpelOverzicht extends VBox
 	        {
 	        	controller.veranderTaal();
 	        	buildText();   
-	        	// TODO om eindig spel te testen, verwijder later
-//	        	controller.eindigSpel();
+//	        	 TODO om eindig spel te testen, verwijder later
+	        	controller.eindigSpel();
 	        });
 		}
 		catch(IOException e)
