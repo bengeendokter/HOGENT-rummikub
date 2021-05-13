@@ -551,7 +551,9 @@ public class Spel
 			
 			for(StenenSet set : wv.getStenenSets())
 			{
-				gv.addSet(set);
+				if (!set.isLeeg()) {
+					gv.addSet(set);
+				}
 			}
 		}
 		catch(GeenSerieOfRijException e)
