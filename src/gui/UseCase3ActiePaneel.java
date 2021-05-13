@@ -433,11 +433,11 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			// TODO leeg veld gooit exception
 			if(bronRijTekst.isBlank())
 			{
-				bronRijTekst = "1";
+				throw new IllegalArgumentException("Je moet een rij nummer ingeven");
 			}
 			if(bronKolomTekst.isBlank())
 			{
-				bronKolomTekst = "1";
+				throw new IllegalArgumentException("Je moet een kolom nummer ingeven");
 			}
 			
 			int bronRij = Integer.parseInt(bronRijTekst);
