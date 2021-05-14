@@ -434,7 +434,9 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			if(bronRijTekst.isBlank())
 			{
 				bronRijTekst = "1";
-				throw new IllegalArgumentException("Je moet een rij nummer ingeven");
+				if (!txfBronRij.isDisabled()) {
+					throw new IllegalArgumentException("Je moet een rij nummer ingeven");
+				}
 			}
 			if(bronKolomTekst.isBlank())
 			{
