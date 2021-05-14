@@ -26,7 +26,7 @@ public class Spel
 	private Beurt beurtVoorActie;
 	private Veld gv;
 	private Veld wv;
-	private final int AANTAL_START_STENEN = 50; //standaard is 14
+	private final int AANTAL_START_STENEN = 14; //standaard is 14
 	
 	/**
 	 * Use Case 2:
@@ -468,7 +468,7 @@ public class Spel
 			Steen controleSteen = doelVeld.geefSteen(positieDoel);
 			
 			//controleert eerst de steen (moet een joker zijn)
-			if(!controleSteen.isJoker())
+			if(controleSteen == null || !controleSteen.isJoker())
 			{
 				throw new SteenIsGeenJokerException();
 			}
