@@ -433,11 +433,11 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			// TODO leeg veld gooit exception
 			if(bronRijTekst.isBlank())
 			{
-				throw new IllegalArgumentException("Je moet een rij nummer ingeven");
+				bronRijTekst = "1";
 			}
 			if(bronKolomTekst.isBlank())
 			{
-				throw new IllegalArgumentException("Je moet een kolom nummer ingeven");
+				bronKolomTekst = "1";
 			}
 			
 			int bronRij = Integer.parseInt(bronRijTekst);
@@ -462,7 +462,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		}
 		catch(IllegalArgumentException e)
 		{
-			throw new OngeldigInvoerException();
+			//throw new OngeldigInvoerException();
 		}
 	}
 	
