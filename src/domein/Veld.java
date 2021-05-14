@@ -153,7 +153,7 @@ public class Veld
 		int setIndex = positieSplitsing[0];
 		int splitsIndex = positieSplitsing[1];
 		
-		StenenSet set = stenenSets.remove(setIndex);
+		/*StenenSet set = stenenSets.remove(setIndex);
 		List<Steen> stenenList = set.getStenen();
 		List<Steen> subList1 = stenenList.subList(0, splitsIndex);
 		List<Steen> subList2 = stenenList.subList(splitsIndex, stenenList.size());
@@ -164,7 +164,46 @@ public class Veld
 		
 		stenenSets.add(setIndex, set2);
 		stenenSets.add(setIndex, set1);
-		sorteerSets();
+		sorteerSets();*/
+		
+		StenenSet set = stenenSets.remove(setIndex);
+		List<Steen> stenenList = set.getStenen();
+		/*List<Steen> subList1 = stenenList.subList(0, splitsIndex);
+		List<Steen> subList2 = stenenList.subList(splitsIndex, stenenList.size());*/
+		
+		List<Steen> subList1 = new ArrayList<>(stenenList.subList(0, splitsIndex));
+		Steen[] subArray1 = new Steen[13];
+		List<Steen> subList1V1;
+		
+		for (int i = 0; i < subList1.size(); i++) {
+			subArray1[i] = subList1.get(i);
+		}
+		
+		subList1V1 = new ArrayList<>(Arrays.asList(subArray1));
+		
+		List<Steen> subList2 = new ArrayList<>(stenenList.subList(splitsIndex, stenenList.size()));
+		Steen[] subArray2 = new Steen[13];
+		List<Steen> subList1V2;
+		
+		for (int i = 0; i < subList2.size(); i++) {
+			subArray2[i] = subList2.get(i);
+		}
+		
+		subList1V2 = new ArrayList<>(Arrays.asList(subArray2));
+		
+		//List<Steen> subList2 = new ArrayList<>(stenenList.subList(splitsIndex, stenenList.size()));
+		
+		
+		StenenSet set1, set2;
+		/*set1 = new StenenSet(subList1);
+		set2 = new StenenSet(subList2);*/
+		
+		set1 = new StenenSet(subList1V1);
+		set2 = new StenenSet(subList1V2);
+		
+		stenenSets.add(setIndex, set2);
+		stenenSets.add(setIndex, set1);
+		//sorteerSets();
 	}
 	
 	/**

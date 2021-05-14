@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import exceptions.BronSteenBestaatNietException;
 import exceptions.BuitenBereikException;
 import exceptions.FouteEersteZetException;
 import exceptions.FoutePositieException;
@@ -12,8 +13,10 @@ import exceptions.GeenPlaatsOpRijException;
 import exceptions.GeenSerieOfRijException;
 import exceptions.GeenSpelerSteenOpPlaats;
 import exceptions.Min30PuntenException;
+import exceptions.NullSteenNaarWerkveldException;
 import exceptions.ReedsAangemeldException;
 import exceptions.SpelerNietGevondenException;
+import exceptions.SplitsenMetEenException;
 import exceptions.SteenIsGeenJokerException;
 import utility.Taal;
 
@@ -220,7 +223,7 @@ public class DomeinController
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SplitsenMetEenException
 	{
 		spel.splitsRijOfSerie(positieDoel, doelIsWv);
 	}
@@ -238,7 +241,7 @@ public class DomeinController
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SteenIsGeenJokerException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SteenIsGeenJokerException, BronSteenBestaatNietException
 	{
 		spel.vervangJoker(positieDoel, doelIsWv, positieBron, bronIsWv);
 	}
@@ -254,7 +257,7 @@ public class DomeinController
 	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, NullSteenNaarWerkveldException
 	{
 		spel.verplaatsNaarWerkveld(positieDoel, positieBron);
 	}

@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import exceptions.BronSteenBestaatNietException;
 import exceptions.FouteEersteZetException;
 import exceptions.FoutePositieException;
 import exceptions.GeenPlaatsOpRijException;
 import exceptions.GeenSerieOfRijException;
 import exceptions.GeenSpelerSteenOpPlaats;
 import exceptions.Min30PuntenException;
+import exceptions.NullSteenNaarWerkveldException;
+import exceptions.SplitsenMetEenException;
 import exceptions.SteenIsGeenJokerException;
 public class Spel
 {
@@ -327,8 +330,8 @@ public class Spel
 			// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we indien nodig de actie
 			if(!doelIsWv)
 			{
-
-				doelVeld.controleerVeld();
+				//in comment omdat je anders niet kan toevoegen na splitsen
+				//doelVeld.controleerVeld();
 			}
 		}
 		catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
@@ -349,7 +352,7 @@ public class Spel
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SplitsenMetEenException
 	{
 		slaBeurtOp();
 		
@@ -371,19 +374,56 @@ public class Spel
 				doelVeld  = gv;
 			}
 			
+			//kolom in positieDoel mag niet 1 zijn (wat speler intikt omdat je anders rijen met alleen nullen hebt)
+			//DUS je kan niet splitsen in een lege rij, rij die niet bestaat (grote index), eerste positie van geldige rij
+			//en vanaf laatste steen in een geldige rij
+			if(positieDoel[0] >= ((Veld) doelVeld).getStenenSets().size() || ((Veld) doelVeld).getStenenSets().get(positieDoel[0]).getStenen().get(0) == null)
+			{
+				throw new SplitsenMetEenException();
+			}
+			
+			if(positieDoel[1] == 0)
+			{
+				throw new SplitsenMetEenException();
+			}
+			
+			//controleren hoeveel stenen niet null zijn in set
+			int sizeMetStenen = 0;
+			for (int i = 0; i < 13; i++) {
+				if (((Veld) doelVeld).getStenenSets().get(positieDoel[0]).getStenen().get(i) != null)
+					sizeMetStenen = sizeMetStenen + 1;
+			}
+			
+			if(positieDoel[1] >= sizeMetStenen - 1)
+			{
+				throw new SplitsenMetEenException();
+			}
+			
 			doelVeld.splitsRijOfSerie(positieDoel);
 			
 			// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we indien nodig de actie
 			if(!doelIsWv)
 			{
-				doelVeld.controleerVeld();
+				//doelVeld.controleerVeld();
 			}
 		}
-		catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
+		/*catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
 				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
 		{
 			resetActie();
 			throw e;
+		}*/
+		catch(FouteEersteZetException | FoutePositieException
+				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats | SplitsenMetEenException e)
+		{
+			resetActie();
+			throw e;
+			
+		} 
+		
+		catch(GeenSerieOfRijException e)
+		{
+			
 		}
 	}
 	
@@ -441,6 +481,13 @@ public class Spel
 			if(bronIsWv) // bron == werkveld
 			{
 				bron = wv;
+				
+				//bronSteen controleren (mag niet null zijn)
+				Steen controleWV = ((Veld) bron).geefSteen(positieBron);
+				if (controleWV == null) {
+					throw new BronSteenBestaatNietException();
+				}
+				
 				bronSteen = ((Veld) bron).removeSteen(positieBron);
 			}
 			else // bron == spelerStenen
@@ -463,7 +510,7 @@ public class Spel
 			}
 		}
 		catch(FouteEersteZetException | GeenSerieOfRijException | SteenIsGeenJokerException
-				| FoutePositieException | GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
+				| FoutePositieException | GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats | BronSteenBestaatNietException  e)
 		{
 			resetActie();
 			throw e;
@@ -481,7 +528,7 @@ public class Spel
 	 */
 	public void verplaatsNaarWerkveld(int[] positieDoel, int[] positieBron)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, NullSteenNaarWerkveldException
 	{
 		slaBeurtOp();
 		
@@ -498,6 +545,15 @@ public class Spel
 			// zoek de bronSteen
 			Veld bronVeld = gv;
 			Steen bronSteen = bronVeld.removeSteen(positieBron);
+			
+			//controleer of de steen bestaat (een null steen kan niet verplaatst worden)
+			Steen controleSteen = bronVeld.geefSteen(positieBron);
+			
+			//controleert eerst de steen (mag niet null zijn)
+			if(controleSteen == null)
+			{
+				throw new NullSteenNaarWerkveldException();
+			}
 			
 			// voeg de bronSteen aan het doelVeld
 			doelVeld.voegSteenToe(positieDoel, bronSteen);

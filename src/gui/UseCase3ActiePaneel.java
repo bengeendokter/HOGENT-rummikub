@@ -3,26 +3,26 @@ package gui;
 import java.io.IOException;
 
 import domein.DomeinController;
+import exceptions.BronSteenBestaatNietException;
 import exceptions.FouteEersteZetException;
 import exceptions.FoutePositieException;
 import exceptions.GeenPlaatsOpRijException;
 import exceptions.GeenSerieOfRijException;
 import exceptions.GeenSpelerSteenOpPlaats;
+import exceptions.NullSteenNaarWerkveldException;
 import exceptions.OngeldigInvoerException;
+import exceptions.SplitsenMetEenException;
 import exceptions.SteenIsGeenJokerException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.TextField;
-
-import javafx.scene.control.Label;
-
-import javafx.scene.control.RadioButton;
 
 public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 {
@@ -505,6 +505,18 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		catch(GeenSerieOfRijException e)
 		{
 			lblMelding.setText(controller.getMessages("msgGeenSerieOfRij"));
+		}
+		catch(SplitsenMetEenException e)
+		{
+			lblMelding.setText(controller.getMessages("msgGeenEenAlsKolom"));
+		} 
+		catch(NullSteenNaarWerkveldException e)
+		{
+			lblMelding.setText(controller.getMessages("msgSteenNietNull"));
+		}
+		catch(BronSteenBestaatNietException e)
+		{
+			lblMelding.setText(controller.getMessages("msgBronBestaatNiet"));
 		}
 		catch(Exception e)
 		{
