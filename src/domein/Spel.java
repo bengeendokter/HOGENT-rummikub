@@ -332,7 +332,7 @@ public class Spel
 			if(!doelIsWv)
 			{
 				//in comment omdat je anders niet kan toevoegen na splitsen
-				//doelVeld.controleerVeld();
+				doelVeld.controleerVeld();
 			}
 		}
 		catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
@@ -405,7 +405,7 @@ public class Spel
 			// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we indien nodig de actie
 			if(!doelIsWv)
 			{
-				//doelVeld.controleerVeld();
+				doelVeld.controleerVeld();
 			}
 		}
 		/*catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
