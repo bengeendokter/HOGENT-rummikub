@@ -26,6 +26,7 @@ public class Spel
 	private Beurt beurtVoorActie;
 	private Veld gv;
 	private Veld wv;
+	private final int AANTAL_START_STENEN = 50; //standaard is 14
 	
 	/**
 	 * Use Case 2:
@@ -110,7 +111,7 @@ public class Spel
 		// geef elke speler 14 stenen
 		for(Speler speler : spelers)
 		{
-			for(int index = 1; index <= 14; index++)
+			for(int index = 1; index <= AANTAL_START_STENEN; index++)
 			{
 				speler.voegSteenToe(stenen.remove(stenen.size() - 1));
 			}
