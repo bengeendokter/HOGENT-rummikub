@@ -434,10 +434,14 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			if(bronRijTekst.isBlank())
 			{
 				bronRijTekst = "1";
+				throw new IllegalArgumentException("Je moet een rij nummer ingeven");
 			}
 			if(bronKolomTekst.isBlank())
 			{
 				bronKolomTekst = "1";
+				if (!txfBronKolom.isDisabled()) {
+					throw new IllegalArgumentException("Je moet een kolom nummer ingeven");
+				}
 			}
 			
 			int bronRij = Integer.parseInt(bronRijTekst);
@@ -462,7 +466,7 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		}
 		catch(IllegalArgumentException e)
 		{
-			//throw new OngeldigInvoerException();
+			throw new OngeldigInvoerException();
 		}
 	}
 	
