@@ -127,6 +127,17 @@ public class Spel
 	 */
 	public boolean isEindeSpel()
 	{
+		// indien het werkveld niet geldig is, is het spel niet ten einde
+		try
+		{
+			wv.controleerVeld();
+		}
+		catch(GeenSerieOfRijException e)
+		{
+			return false;
+		}
+		
+		// indien een speler gewonnen is, is het spel ten einde
 		for(Speler speler : spelers)
 		{
 			if(speler.isGewonnen())
