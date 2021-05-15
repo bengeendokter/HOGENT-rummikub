@@ -430,18 +430,22 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 			String bronRijTekst = txfBronRij.getText();
 			String bronKolomTekst = txfBronKolom.getText();
 			
-			// TODO leeg veld gooit exception
+			// leeg veld gooit exception
 			if(bronRijTekst.isBlank())
 			{
 				bronRijTekst = "1";
-				if (!txfBronRij.isDisabled()) {
+				// indien bron rij ingevuld kan worden
+				if(!txfBronRij.isDisabled())
+				{
 					throw new IllegalArgumentException("Je moet een rij nummer ingeven");
 				}
 			}
 			if(bronKolomTekst.isBlank())
 			{
 				bronKolomTekst = "1";
-				if (!txfBronKolom.isDisabled()) {
+				// indien bron kolom ingevuld kan worden
+				if(!txfBronKolom.isDisabled())
+				{
 					throw new IllegalArgumentException("Je moet een kolom nummer ingeven");
 				}
 			}

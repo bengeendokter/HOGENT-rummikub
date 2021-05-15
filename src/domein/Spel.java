@@ -26,7 +26,8 @@ public class Spel
 	private Beurt beurtVoorActie;
 	private Veld gv;
 	private Veld wv;
-	private final int AANTAL_START_STENEN = 14; //standaard is 14
+	// attribuut voor het testen van het programma sneller te doen gaan
+	private final int AANTAL_START_STENEN = 30; //standaard is 14
 	
 	/**
 	 * Use Case 2:
@@ -331,7 +332,6 @@ public class Spel
 			// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we indien nodig de actie
 			if(!doelIsWv)
 			{
-				//in comment omdat je anders niet kan toevoegen na splitsen
 				doelVeld.controleerVeld();
 			}
 		}
@@ -378,20 +378,26 @@ public class Spel
 			//kolom in positieDoel mag niet 1 zijn (wat speler intikt omdat je anders rijen met alleen nullen hebt)
 			//DUS je kan niet splitsen in een lege rij, rij die niet bestaat (grote index), eerste positie van geldige rij
 			//en vanaf laatste steen in een geldige rij
-			if(positieDoel[0] >= ((Veld) doelVeld).getStenenSets().size() || ((Veld) doelVeld).getStenenSets().get(positieDoel[0]).getStenen().get(0) == null)
+			// TODO horen deze controles hier of in veld?
+			if
+			(
+				// rij index mag niet te hoog zijn
+				positieDoel[0] >= ((Veld) doelVeld).getStenenSets().size()
+				// de rij mag niet leeg zijn
+				|| ((Veld) doelVeld).getStenenSets().get(positieDoel[0]).isLeeg()
+				// je mag niet splitsen op de 1e steen (heeft geen effect)
+				|| positieDoel[1] == 0
+			)
 			{
 				throw new SplitsenMetEenException();
 			}
 			
-			if(positieDoel[1] == 0)
-			{
-				throw new SplitsenMetEenException();
-			}
-			
-			//controleren hoeveel stenen niet null zijn in set
+			// controleren hoeveel stenen niet null zijn in set
+			// TODO vervang door stream
 			int sizeMetStenen = 0;
-			for (int i = 0; i < 13; i++) {
-				if (((Veld) doelVeld).getStenenSets().get(positieDoel[0]).getStenen().get(i) != null)
+			for(int i = 0; i < 13; i++)
+			{
+				if(((Veld) doelVeld).getStenenSets().get(positieDoel[0]).getStenen().get(i) != null)
 					sizeMetStenen = sizeMetStenen + 1;
 			}
 			
@@ -400,31 +406,17 @@ public class Spel
 				throw new SplitsenMetEenException();
 			}
 			
-			doelVeld.splitsRijOfSerie(positieDoel);
-			
-			// indien het doelVeld het gemeenschappelijk veld is controleren we het veld en resetten we indien nodig de actie
-			if(!doelIsWv)
-			{
-				doelVeld.controleerVeld();
-			}
+			// we splitsen de set en voegen de 2 delen toe aan het werkveld
+			StenenSet[] tweeDelenVanSet = doelVeld.splitsRijOfSerie(positieDoel);
+			wv.addSet(tweeDelenVanSet[0]);
+			wv.addSet(tweeDelenVanSet[1]);
 		}
-		/*catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
-				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
-		{
-			resetActie();
-			throw e;
-		}*/
+
 		catch(FouteEersteZetException | FoutePositieException
 				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats | SplitsenMetEenException e)
 		{
 			resetActie();
 			throw e;
-			
-		} 
-		
-		catch(GeenSerieOfRijException e)
-		{
-			
 		}
 	}
 	
@@ -468,7 +460,7 @@ public class Spel
 			Steen controleSteen = doelVeld.geefSteen(positieDoel);
 			
 			//controleert eerst de steen (moet een joker zijn)
-			if(controleSteen == null || !controleSteen.isJoker())
+			if(controleSteen == null | !controleSteen.isJoker())
 			{
 				throw new SteenIsGeenJokerException();
 			}

@@ -81,15 +81,17 @@ public class Veld
 	 */
 	public void voegSteenToe(int[] positieSteen, Steen steen) throws GeenPlaatsOpRijException, FoutePositieException
 	{
-		int setIndex = positieSteen[0];
+		int indexLaatsteSet = stenenSets.size() - 1;
+		int setIndex = 	positieSteen[0];
 		int steenIndex = positieSteen[1];
 		
-		// indien setIdex te hoog, maak een nieuwe stenenSet aan
-		if(setIndex >= stenenSets.size())
+
+		// indien setIndex te hoog,
+		if(setIndex > indexLaatsteSet)
 		{
-			// TODO geen extra rij aanmaken als dit niet moet !(stenenSets.get(stenenSets.size() - 1).isLeeg())
 			maakStenenSet(steen);
 		}
+		// anders, voeg de steen toe aan de juiste set op de juiste positie
 		else
 		{
 			StenenSet set = stenenSets.get(setIndex);
@@ -136,10 +138,10 @@ public class Veld
 		
 		// maak hiermee een nieuwe stenenSet en voeg deze toe aan de stenenSets
 		StenenSet newStenenSet = new StenenSet(stenenList);
-		stenenSets.add(newStenenSet);
-		sorteerSets();
+		addSet(newStenenSet);
 	}
 	
+	// TODO verander javadoc en DCD
 	/**
 	 * Use Case 3: 
 	 * Splitst een rij of serie in nieuwe StenenSets door gegeven array (rij en kolom),
@@ -148,62 +150,36 @@ public class Veld
 	 * @param positieSplitsing	array met 2 int elementen (rij om de juiste StenenSet te vinden,
 	 * 							kolom om de juiste steen van de juiste StenenSet te vinden) die aangeeft waar er gesplitst moet worden
 	 */
-	public void splitsRijOfSerie(int[] positieSplitsing)
+	public StenenSet[] splitsRijOfSerie(int[] positieSplitsing)
 	{
 		int setIndex = positieSplitsing[0];
 		int splitsIndex = positieSplitsing[1];
 		
-		/*StenenSet set = stenenSets.remove(setIndex);
+		StenenSet set = stenenSets.remove(setIndex);
+		// voeg nieuwe set toe om terug aan 13 rijen te komen
+		stenenSets.add(new StenenSet(new ArrayList<>(Arrays.asList(new Steen[13]))));
+
 		List<Steen> stenenList = set.getStenen();
-		List<Steen> subList1 = stenenList.subList(0, splitsIndex);
-		List<Steen> subList2 = stenenList.subList(splitsIndex, stenenList.size());
+		List<Steen> subList1 = new ArrayList<>(stenenList.subList(0, splitsIndex));
+		List<Steen> subList2 = new ArrayList<>(stenenList.subList(splitsIndex, stenenList.size()));
+		
+		// zorg dat we 2 sets van 13 hebben
+		while(subList1.size() < 13)
+		{
+			subList1.add(null);
+		}
+
+		while(subList2.size() < 13)
+		{
+			subList2.add(null);
+		}
 		
 		StenenSet set1, set2;
 		set1 = new StenenSet(subList1);
 		set2 = new StenenSet(subList2);
-		
-		stenenSets.add(setIndex, set2);
-		stenenSets.add(setIndex, set1);
-		sorteerSets();*/
-		
-		StenenSet set = stenenSets.remove(setIndex);
-		List<Steen> stenenList = set.getStenen();
-		/*List<Steen> subList1 = stenenList.subList(0, splitsIndex);
-		List<Steen> subList2 = stenenList.subList(splitsIndex, stenenList.size());*/
-		
-		List<Steen> subList1 = new ArrayList<>(stenenList.subList(0, splitsIndex));
-		Steen[] subArray1 = new Steen[13];
-		List<Steen> subList1V1;
-		
-		for (int i = 0; i < subList1.size(); i++) {
-			subArray1[i] = subList1.get(i);
-		}
-		
-		subList1V1 = new ArrayList<>(Arrays.asList(subArray1));
-		
-		List<Steen> subList2 = new ArrayList<>(stenenList.subList(splitsIndex, stenenList.size()));
-		Steen[] subArray2 = new Steen[13];
-		List<Steen> subList1V2;
-		
-		for (int i = 0; i < subList2.size(); i++) {
-			subArray2[i] = subList2.get(i);
-		}
-		
-		subList1V2 = new ArrayList<>(Arrays.asList(subArray2));
-		
-		//List<Steen> subList2 = new ArrayList<>(stenenList.subList(splitsIndex, stenenList.size()));
-		
-		
-		StenenSet set1, set2;
-		/*set1 = new StenenSet(subList1);
-		set2 = new StenenSet(subList2);*/
-		
-		set1 = new StenenSet(subList1V1);
-		set2 = new StenenSet(subList1V2);
-		
-		stenenSets.add(setIndex, set2);
-		stenenSets.add(setIndex, set1);
-		//sorteerSets();
+	
+		sorteerSets();
+		return new StenenSet[] {set1, set2};
 	}
 	
 	/**
@@ -224,15 +200,35 @@ public class Veld
 	
 	/**
 	 * Use Case 3:
-	 * Voegt een set toe aan het veld
+	 * Voegt een set toe aan het veld, indien de laatste set leeg is word deze in zijn plaats verwijderd
 	 * 
 	 * @param set	de set die toegevoegd moet worden
 	 */
 	public void addSet(StenenSet set)
 	{
+		int indexLaatsteSet = stenenSets.size() - 1;
+		StenenSet laatsteSet = stenenSets.get(indexLaatsteSet);
+		// voeg toe aan laatste lege stenenSet
+		if(laatsteSet.isLeeg())
+		{
+			stenenSets.remove(indexLaatsteSet);
+		}
+		
 		stenenSets.add(set);
 		sorteerSets();
 	}
+//	
+//	/**
+//	 * Use Case 3:
+//	 * Verwijderd een set uit het veld en geeft deze terug
+//	 * 
+//	 * @param setIndex	de index van de set die verwijderd moet worden
+//	 * @return			de verwijderde set
+//	 */
+//	public StenenSet removeSet(int setIndex)
+//	{
+//		return stenenSets.remove(setIndex);
+//	}
 	
 	/**
 	 * Use Case 3:

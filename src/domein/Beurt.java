@@ -34,7 +34,6 @@ public class Beurt
 	 */
 	public Beurt(Speler speler, Veld gv, Veld wv)
 	{
-		boolean zet = speler.isEersteZet();
 		// we gebruiken de constructor van Speler waarbij we de spelerStenen kunnen meegeven
 		this.speler = new Speler
 				(
@@ -44,8 +43,8 @@ public class Beurt
 					, speler.getTotaalScore()
 				);
 		// we stellen het isEersteZet attribuut in
-		//this.speler.setEersteZet(speler.isEersteZet());
-		this.speler.setEersteZet(zet);
+		this.speler.setEersteZet(speler.isEersteZet());
+
 		// we gebruiken de constructor van Veld waarbij we de stenenSets kunnen meegeven
 		this.gv = new Veld
 				(
