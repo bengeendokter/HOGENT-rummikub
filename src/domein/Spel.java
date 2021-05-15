@@ -12,7 +12,7 @@ import exceptions.GeenSerieOfRijException;
 import exceptions.GeenSpelerSteenOpPlaats;
 import exceptions.Min30PuntenException;
 import exceptions.NullSteenNaarWerkveldException;
-import exceptions.SplitsenMetEenException;
+import exceptions.SplitsException;
 import exceptions.SteenIsGeenJokerException;
 public class Spel
 {
@@ -288,7 +288,7 @@ public class Spel
 	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, BronSteenBestaatNietException
 	{
 		slaBeurtOp();
 		
@@ -316,9 +316,13 @@ public class Spel
 			Steen bronSteen;
 			
 			if(bronIsWv) // bron == werkveld
-			{
-				Veld bronVeld = wv;
-				bronSteen = bronVeld.removeSteen(positieBron);
+			{				
+				// bronSteen controleren (mag niet null zijn)
+				bronSteen = wv.removeSteen(positieBron);
+				if(bronSteen == null)
+				{
+					throw new BronSteenBestaatNietException();
+				}
 			}
 			else // bron == spelerStenen
 			{
@@ -336,7 +340,7 @@ public class Spel
 			}
 		}
 		catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
-				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
+				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats | BronSteenBestaatNietException e)
 		{
 			resetActie();
 			throw e;
@@ -353,7 +357,7 @@ public class Spel
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SplitsenMetEenException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SplitsException
 	{
 		slaBeurtOp();
 		
@@ -375,35 +379,27 @@ public class Spel
 				doelVeld  = gv;
 			}
 			
-			//kolom in positieDoel mag niet 1 zijn (wat speler intikt omdat je anders rijen met alleen nullen hebt)
-			//DUS je kan niet splitsen in een lege rij, rij die niet bestaat (grote index), eerste positie van geldige rij
-			//en vanaf laatste steen in een geldige rij
-			// TODO horen deze controles hier of in veld?
+			// rij index mag niet te hoog zijn
+			if(positieDoel[0] >= doelVeld.getStenenSets().size())
+			{
+				throw new SplitsException();
+			}
+			
+			StenenSet doelSet = doelVeld.getStenenSets().get(positieDoel[0]);
+			// controleren hoeveel stenen niet null zijn in set
+			int aantalNietNullStenen = (int) doelSet.getStenen().stream().filter(steen -> steen != null).count();
+			
 			if
 			(
-				// rij index mag niet te hoog zijn
-				positieDoel[0] >= ((Veld) doelVeld).getStenenSets().size()
 				// de rij mag niet leeg zijn
-				|| ((Veld) doelVeld).getStenenSets().get(positieDoel[0]).isLeeg()
+				doelSet.isLeeg()
 				// je mag niet splitsen op de 1e steen (heeft geen effect)
 				|| positieDoel[1] == 0
+				// je mag niet splitsen na de laatste steen
+				|| positieDoel[1] >= aantalNietNullStenen - 1
 			)
 			{
-				throw new SplitsenMetEenException();
-			}
-			
-			// controleren hoeveel stenen niet null zijn in set
-			// TODO vervang door stream
-			int sizeMetStenen = 0;
-			for(int i = 0; i < 13; i++)
-			{
-				if(((Veld) doelVeld).getStenenSets().get(positieDoel[0]).getStenen().get(i) != null)
-					sizeMetStenen = sizeMetStenen + 1;
-			}
-			
-			if(positieDoel[1] >= sizeMetStenen - 1)
-			{
-				throw new SplitsenMetEenException();
+				throw new SplitsException();
 			}
 			
 			// we splitsen de set en voegen de 2 delen toe aan het werkveld
@@ -412,8 +408,8 @@ public class Spel
 			wv.addSet(tweeDelenVanSet[1]);
 		}
 
-		catch(FouteEersteZetException | FoutePositieException
-				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats | SplitsenMetEenException e)
+		catch(FouteEersteZetException | FoutePositieException | GeenPlaatsOpRijException
+				| GeenSpelerSteenOpPlaats | SplitsException e)
 		{
 			resetActie();
 			throw e;
@@ -433,7 +429,7 @@ public class Spel
 	 */
 	public void vervangJoker(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SteenIsGeenJokerException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SteenIsGeenJokerException, BronSteenBestaatNietException
 	{
 		slaBeurtOp();
 		
@@ -470,23 +466,19 @@ public class Spel
 			
 			// zoek de bronSteen
 			Steen bronSteen;
-			Object bron;
 			if(bronIsWv) // bron == werkveld
 			{
-				bron = wv;
-				
-				//bronSteen controleren (mag niet null zijn)
-				Steen controleWV = ((Veld) bron).geefSteen(positieBron);
-				if (controleWV == null) {
+				// bronSteen controleren (mag niet null zijn)
+				bronSteen = wv.removeSteen(positieBron);
+				if(bronSteen == null)
+				{
 					throw new BronSteenBestaatNietException();
 				}
-				
-				bronSteen = ((Veld) bron).removeSteen(positieBron);
 			}
 			else // bron == spelerStenen
 			{
-				bron = spelerAanDeBeurt;
-				bronSteen = ((Speler) bron).removeSteen(positieBron[0]);
+				int bronSpelerSteenIndex = positieBron[0];
+				bronSteen = spelerAanDeBeurt.removeSteen(bronSpelerSteenIndex);
 			}
 			
 			// voeg de bronSteen aan het doelVeld
@@ -539,11 +531,8 @@ public class Spel
 			Veld bronVeld = gv;
 			Steen bronSteen = bronVeld.removeSteen(positieBron);
 			
-			//controleer of de steen bestaat (een null steen kan niet verplaatst worden)
-			Steen controleSteen = bronVeld.geefSteen(positieBron);
-			
 			//controleert eerst de steen (mag niet null zijn)
-			if(controleSteen == null)
+			if(bronSteen == null)
 			{
 				throw new NullSteenNaarWerkveldException();
 			}
@@ -556,7 +545,7 @@ public class Spel
 
 		}
 		catch(FouteEersteZetException | GeenSerieOfRijException | FoutePositieException
-				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats e)
+				| GeenPlaatsOpRijException | GeenSpelerSteenOpPlaats | NullSteenNaarWerkveldException e)
 		{
 			resetActie();
 			throw e;
@@ -600,7 +589,8 @@ public class Spel
 			
 			for(StenenSet set : wv.getStenenSets())
 			{
-				if (!set.isLeeg()) {
+				if(!set.isLeeg())
+				{
 					gv.addSet(set);
 				}
 			}

@@ -11,7 +11,7 @@ import exceptions.GeenSerieOfRijException;
 import exceptions.GeenSpelerSteenOpPlaats;
 import exceptions.NullSteenNaarWerkveldException;
 import exceptions.OngeldigInvoerException;
-import exceptions.SplitsenMetEenException;
+import exceptions.SplitsException;
 import exceptions.SteenIsGeenJokerException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -510,9 +510,9 @@ public class UseCase3ActiePaneel extends GridPane implements UseCase3HasText
 		{
 			lblMelding.setText(controller.getMessages("msgGeenSerieOfRij"));
 		}
-		catch(SplitsenMetEenException e)
+		catch(SplitsException e)
 		{
-			lblMelding.setText(controller.getMessages("msgGeenEenAlsKolom"));
+			lblMelding.setText(controller.getMessages("msgSplitsFout"));
 		} 
 		catch(NullSteenNaarWerkveldException e)
 		{

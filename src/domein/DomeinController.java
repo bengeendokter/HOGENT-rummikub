@@ -16,7 +16,7 @@ import exceptions.Min30PuntenException;
 import exceptions.NullSteenNaarWerkveldException;
 import exceptions.ReedsAangemeldException;
 import exceptions.SpelerNietGevondenException;
-import exceptions.SplitsenMetEenException;
+import exceptions.SplitsException;
 import exceptions.SteenIsGeenJokerException;
 import utility.Taal;
 
@@ -207,7 +207,7 @@ public class DomeinController
 	 */
 	public void legSteenAan(int[] positieDoel, boolean doelIsWv, int[] positieBron, boolean bronIsWv)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, BronSteenBestaatNietException
 	{
 		spel.legSteenAan(positieDoel, doelIsWv, positieBron, bronIsWv);
 	}
@@ -223,7 +223,7 @@ public class DomeinController
 	 */
 	public void splitsRijOfSerie(int[] positieDoel, boolean doelIsWv)
 	throws FouteEersteZetException, GeenSerieOfRijException, FoutePositieException
-	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SplitsenMetEenException
+	, GeenPlaatsOpRijException, GeenSpelerSteenOpPlaats, SplitsException
 	{
 		spel.splitsRijOfSerie(positieDoel, doelIsWv);
 	}

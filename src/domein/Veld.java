@@ -141,14 +141,15 @@ public class Veld
 		addSet(newStenenSet);
 	}
 	
-	// TODO verander javadoc en DCD
+	// TODO verander DCD
 	/**
 	 * Use Case 3: 
 	 * Splitst een rij of serie in nieuwe StenenSets door gegeven array (rij en kolom),
-	 * verwijdert oorspronkelijke (niet gesplitste StenenSet) en voegt de nieuwe StenenSets toe aan attribuut stenenSets
+	 * verwijdert oorspronkelijke (niet gesplitste StenenSet) en geeft de nieuwe StenenSets terug
 	 * 
 	 * @param positieSplitsing	array met 2 int elementen (rij om de juiste StenenSet te vinden,
 	 * 							kolom om de juiste steen van de juiste StenenSet te vinden) die aangeeft waar er gesplitst moet worden
+	 * @return					de 2 delen van de gesplitste set
 	 */
 	public StenenSet[] splitsRijOfSerie(int[] positieSplitsing)
 	{
