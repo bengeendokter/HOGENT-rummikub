@@ -141,7 +141,6 @@ public class Veld
 		addSet(newStenenSet);
 	}
 	
-	// TODO verander DCD
 	/**
 	 * Use Case 3: 
 	 * Splitst een rij of serie in nieuwe StenenSets door gegeven array (rij en kolom),
