@@ -27,7 +27,7 @@ public class Spel
 	private Veld gv;
 	private Veld wv;
 	// attribuut voor het testen van het programma sneller te doen gaan
-	private final int AANTAL_START_STENEN = 30; //standaard is 14
+	private final int AANTAL_START_STENEN = 14; //standaard is 14
 	
 	/**
 	 * Use Case 2:
@@ -572,7 +572,10 @@ public class Spel
 	 */
 	private void neemSteenUitPot()
 	{
-		spelerAanDeBeurt.voegSteenToe(stenen.remove(stenen.size() - 1));
+		if(stenen.size() > 0)
+		{
+			spelerAanDeBeurt.voegSteenToe(stenen.remove(stenen.size() - 1));
+		}
 	}
 	
 	/**
