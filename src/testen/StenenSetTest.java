@@ -157,6 +157,44 @@ class StenenSetTest
 		Assertions.assertThrows(GeenSerieOfRijException.class, () -> controleerSetString("B11-B12-JOK-JOK"));
 	}
 	
+	@Test
+	void controleerSet_rijAflopend_doeNiets()
+	{
+		geslaagd = true;
+		
+		try
+		{
+			controleerSetString("G11-G10-G09-G08");
+		}
+		catch(Exception e)
+		{
+			geslaagd = false;
+		}
+		Assertions.assertTrue(geslaagd);
+	}
+	
+	@Test
+	void controleerSet_rijMetTweeJokersOpEindeNaGetalWaarde12Aflopend_gooiGeenSerieOfRijException()
+	{
+		Assertions.assertThrows(GeenSerieOfRijException.class, () -> controleerSetString("JOK-JOK-B12-B11"));
+	}
+	
+	@Test
+	void controleerSet_rijMetTweeJokersInBeginAflopend_doeNiets()
+	{
+		geslaagd = true;
+		
+		try
+		{
+			controleerSetString("G11-G10-G09-G08-JOK-JOK");
+		}
+		catch(Exception e)
+		{
+			geslaagd = false;
+		}
+		Assertions.assertTrue(geslaagd);
+	}
+	
 	// serie controles
 	@Test
 	void controleerSet_grensDrieStenenSerie_doeNiets()

@@ -187,7 +187,7 @@ public class StenenSet
 				}
 			}
 			
-		// 3. controleer of set een rij is
+		// 3. controleer of set een rij is in oplopende volgorde
 			iterator = stenen.iterator();
 			int vorigGetal = 0;
 			String rijKleur = "";
@@ -276,9 +276,98 @@ public class StenenSet
 					vorigGetal++;
 				}
 			}
+			
+			// 4. controleer of set een rij is in aflopende volgorde
+			// indien de set geldig is slaan we deze controle over
+			if(!isRij && !isSerie)
+			{
+				// we zetten isRij terug op true
+				isRij = true;
+				
+				iterator = stenen.iterator();
+				vorigGetal = 0;
+				rijKleur = "";
+				// we maken variabelen aan voor de controle: een joker mag niet voor 1 of na 13 liggen
+				// ook 2 jokers voor een 2 of na een 12 zijn niet toegestaan
+				vorigIsJoker = false;
+				boolean vorigIsEen = false;
+				boolean vorigIsTwee = false;
+				boolean jokerNaTwee = false;
+				vorigIsJokerCount = 0;
+				// we nemen alvast het eerste element, dit kan niet null zijn want de Set heeft minimum 3 stenen
+				previous = iterator.next();
+				// indien de eerste steen een joker is pakken we de volgende steen
+				if(previous.isJoker())
+				{
+					previous = iterator.next();
+					vorigIsJoker = true;
+					vorigIsJokerCount++;
+				}
+				// indien de tweede steen een joker is pakken we de volgende steen (er zijn maar 2 jokers in het spel)
+				if(previous.isJoker())
+				{
+					previous = iterator.next();
+					vorigIsJokerCount++;
+				}
+				// we stellen een paar eigenschappen van de rij in
+				vorigGetal = previous.getGetal();
+				rijKleur = previous.getKleur();
+				// indien er in het begin een joker voor een 13 ligt is de set geen rij
+				if(vorigIsJoker && vorigGetal == 13)
+				{
+					isRij = false;
+				}
+				else if(vorigIsJokerCount == 2 && vorigGetal == 12)
+				{
+					isRij = false;
+				}
+				// we overlopen de stenen zolang de set nog altijd een rij is
+				while(isRij && iterator.hasNext())
+				{
+					huidigeSteen = iterator.next();
+					
+					// indien de steen niet null is gaan we verder
+					if(huidigeSteen != null)
+					{
+						// we controleren of de getalWaarde oplopend is en of de rijKleur overal overeenkomt
+						if(vorigGetal != huidigeSteen.getGetal() + 1 || rijKleur != huidigeSteen.getKleur())
+						{
+							// de getal waarde of kleur klopt niet, de set is enkel een rij als de steen een joker is
+							isRij = huidigeSteen.isJoker();
+						}
+						
+						// indien joker na een 1 ligt is de set geen rij
+						if(huidigeSteen.getGetal() == 1)
+						{
+							vorigIsEen = true;
+						}
+						else if(vorigIsEen && huidigeSteen.isJoker())
+						{
+							isRij = false;
+						}
+						
+						// indien twee jokers na een 2 liggen is de set geen rij
+						if(huidigeSteen.getGetal() == 2)
+						{
+							vorigIsTwee = true;
+						}
+						else if(jokerNaTwee && huidigeSteen.isJoker())
+						{
+							isRij = false;
+						}
+						else if(vorigIsTwee && huidigeSteen.isJoker())
+						{
+							jokerNaTwee = true;
+						}
+						
+						// we stellen de volgende getalwaarde in
+						vorigGetal--;
+					}
+				} 
+			}
 		}
 		
-		// 4. gooi exception indien set geen serie en geen rij is
+		// 5. gooi exception indien set geen serie en geen rij is
 		if(!isSerie && !isRij)
 		{
 			throw new GeenSerieOfRijException();
